@@ -1,10 +1,13 @@
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomeRoutingModule } from './home-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    HomeRoutingModule
   ],
-  declarations: []
+  declarations: [DashboardComponent]
 })
 export class HomeModule { }
