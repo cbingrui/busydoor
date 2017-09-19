@@ -1,26 +1,29 @@
+import { SharedModule } from './modules/shared/shared.module';
+import { CoreModule } from './modules/core/core.module';
+import { AboutModule } from './modules/about/about.module';
+import { BlogModule } from './modules/blog/blog.module';
+import { HomeModule } from './modules/home/home.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { BlogComponent } from './components/blog/blog.component';
-import { AboutComponent } from './components/about/about.component';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
+
+
 
 @NgModule({
   declarations: [
-    AppComponent,
-    DashboardComponent,
-    BlogComponent,
-    AboutComponent,
-    HeaderComponent,
-    FooterComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HomeModule,
+    BlogModule,
+    AboutModule,
+    CoreModule,
+    SharedModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
