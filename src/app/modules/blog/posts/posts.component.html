@@ -1,0 +1,18 @@
+<p>
+  posts works!
+</p>
+<div>
+  <ul>
+    <li *ngFor="let post of posts; let i = index">
+      <a style="cursor: pointer;" [routerLink]="i" routerLinkActive="active" class="list-group-item clearfix flex-column align-items-start">
+        <div class="pull-right">
+          <p class="list-group-item-text">post.date</p>
+        </div>
+        <div class="pull-left">
+          <h4 class="list-group-item-heading">post.title</h4>
+          <div class="list-group-item-text">{{post|fetch|markdown}}</div>
+        </div>
+      </a>
+    </li>
+  </ul>
+</div>
