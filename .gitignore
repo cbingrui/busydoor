@@ -43,3 +43,6 @@ Thumbs.db
 
 # yarn
 yarn.lock
+
+# tsc complied *.js
+**/*.js
