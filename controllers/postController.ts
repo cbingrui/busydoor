@@ -17,8 +17,7 @@ export function getPostById(req, res, next) {
     Post.findById(id, (err, post) => {
         if (err) {
             res.status(500).json({ err });
-        }
-        else {
+        } else {
             res.status(200).json({ post });
         }
     });
@@ -49,8 +48,7 @@ export function updatePost(req, res, next) {
     Post.findByIdAndUpdate(id, req.body, (err, post) => {
         if (err) {
             res.status(500).json({ res });
-        }
-        else {
+        } else {
             res.status(200).json({ post });
         }
     });
@@ -64,8 +62,7 @@ export function deletePost(req, res, next) {
     Post.findByIdAndRemove(id, (err, post) => {
         if (err) {
             res.status(500).json({ res });
-        }
-        else {
+        } else {
             res.status(200).json({ post });
         }
     });

@@ -1,8 +1,6 @@
 import * as mongoose from 'mongoose';
 
-const schema = mongoose.Schema;
-
-const postSchema = new schema({
+const postSchema = new mongoose.Schema({
     timestamp: {
         type: Date,
         default: Date.now
@@ -19,4 +17,4 @@ const postSchema = new schema({
     }
 });
 
-export default mongoose.model('Post', postSchema)
+export default mongoose.model('Post', postSchema);
