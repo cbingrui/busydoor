@@ -19,7 +19,9 @@ app.use(bodyParser.json());
 app.use(cookieParse());
 app.use(logger('dev'));
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:4200'
+}));
 
 // init
 const server = app.listen(config.port);
