@@ -21,7 +21,7 @@ export class PostComponent implements OnInit {
         this.id = params['id'];
         this.postUrl = this.postService.getPostUrl(this.id);
       }
-    })
+    });
   }
 
 }
