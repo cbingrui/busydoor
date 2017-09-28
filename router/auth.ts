@@ -9,6 +9,10 @@ export default function setRoutes(app) {
 
     // Cats
     router.route('/login').post(authCtrl.login);
+    router.use(authCtrl.authenticate);
+    router.route('/').get(function (req, res) {
+        res.status(201).json({ message: 'Welcome to the authenticated routes!' });
+    });
     router.route('/users').get(authCtrl.getAll);
     router.route('/users/count').get(authCtrl.count);
     router.route('/user').post(authCtrl.insert);

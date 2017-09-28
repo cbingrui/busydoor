@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv';
 import * as jwt from 'jsonwebtoken';
 import User from './../models/User';
 import BaseCtrl from './base';
+
 export default class AuthCtrl extends BaseCtrl {
 
     model = User;
@@ -17,4 +18,25 @@ export default class AuthCtrl extends BaseCtrl {
             });
         });
     }
+    authenticate = function (req, res, next) {
+        // check header or url parameters or post parameters for token
+        const token = req.body.token || req.query.token || req.headers['authorization'];
+        if (token) {
+            jwt.verify(token, process.env.SECRET_TOKEN, function (err, decoded) {
+                if (err) {
+                    // tslint:disable-next-line:max-line-length
+                    return res.status(201).json({ success: false, message: 'Authenticate token expired, please login again.', errcode: 'exp-token' });
+                } else {
+                    req.decoded = decoded;
+                    next();
+                }
+            });
+        } else {
+            return res.status(201).json({
+                success: false,
+                message: 'Fatal error, Authenticate token not available.',
+                errcode: 'no-token'
+            });
+        }
+    };
 }
