@@ -6,6 +6,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
 @Injectable()
 export class PostService {
+  domain = 'http://localhost:3000';
+
   private messages = [
     'https://raw.githubusercontent.com/cbingrui/busydoor_posts/master/posts/Test%20markdown.md',
     'https://raw.githubusercontent.com/cbingrui/busydoor_posts/master/posts/Horizontal%20tables.md',
@@ -20,6 +22,6 @@ export class PostService {
   }
 
   public getPostUrls() {
-    return this.messages;
+    return this.http.get(this.domain + '/api/posts').map(res => res.json());
   }
 }
