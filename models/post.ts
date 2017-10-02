@@ -13,7 +13,7 @@ const postSchema = new mongoose.Schema({
     body: {
         type: String,
         default: '',
-        required: ''
+        required: false
     },
     contentUrl: {
         type: String,

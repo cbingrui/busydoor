@@ -1,4 +1,5 @@
-import { Http } from '@angular/http';
+import { Post } from './../../../models/post.model';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/interval';
@@ -15,13 +16,19 @@ export class PostService {
   ];
 
   constructor(private http: Http) { }
-
+  private headers = new Headers({ 'Content-Type': 'application/json', 'charset': 'UTF-8' });
+  private options = new RequestOptions({ headers: this.headers });
 
   public getPostUrl(id: string) {
-    return this.messages[Number(id)];
+    return this.http.get(`${this.domain}/api/posts/${id}`).map(res => res.json());
   }
 
   public getPostUrls() {
     return this.http.get(this.domain + '/api/posts').map(res => res.json());
+  }
+
+  public newPost(post) {
+    console.log(post);
+    return this.http.post(`${this.domain}/api/posts/post`, JSON.stringify(post), this.options).map(res => res.json());
   }
 }

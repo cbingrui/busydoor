@@ -1,5 +1,5 @@
 <p>
   post works!
 </p>
-<button [routerLink]="['/blog/post/edit', this.id]">Edit Post</button>
-<div innerHTML={{postUrl|fetch|markdown}}></div>
+<button [routerLink]="['/blog/post/edit', this.post?._id]">Edit Post{{this.post?._id}}</button>
+<div innerHTML={{post?.body}}></div>

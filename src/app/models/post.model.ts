@@ -1,4 +1,5 @@
 export class Post {
+    public _id: string;
     public title: string;
     public body: string;
     public timestamp: Date;
@@ -9,7 +10,8 @@ export class Post {
         return this.body;
     }
 
-    constructor(title: string, body: string, date: Date, url: string) {
+    constructor(id: string, title: string, body: string, date: Date, url: string) {
+        this._id = id;
         this.title = title;
         this.body = body;
         this.timestamp = date;

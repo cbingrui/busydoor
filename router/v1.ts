@@ -14,7 +14,7 @@ export default (app) => {
 
     postRoutes.get('/', getAllPosts);
     postRoutes.get('/:id', getPostById);
-    postRoutes.post('/', createPost);
+    postRoutes.post('/post', createPost);
     postRoutes.put('/:id', updatePost);
     postRoutes.delete('/:id', deletePost);
 

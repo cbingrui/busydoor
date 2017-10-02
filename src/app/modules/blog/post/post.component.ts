@@ -1,3 +1,4 @@
+import { Post } from './../../../models/post.model';
 import { PostService } from './post.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -10,7 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class PostComponent implements OnInit {
 
   id: string;
-  postUrl: string;
+  post: Post;
   constructor(private route: ActivatedRoute
     , private postService: PostService
   ) { }
@@ -19,7 +20,13 @@ export class PostComponent implements OnInit {
     this.route.params.subscribe(params => {
       if (params.hasOwnProperty('id')) {
         this.id = params['id'];
-        this.postUrl = this.postService.getPostUrl(this.id);
+        this.postService.getPostUrl(this.id).subscribe(data => {
+          if (data.err) {
+
+          } else {
+            this.post = data.post;
+          }
+        });
       }
     });
   }

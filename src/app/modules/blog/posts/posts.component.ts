@@ -23,7 +23,7 @@ export class PostsComponent implements OnInit {
 
       } else {
         // for 'renderedContent' getter property template binding
-        this.posts = (data.posts).map(p => new Post(p.title, p.body, p.timestamp, p.contentUrl));
+        this.posts = (data.posts).map(p => new Post(p._id, p.title, p.body, p.timestamp, p.contentUrl, ));
       }
 
     });
