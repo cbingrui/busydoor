@@ -33,6 +33,7 @@
     "@types/mongodb": "^2.2.11",
     "@types/mongoose": "^4.7.23",
     "@types/morgan": "^1.7.33",
+    "@types/toastr": "^2.1.35",
     "@types/typescript": "^2.0.0",
     "angular2-jwt": "^0.2.3",
     "bcryptjs": "^2.4.3",
@@ -44,11 +45,13 @@
     "dotenv": "^4.0.0",
     "express": "^4.15.5",
     "helmet": "^3.8.1",
+    "jquery": "^3.2.1",
     "jsonwebtoken": "^8.0.1",
     "marked": "^0.3.6",
     "mongoose": "^4.11.13",
     "morgan": "^1.8.2",
     "rxjs": "^5.4.2",
+    "toastr": "^2.1.2",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {

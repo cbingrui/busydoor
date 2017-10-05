@@ -1,3 +1,4 @@
+import { ToastrService } from './../../shared/services/toastr/toastr.service';
 import { PostService } from './../post/post.service';
 import { AuthService } from './../../account/services/auth/auth.service';
 import { Router } from '@angular/router';
@@ -10,11 +11,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./post-edit.component.css']
 })
 export class PostEditComponent implements OnInit {
+  contenturl: any;
+  summary: any;
   content: string;
   title: string;
   postForm: FormGroup;
   constructor(private formBuilder: FormBuilder, private router: Router, private auth: AuthService
-    , private postService: PostService) { }
+    , private postService: PostService
+    , private toastrService: ToastrService) { }
 
   ngOnInit() {
     // if (this.auth.loggedIn) {
@@ -24,7 +28,9 @@ export class PostEditComponent implements OnInit {
 
     this.postForm = this.formBuilder.group({
       title: this.title,
-      content: this.content
+      content: this.content,
+      summary: this.summary,
+      contenturl: this.contenturl
     });
   }
 
@@ -38,9 +44,9 @@ export class PostEditComponent implements OnInit {
     this.postService.newPost(post).subscribe(
       data => {
         if (data.err) {
-
+          this.toastrService.error(data.err.message);
         } else {
-          console.log(data.post);
+          this.toastrService.success('new post success');
         }
       }
     );

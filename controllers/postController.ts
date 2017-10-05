@@ -26,8 +26,8 @@ export function getPostById(req, res, next) {
 
 // create
 export function createPost(req, res, next) {
-    const title = req.body.title;
-    const body = req.body.body;
+    const title = req.body.title || '';
+    const body = req.body.body || '';
     const post = new Post({
         title,
         body
@@ -35,9 +35,10 @@ export function createPost(req, res, next) {
 
     post.save((err, posts) => {
         if (err) {
-            res.status(500).json({ err });
+            res.status(201).json({ 'err': err });
+        } else {
+            res.status(201).json({ posts });
         }
-        res.status(201).json({ posts });
     });
 }
 

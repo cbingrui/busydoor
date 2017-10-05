@@ -1,3 +1,4 @@
+import { ToastrService } from './services/toastr/toastr.service';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
 import { NgModule } from '@angular/core';
@@ -15,7 +16,18 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     HttpModule,
     ReactiveFormsModule
   ],
-  declarations: [HeaderComponent, FooterComponent, MarkdownPipe, FetchPipe],
-  exports: [HeaderComponent, FooterComponent, MarkdownPipe, FetchPipe, ReactiveFormsModule]
+  declarations: [
+    HeaderComponent,
+    FooterComponent,
+    MarkdownPipe,
+    FetchPipe],
+  providers: [
+    ToastrService
+  ],
+  exports: [HeaderComponent,
+    FooterComponent,
+    MarkdownPipe,
+    FetchPipe,
+    ReactiveFormsModule]
 })
 export class SharedModule { }
