@@ -1,4 +1,6 @@
+import { ToastrService } from './../services/toastr/toastr.service';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(public authService: AuthService, private toastr: ToastrService) { }
 
   ngOnInit() {
   }
-
+  onLogoutClick() {
+    localStorage.clear();
+    this.toastr.info('logout success');
+  }
 }

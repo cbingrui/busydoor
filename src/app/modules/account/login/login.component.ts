@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
-import { AuthService } from './../services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../shared/services/auth/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    if (this.auth.loggedIn) {
+    if (this.auth.isLoggedIn()) {
       this.router.navigate(['/']);
     }
     this.loginForm = this.formBuilder.group({

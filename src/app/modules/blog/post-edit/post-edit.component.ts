@@ -1,9 +1,9 @@
 import { ToastrService } from './../../shared/services/toastr/toastr.service';
 import { PostService } from './../post/post.service';
-import { AuthService } from './../../account/services/auth/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../shared/services/auth/auth.service';
 
 @Component({
   selector: 'app-post-edit',

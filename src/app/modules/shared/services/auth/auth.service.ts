@@ -6,14 +6,27 @@ import { JwtHelper } from 'angular2-jwt';
 @Injectable()
 export class AuthService {
   isAdmin: boolean;
-  loggedIn: boolean;
 
   authToken;
   currentUser = { _id: '', username: '', role: '' };
   jwtHelper: JwtHelper = new JwtHelper();
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {
 
+  }
+  isLoggedIn(): boolean {
+    let decodedUser;
+    try {
+      const token: any = localStorage.getItem('token');
+      if (token) {
+        decodedUser = this.decodeUserFromToken(token);
+      }
+    } catch (e) {
+      return false;
+    }
+    const isLogin = !!decodedUser;
+    return isLogin;
+  }
   registerUser(user) {
     return this.userService.register(user).map(res => res.json())
       .map(res => {
@@ -27,12 +40,12 @@ export class AuthService {
         localStorage.setItem('token', res.token);
         const decodedUser = this.decodeUserFromToken(res.token);
         this.setCurrentUser(decodedUser);
-        return this.loggedIn;
+
       });
 
   }
   setCurrentUser(decodedUser) {
-    this.loggedIn = true;
+
     this.currentUser._id = decodedUser._id;
     this.currentUser.username = decodedUser.username;
     this.currentUser.role = decodedUser.role;

@@ -14,7 +14,9 @@ export class MarkdownPipe implements PipeTransform {
   // constructor(private http: Http) { }
 
   transform(markdown: string, options?: MarkedOptions): string {
-    if (markdown == null) return '';
+    if (markdown == null) {
+      return '';
+    }
     return marked(this.prepare(markdown));
   }
 

@@ -1,3 +1,4 @@
+import { AuthService } from './services/auth/auth.service';
 import { ToastrService } from './services/toastr/toastr.service';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
@@ -8,6 +9,7 @@ import { MarkdownPipe } from './markdown.pipe';
 import { HttpModule } from '@angular/http';
 import { FetchPipe } from './pipes/fetch.pipe';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { UserService } from './services/user/user.service';
 
 @NgModule({
   imports: [
@@ -22,7 +24,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     MarkdownPipe,
     FetchPipe],
   providers: [
-    ToastrService
+    ToastrService,
+    AuthService,
+    UserService
   ],
   exports: [HeaderComponent,
     FooterComponent,

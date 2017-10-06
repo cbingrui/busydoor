@@ -22,17 +22,11 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <!-- <li *ngIf='authservice.loggedIn()' [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/profile">Profile</a></li>
-        <li *ngIf='authservice.loggedIn()' [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/blog">Blog</a></li>
-        <li *ngIf='!authservice.loggedIn()' [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-          <a routerLink="/login">Login</a>
-        </li>
-        <li *ngIf='authservice.loggedIn()'><a href="#" (click)="onLogoutClick()">Logout</a></li>
-        <li *ngIf='!authservice.loggedIn()' [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-          <a routerLink="/register">Register</a>
-        </li> -->
+        <li *ngIf='authService.isLoggedIn()'><a href="#" (click)="onLogoutClick()">Logout</a></li>
+
         <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/account/register']">Register</a></li>
         <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/account/login']">Login</a></li>
+        <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/account/profile']">Profile</a></li>
         <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/about']">About</a></li>
       </ul>
     </div>

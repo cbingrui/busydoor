@@ -1,11 +1,12 @@
-import { UserService } from './services/user/user.service';
-import { AuthService } from './services/auth/auth.service';
+
+
 import { SharedModule } from './../shared/shared.module';
 import { AccountRoutingModule } from './account-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   imports: [
@@ -13,7 +14,6 @@ import { LoginComponent } from './login/login.component';
     SharedModule,
     AccountRoutingModule
   ],
-  declarations: [RegisterComponent, LoginComponent],
-  providers: [AuthService, UserService]
+  declarations: [RegisterComponent, LoginComponent, ProfileComponent]
 })
 export class AccountModule { }

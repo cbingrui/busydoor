@@ -16,7 +16,7 @@
       "url": "http://localhost:4200",
       "webRoot": "${workspaceRoot}",
       "runtimeExecutable": "/Applications/ray/Google Chrome.app/Contents/MacOS/Google Chrome",
-      "userDataDir": "${workspaceRoot}/.vscode/chrome"
+      "userDataDir": "${workspaceRoot}/.vscode/chromeDebug"
     }
   ]
 }
