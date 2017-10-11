@@ -13,4 +13,10 @@ export class BlogComponent implements OnInit {
   ngOnInit() {
   }
 
+  onPageChanged(page: number) {
+
+    console.log(page);
+
+  }
+
 }

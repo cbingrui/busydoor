@@ -10,6 +10,7 @@ import { HttpModule } from '@angular/http';
 import { FetchPipe } from './pipes/fetch.pipe';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UserService } from './services/user/user.service';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { UserService } from './services/user/user.service';
     HeaderComponent,
     FooterComponent,
     MarkdownPipe,
-    FetchPipe],
+    FetchPipe,
+    PaginationComponent],
   providers: [
     ToastrService,
     AuthService,
@@ -32,6 +34,7 @@ import { UserService } from './services/user/user.service';
     FooterComponent,
     MarkdownPipe,
     FetchPipe,
-    ReactiveFormsModule]
+    ReactiveFormsModule,
+    PaginationComponent]
 })
 export class SharedModule { }
