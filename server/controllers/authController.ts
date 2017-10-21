@@ -1,11 +1,11 @@
 import * as dotenv from 'dotenv';
 import * as jwt from 'jsonwebtoken';
-import User from './../models/User';
+import usermodel from './../models/user';
 import BaseCtrl from './base';
 
 export default class AuthCtrl extends BaseCtrl {
 
-    model = User;
+    model = usermodel;
 
     login = (req, res) => {
 
