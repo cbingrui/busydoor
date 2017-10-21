@@ -1,5 +1,3 @@
-import { Post } from './../src/app/models/post.model';
-import { Router } from '@angular/router';
 import * as express from 'express';
 import { getAllPosts, createPost, updatePost, deletePost, getPostById } from '../controllers/postController';
 
