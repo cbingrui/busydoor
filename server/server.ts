@@ -8,10 +8,8 @@ import * as cors from 'cors';
 import router from './router/v1';
 import authRoute from './router/auth';
 import config from './config/database';
-import * as dotenv from 'dotenv';
 const app = express();
-dotenv.config({ path: '.env' });
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(config.MONGODB_URI);
 
 // middleware
 app.use(bodyParser.urlencoded({ extended: false }));

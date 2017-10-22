@@ -1,4 +1,3 @@
-import * as dotenv from 'dotenv';
 import * as jwt from 'jsonwebtoken';
 import usermodel from './../models/user';
 import BaseCtrl from './base';

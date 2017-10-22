@@ -46,3 +46,6 @@ yarn.lock
 
 # tsc complied *.js
 **/*.js
+
+# log
+output.log

@@ -3,11 +3,13 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import { environment } from 'environments/environment';
+
 
 @Injectable()
 export class UserService {
 
-  domain = 'http://localhost:3000';
+  domain = environment.backendApiUrl;
   private headers = new Headers({ 'Content-Type': 'application/json', 'charset': 'UTF-8' });
   private options = new RequestOptions({ headers: this.headers });
 
