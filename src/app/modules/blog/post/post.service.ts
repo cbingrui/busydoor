@@ -19,8 +19,8 @@ export class PostService {
     return this.http.get(`${this.domain}/api/posts/${id}`).map(res => res.json());
   }
 
-  public getPostUrls() {
-    return this.http.get(this.domain + '/api/posts').map(res => res.json());
+  public getPostUrls(page: number, pageSize: number) {
+    return this.http.get(`${this.domain}/api/posts/page/${page}/${pageSize}`).map(res => res.json());
   }
 
   public newPost(post) {

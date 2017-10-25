@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { getAllPosts, createPost, updatePost, deletePost, getPostById } from '../controllers/postController';
+import { getAllPosts, createPost, updatePost, deletePost, getPostById, getPagedPosts } from '../controllers/postController';
 
 
 
@@ -11,6 +11,7 @@ export default (app) => {
     apiRoutes.use('/posts', postRoutes);
 
     postRoutes.get('/', getAllPosts);
+    postRoutes.get('/page/:skip/:top', getPagedPosts);
     postRoutes.get('/:id', getPostById);
     postRoutes.post('/post', createPost);
     postRoutes.put('/:id', updatePost);

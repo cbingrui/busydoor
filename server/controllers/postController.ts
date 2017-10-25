@@ -9,7 +9,33 @@ export function getAllPosts(req, res, next) {
         res.status(200).json({ posts });
     });
 }
+export function getPagedPosts(req, res, next) {
+    console.log('*** getPagedPosts');
+    const topVal = req.params.top,
+        skipVal = req.params.skip,
+        top = (isNaN(topVal)) ? 10 : +topVal,
+        skip = (isNaN(skipVal)) ? 0 : +skipVal;
 
+    Post.count((err, postCount) => {
+        console.log(`Skip: ${skip} Top: ${top}`);
+        console.log(`Posts count: ${postCount}`);
+
+        Post.find({})
+            .sort({ lastName: 1 })
+            .skip(skip)
+            .limit(top)
+            .exec((errInner, posts) => {
+                if (errInner) {
+                    const strErr = `*** getPagedPosts error: ${errInner}`;
+                    console.log(strErr);
+                    res.json({ err: strErr });
+                } else {
+                    res.json({ posts, postCount });
+                }
+            });
+
+    });
+}
 // get by ID
 export function getPostById(req, res, next) {
     const id = req.params.id;
