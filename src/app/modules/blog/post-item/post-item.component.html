@@ -5,6 +5,6 @@
   </div>
   <div class="pull-left">
     <h4 class="list-group-item-heading">{{post.title}}</h4>
-    <div class="list-group-item-text">{{post.renderedContent}}</div>
+    <div class="list-group-item-text" [innerHTML]='post.renderedContent | markdown'></div>
   </div>
 </a>

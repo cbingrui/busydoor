@@ -23,7 +23,7 @@ export class PostsComponent implements OnInit {
     this.getPostPage(1);
   }
   getPostPage(pageIndex: number) {
-    this.postService.getPostUrls(pageIndex, this.pageSize)
+    this.postService.getPostUrls((pageIndex - 1) * this.pageSize, this.pageSize)
       .subscribe(data => {
         if (data.err) {
           console.log(data.err);
