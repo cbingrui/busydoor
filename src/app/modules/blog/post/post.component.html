@@ -2,4 +2,4 @@
   post works!
 </p>
 <button [routerLink]="['/blog/post/edit', this.post?._id]">Edit Post{{this.post?._id}}</button>
-<div innerHTML={{post?.body}}></div>
+<div [innerHTML]='post?.body|markdown'></div>
