@@ -2,6 +2,7 @@ export class Post {
     public _id: string;
     public title: string;
     public body: string;
+    public summary: string;
     public timestamp: Date;
     public contentUrl: string;
 

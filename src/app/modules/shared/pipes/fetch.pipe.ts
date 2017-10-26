@@ -13,6 +13,10 @@ export class FetchPipe implements PipeTransform {
   constructor(private http: Http) { }
 
   transform(url: string): any {
+    if (url === '' || url === undefined) {
+      return '';
+    }
+
     if (url !== this.cachedUrl) {
       this.cachedData = null;
       this.cachedUrl = url;

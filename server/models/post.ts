@@ -24,6 +24,11 @@ const postSchema = new mongoose.Schema({
         type: String,
         default: '',
         required: false
+    },
+    summary: {
+        type: String,
+        default: '',
+        required: false
     }
 });
 

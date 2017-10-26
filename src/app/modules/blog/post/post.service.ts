@@ -27,4 +27,8 @@ export class PostService {
     console.log(post);
     return this.http.post(`${this.domain}/api/posts/post`, JSON.stringify(post), this.options).map(res => res.json());
   }
+
+  public fetchContent(url: string) {
+    return this.http.get(url).map(res => res.text() || '');
+  }
 }

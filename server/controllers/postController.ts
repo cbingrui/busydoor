@@ -54,9 +54,14 @@ export function getPostById(req, res, next) {
 export function createPost(req, res, next) {
     const title = req.body.title || '';
     const body = req.body.body || '';
+    const contentUrl = req.body.contentUrl || '';
+    const summary = req.body.summary || '';
     const post = new Post({
         title,
-        body
+        body,
+        contentUrl,
+        summary,
+        timestamp: new Date()
     });
 
     post.save((err, posts) => {

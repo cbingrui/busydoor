@@ -1,3 +1,4 @@
+import { PostHelper } from './helper/post.helper';
 import { AccountModule } from './../account/account.module';
 import { PostService } from './post/post.service';
 import { SharedModule } from './../shared/shared.module';
@@ -18,6 +19,6 @@ import { PostEditComponent } from './post-edit/post-edit.component';
     AccountModule
   ],
   declarations: [BlogComponent, PostComponent, PostsComponent, PostItemComponent, PostEditComponent],
-  providers: [PostService]
+  providers: [PostService, PostHelper]
 })
 export class BlogModule { }
