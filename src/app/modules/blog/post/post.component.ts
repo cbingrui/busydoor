@@ -30,16 +30,15 @@ export class PostComponent implements OnInit {
   public GetActualRenderContent(post: Post) {
     const url = post.contentUrl;
     if (url === '' || url === undefined) {
-
-      return this.postHelper.AfterMarkdown(post.body);
-    }
-    if (url !== this.cachedUrl) {
+      this.renderedContent = this.postHelper.AfterMarkdown(post.body);
+    } else if (url !== this.cachedUrl) {
       this.cachedData = null;
       this.cachedUrl = url;
-      this.postService.fetchContent(url).subscribe(result =>
-        this.cachedData = this.postHelper.AfterMarkdown(result));
+      this.postService.fetchContent(url).subscribe(result => {
+        this.cachedData = this.postHelper.AfterMarkdown(result);
+        this.renderedContent = this.cachedData;
+      });
     }
-    return this.cachedData;
   }
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -49,7 +48,7 @@ export class PostComponent implements OnInit {
           if (data.err) {
             this.toastrService.error(data.err);
           } else {
-            this.renderedContent = this.GetActualRenderContent(data.post);
+            this.GetActualRenderContent(data.post);
             this.post = data.post;
           }
         });
