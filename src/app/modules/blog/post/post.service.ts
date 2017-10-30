@@ -24,10 +24,11 @@ export class PostService {
   }
 
   public newPost(post) {
-    console.log(post);
     return this.http.post(`${this.domain}/api/posts/post`, JSON.stringify(post), this.options).map(res => res.json());
   }
-
+  public updatePost(post) {
+    return this.http.put(`${this.domain}/api/posts/${post._id}`, JSON.stringify(post), this.options).map(res => res.json());
+  }
   public fetchContent(url: string) {
     return this.http.get(url).map(res => res.text() || '');
   }

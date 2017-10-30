@@ -76,7 +76,10 @@ export function createPost(req, res, next) {
 // update
 export function updatePost(req, res, next) {
     const id = req.params.id;
-
+    if (id === '' || id === undefined) {
+        console.error('updatePost cannot be with empty id.');
+        return;
+    }
     Post.findByIdAndUpdate(id, req.body, (err, post) => {
         if (err) {
             res.status(500).json({ res });
