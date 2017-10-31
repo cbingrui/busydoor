@@ -1,11 +1,37 @@
-<a style="cursor: pointer;" routerLink={{this.post._id}} routerLinkActive="active" class="list-group-item clearfix flex-column align-items-start">
-  <div class="pull-right">
-    <p class="list-group-item-text">{{post.timestamp}}</p>
-  </div>
-  <div class="pull-left">
-    <h4 class="list-group-item-heading">{{post.title}}</h4>
-    <div class="list-group-item-text" [innerHTML]='post.renderedContent | markdown'>
+<div class="container">
+  <article>
+    <header class="entry-header row">
+      <h2 class="entry-title" itemprop="headline">
+        <a [routerLink]='this.post._id' rel="bookmark">{{post.title}}</a>
+      </h2>
 
+    </header>
+    <div class="entry-content row" itemprop="text">
+      <div class='col-sm-3'>
+
+        <a href="https://minimalistbaker.com/pbj-acai-bowls/">
+          <img class="img-responsive" src="https://mbkr-minimalistbaker.netdna-ssl.com/wp-content/uploads/2017/07/AMAZING-PBJ-Acai-Bowls-Low-sugar-super-healthy-tastes-like-a-MILKSHAKE-vegan-glutenfree-acai-healthy-recipe-5-340x340.jpg">
+        </a>
+        <div class="comment-count">
+          <span class="glyphicon glyphicon-comment"></span>22</div>
+      </div>
+
+      <div class='col-sm-6'>
+        <p>{{post.timestamp | date}}</p>
+        <br>
+        <p>{{post.summary}}</p>
+        <p></p>
+        <a class="more-link" [routerLink]='this.post._id'>Read more →</a>
+      </div>
     </div>
-  </div>
-</a>
+    <footer class="entry-footer">
+      <p class="entry-meta">
+        <span class="entry-categories">
+          <span class="glyphicon glyphicon-tags"></span>
+          <a href="https://minimalistbaker.com/recipes/entree/" rel="category tag">Entree</a>,
+          <a href="https://minimalistbaker.com/recipes/gluten-free/" rel="category tag">Gluten Free</a>,
+        </span>
+      </p>
+    </footer>
+  </article>
+</div>

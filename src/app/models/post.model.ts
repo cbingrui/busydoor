@@ -11,12 +11,13 @@ export class Post {
         return this.body;
     }
 
-    constructor(id: string, title: string, body: string, date: Date, url: string) {
+    constructor(id: string, title: string, body: string, date: Date, url: string, summary: string) {
         this._id = id;
         this.title = title;
         this.body = body;
         this.timestamp = date;
         this.contentUrl = url;
+        this.summary = summary;
     }
 
 }

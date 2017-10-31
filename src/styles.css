@@ -48,3 +48,12 @@ footer>.container {
   border-left: 5px solid #a94442;
   /* red */
 }
+
+.comment-count {
+  position: absolute;
+  top: 15px;
+  left: -1px;
+  background: #f53145;
+  padding: 10px 15px;
+  color: #fff;
+}
