@@ -57,3 +57,16 @@ footer>.container {
   padding: 10px 15px;
   color: #fff;
 }
+
+.comment-count::before {
+  content: "\e111";
+  font-family: "Glyphicons Halflings";
+}
+
+article header .actual-date {
+  color: #f53145;
+  margin: 5px 0 0 0;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  right: 0;
+}
