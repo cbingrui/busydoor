@@ -17,7 +17,8 @@ import { PaginationComponent } from './pagination/pagination.component';
     CommonModule,
     RouterModule,
     HttpModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   declarations: [
     HeaderComponent,

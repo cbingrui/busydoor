@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-6 offset-md-3 col-xs-12">
+      <h1 class="text-center">{{ title }}</h1>
+      <p class="text-center">
+        <a [routerLink]="['/login']" *ngIf="IsRegister">Have an account?</a>
+        <a [routerLink]="['/register']" *ngIf="!IsRegister">Need an account?</a>
+      </p>
+      <form [formGroup]="signForm" (ngSubmit)="submitForm()">
+        <fieldset [disabled]="isSubmitting">
+          <div class="form-group">
+            <input formControlName="username" placeholder="Username" class="form-control form-control-lg" type="text" *ngIf="IsRegister"
+            />
+          </div>
+          <div class="form-group">
+            <input formControlName="email" placeholder="Email" class="form-control form-control-lg" type="text" />
+          </div>
+          <div class="form-group">
+            <input formControlName="password" placeholder="Password" class="form-control form-control-lg" type="password" />
+          </div>
+          <button class="btn btn-lg btn-primary float-sm-right" [disabled]="!signForm.valid" type="submit">
+            {{ title }}
+          </button>
+        </fieldset>
+      </form>
+    </div>
+
+  </div>
+</div>
