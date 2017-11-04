@@ -1,3 +1,4 @@
+import { AccountModel } from './../../models/account';
 import { UserService } from './../user/user.service';
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
@@ -33,7 +34,13 @@ export class AuthService {
 
       });
   }
-
+  validate(type: string, credentials) {
+    if (type === AccountModel.loginName) {
+      return this.login(credentials);
+    } else {
+      return this.registerUser(credentials);
+    }
+  }
   login(user) {
     return this.userService.login(user).map(res => res.json())
       .map(res => {

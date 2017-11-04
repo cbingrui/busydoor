@@ -1,6 +1,24 @@
-<p>
-  post works!
-</p>
-<button [routerLink]="['/blog/post/edit', this.post?._id]">Edit Post{{this.post?._id}}</button>
+<div>
+  <div class="container page">
+
+    <div class="row">
+      <div class="md-col-12">
+        <div [innerHTML]='renderedContent'></div>
+
+
+      </div>
+    </div>
+    <div>
+      <a [routerLink]="['/blog/post/edit', this.post?._id]" class="btn btn-sm btn-outline-secondary faedit">
+        Edit
+      </a>
+      <a [routerLink]="['/blog/delete', this.post?._id]" class="btn btn-sm btn-outline-secondary fatrash">
+        Remove
+      </a>
+      <a [routerLink]="['/blog/post/like', this.post?._id]" class="btn btn-sm btn-outline-secondary fathumbsup">
+        Like
+      </a>
+    </div>
+  </div>
+</div>
 <!-- <div [innerHTML]='post?.body|markdown'></div> -->
-<div [innerHTML]='renderedContent'></div>

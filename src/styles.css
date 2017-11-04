@@ -59,8 +59,18 @@ footer>.container {
 }
 
 .comment-count::before {
-  content: "\e111";
-  font-family: "Glyphicons Halflings";
+  content: "\f075";
+  font-family: "FontAwesome";
+}
+
+.faedit::before {
+  content: "\f040";
+  font-family: "FontAwesome";
+}
+
+.fatrash:before {
+  content: "\f1f8";
+  font-family: "FontAwesome";
 }
 
 article header .actual-date {
@@ -68,4 +78,28 @@ article header .actual-date {
   margin: 5px 0 0 0;
   text-transform: uppercase;
   letter-spacing: .5px;
+}
+
+.container.page {
+  margin-top: 1.5rem;
+}
+
+.tag-pill {
+  padding-right: 0.6em;
+  padding-left: 0.6em;
+  border-radius: 0.4rem;
+}
+
+ul.tag-list li {
+  display: inline-block !important;
+}
+
+.tag-list::before {
+  content: "\f02c";
+  font-family: "FontAwesome";
+}
+
+.fathumbsup::before {
+  content: "\f164";
+  font-family: "FontAwesome";
 }

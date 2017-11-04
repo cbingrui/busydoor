@@ -1,5 +1,7 @@
+import { ToastrService } from './../../shared/services/toastr/toastr.service';
+import { AuthService } from './../../shared/services/auth/auth.service';
 import { AccountModel } from './../../shared/models/account';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
@@ -18,7 +20,10 @@ export class SignInUpComponent implements OnInit {
   lastUrlPart = '';
   signType = { register: 'Sign up', login: 'Sign in' };
   constructor(private route: ActivatedRoute
-    , private fb: FormBuilder) { }
+    , private fb: FormBuilder
+    , private authService: AuthService
+    , private toast: ToastrService
+    , private router: Router) { }
 
   ngOnInit() {
     this.route.url.subscribe(data => {
@@ -42,6 +47,19 @@ export class SignInUpComponent implements OnInit {
       ? AccountModel.registerName : AccountModel.loginName;
   }
   submitForm() {
+    this.isSubmitting = true;
+
+    const credentials = this.signForm.value;
+
+    this.authService.validate(this.title, credentials).subscribe(
+      res => {
+        this.router.navigate(['/']);
+      },
+      err => {
+        console.log('err' + err);
+        this.toast.error(err);
+      }
+    );
 
   }
 

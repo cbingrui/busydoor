@@ -27,13 +27,14 @@
       </div>
     </div>
     <footer class="entry-footer">
-      <p class="entry-meta">
-        <span class="entry-categories">
-          <span class="glyphicon glyphicon-tags"></span>
-          <a href="https://minimalistbaker.com/recipes/entree/" rel="category tag">Entree</a>,
-          <a href="https://minimalistbaker.com/recipes/gluten-free/" rel="category tag">Gluten Free</a>,
-        </span>
-      </p>
+
+
+      <ul class="tag-list">
+        <li class="tag-pill" *ngFor="let tag of tags">
+          {{ tag }}
+        </li>
+      </ul>
+
     </footer>
   </article>
 </div>

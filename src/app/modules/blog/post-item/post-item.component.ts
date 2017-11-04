@@ -10,9 +10,11 @@ export class PostItemComponent implements OnInit {
 
   @Input() post: Post;
   @Input() id: number;
+  tags: string[];
   constructor() { }
 
   ngOnInit() {
+    this.tags = ['markdown', 'testing'];
   }
 
 }

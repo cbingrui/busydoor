@@ -1,21 +1,26 @@
-<h1>Post Page</h1>
-<form [formGroup]="postForm" (submit)="onConfirm()">
-  <div class="form-group">
-    <label for="title">Title</label>
-    <input id="title" formControlName="title" type="text" class="form-control" placeholder="Title">
-  </div>
-  <div class="form-group">
-    <label for="summary">Summary</label>
-    <textarea id="summary" formControlName="summary" rows="2" class="form-control" placeholder="summary"></textarea>
-  </div>
-  <div class="form-group">
-    <label for="contenturl">content url</label>
-    <input id="contenurl" formControlName="contenturl" type="URL" class="form-control" placeholder="content url">
-  </div>
-  <div class="form-group">
-    <label for="content">Content</label>
-    <textarea id="content" formControlName="content" rows="8" class="form-control" placeholder="Content"></textarea>
-  </div>
+<div>
+  <div class="container page">
+    <div class="row">
 
-  <input [disabled]="!postForm.valid" type="submit" class="btn btn-primary" value="{{operationText}}">
-</form>
+      <div class="col-md-10 offset-md-1">
+
+        <form [formGroup]="postForm" (submit)="onConfirm()">
+          <div class="form-group">
+            <input id="title" formControlName="title" type="text" class="form-control" placeholder="Title">
+          </div>
+          <div class="form-group">
+            <textarea id="summary" formControlName="summary" rows="4" class="form-control" placeholder="Summary / What's it about"></textarea>
+          </div>
+          <div class="form-group">
+            <input id="contenurl" formControlName="contenturl" type="URL" class="form-control" placeholder="Content Url (optional)">
+          </div>
+          <div class="form-group">
+            <textarea id="content" formControlName="content" rows="12" class="form-control" placeholder="Content (markdown support)"></textarea>
+          </div>
+
+          <input [disabled]="!postForm.valid" type="submit" class="btn btn-lg float-sm-right btn-primary" value="{{operationText}}">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
