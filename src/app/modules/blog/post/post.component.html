@@ -4,20 +4,23 @@
     <div class="row">
       <div class="md-col-12">
         <div [innerHTML]='renderedContent'></div>
-
-
       </div>
     </div>
     <div>
-      <a [routerLink]="['/blog/post/edit', this.post?._id]" class="btn btn-sm btn-outline-secondary faedit">
+      <a *ngIf="post" [routerLink]="['/blog/post/edit', post?._id]" class="btn btn-sm btn-outline-secondary faedit">
         Edit
       </a>
-      <a [routerLink]="['/blog/delete', this.post?._id]" class="btn btn-sm btn-outline-secondary fatrash">
+      <a *ngIf="post" [routerLink]="['/blog/edit', post?._id]" class="btn btn-sm btn-outline-secondary fatrash">
         Remove
       </a>
-      <a [routerLink]="['/blog/post/like', this.post?._id]" class="btn btn-sm btn-outline-secondary fathumbsup">
+      <a *ngIf="post" [routerLink]="['/blog/post/edit', post?._id]" class="btn btn-sm btn-outline-secondary fathumbsup">
         Like
       </a>
+    </div>
+    <div>
+      <app-post-comment *ngFor="let comment of comments" [comment]='comment'>
+
+      </app-post-comment>
     </div>
   </div>
 </div>

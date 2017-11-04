@@ -10,6 +10,7 @@ import { PostComponent } from './post/post.component';
 import { PostsComponent } from './posts/posts.component';
 import { PostItemComponent } from './post-item/post-item.component';
 import { PostEditComponent } from './post-edit/post-edit.component';
+import { PostCommentComponent } from './post-comment/post-comment.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,7 @@ import { PostEditComponent } from './post-edit/post-edit.component';
     SharedModule,
     AccountModule
   ],
-  declarations: [BlogComponent, PostComponent, PostsComponent, PostItemComponent, PostEditComponent],
+  declarations: [BlogComponent, PostComponent, PostsComponent, PostItemComponent, PostEditComponent, PostCommentComponent],
   providers: [PostService, PostHelper]
 })
 export class BlogModule { }

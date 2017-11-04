@@ -1,3 +1,4 @@
+import { Comment } from './../../shared/models/comment.model';
 import { Http } from '@angular/http';
 
 import { ToastrService } from './../../shared/services/toastr/toastr.service';
@@ -6,7 +7,6 @@ import { PostService } from './post.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PostHelper } from './../helper/post.helper';
-
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
@@ -16,6 +16,7 @@ export class PostComponent implements OnInit {
 
   id: string;
   post: Post;
+  comments: Comment[] = [];
   private cachedData: any = '';
   public cachedUrl = '';
 
@@ -41,6 +42,9 @@ export class PostComponent implements OnInit {
     }
   }
   ngOnInit() {
+    const comment1 = new Comment('lorem');
+    const comment2 = new Comment('lorem222');
+    this.comments.push(comment1, comment2);
     this.route.params.subscribe(params => {
       if (params.hasOwnProperty('id')) {
         this.id = params['id'];
