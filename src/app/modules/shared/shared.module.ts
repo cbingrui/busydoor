@@ -1,3 +1,4 @@
+import { WindowRef } from './window-ref';
 import { AuthService } from './services/auth/auth.service';
 import { ToastrService } from './services/toastr/toastr.service';
 import { RouterModule } from '@angular/router';
@@ -11,6 +12,7 @@ import { FetchPipe } from './pipes/fetch.pipe';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UserService } from './services/user/user.service';
 import { PaginationComponent } from './pagination/pagination.component';
+import { PinHeaderDirective } from './directives/pin-header.directive';
 
 @NgModule({
   imports: [
@@ -25,17 +27,20 @@ import { PaginationComponent } from './pagination/pagination.component';
     FooterComponent,
     MarkdownPipe,
     FetchPipe,
-    PaginationComponent],
+    PaginationComponent,
+    PinHeaderDirective],
   providers: [
     ToastrService,
     AuthService,
-    UserService
+    UserService,
+    WindowRef
   ],
   exports: [HeaderComponent,
     FooterComponent,
     MarkdownPipe,
     FetchPipe,
     ReactiveFormsModule,
-    PaginationComponent]
+    PaginationComponent,
+    PinHeaderDirective]
 })
 export class SharedModule { }
