@@ -107,3 +107,7 @@ ul.tag-list li {
 .card {
   margin-bottom: 0.75rem;
 }
+
+#outletcontent {
+  padding-top: 56px;
+}

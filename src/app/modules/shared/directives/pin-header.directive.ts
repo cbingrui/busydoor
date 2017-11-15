@@ -12,8 +12,6 @@ export class PinHeaderDirective implements OnInit {
   @Input('appPinHeader') pinHeaderStyleClass: string;
 
   ngOnInit(): void {
-    console.log(this.pinHeaderStyleClass);
-    console.log('d');
     if (this.pinHeaderStyleClass) {
       this.el.nativeElement.classList.add(this.pinHeaderStyleClass);
     } else {
@@ -41,7 +39,7 @@ export class PinHeaderDirective implements OnInit {
         this.el.nativeElement.classList.remove(this.pinHeaderStyleClass);
 
       } else {
-        this.renderer.setElementStyle(this.el.nativeElement, 'top', '-70px');
+        this.renderer.setElementStyle(this.el.nativeElement, 'top', '-56px');
       }
     } else {
       if (this.pinHeaderStyleClass) {
