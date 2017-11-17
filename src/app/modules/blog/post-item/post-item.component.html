@@ -5,9 +5,9 @@
         <a [routerLink]='this.post._id' rel="bookmark">{{post.title}}</a>
       </h2>
       <div class='date float-sm-right'>
-        <div class='actual-date'>
-          {{post.timestamp | date}}
-        </div>
+        <time [attr.datetime]="post.timestamp" class='actual-date'>
+          {{post.timestamp | date:'short'}}
+        </time>
       </div>
     </header>
     <div class="entry-content row" itemprop="text">
