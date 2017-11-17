@@ -1,5 +1,23 @@
 import * as mongoose from 'mongoose';
 
+const comment = new mongoose.Schema({
+    posted: {
+        type: Date,
+        default: Date.now
+    },
+    text: {
+        type: String,
+        required: false
+    },
+    username: {
+        type: String,
+        required: true
+    },
+    userid: {
+        type: String,
+        required: true
+    }
+});
 const postSchema = new mongoose.Schema({
     timestamp: {
         type: Date,
@@ -29,6 +47,9 @@ const postSchema = new mongoose.Schema({
         type: String,
         default: '',
         required: false
+    },
+    comments: {
+        type: [comment]
     }
 });
 

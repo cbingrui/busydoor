@@ -7,6 +7,9 @@ import { PostService } from './post.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PostHelper } from './../helper/post.helper';
+import { CommentsService } from 'app/modules/shared/services/comments/comments.service';
+import { FormControl } from '@angular/forms';
+import { AuthService } from 'app/modules/shared/services/auth/auth.service';
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
@@ -19,13 +22,16 @@ export class PostComponent implements OnInit {
   comments: Comment[] = [];
   private cachedData: any = '';
   public cachedUrl = '';
-
+  commentControl = new FormControl();
   renderedContent: string;
+  isLoggedIn = false;
   constructor(private route: ActivatedRoute
     , private postService: PostService
     , private toastrService: ToastrService
     , private http: Http
     , private postHelper: PostHelper
+    , private commentService: CommentsService
+    , private authService: AuthService
   ) { }
 
   public GetActualRenderContent(post: Post) {
@@ -41,10 +47,34 @@ export class PostComponent implements OnInit {
       });
     }
   }
+  addComment() {
+    const commentBody = this.commentControl.value;
+
+    this.commentService
+      .addComment(this.post._id, commentBody)
+      .subscribe(
+      comment => {
+        this.comments.unshift(comment);
+        this.commentControl.reset('');
+      },
+      errors => {
+        console.log(errors);
+      }
+      );
+  }
+
+  getComments() {
+    this.commentService.getComments(this.post._id)
+      .subscribe(
+      data => {
+        console.log(`comments:${data.comments}`);
+        this.comments = data.comments;
+      }
+      );
+  }
   ngOnInit() {
-    const comment1 = new Comment('lorem');
-    const comment2 = new Comment('lorem222');
-    this.comments.push(comment1, comment2);
+
+    this.isLoggedIn = this.authService.isLoggedIn();
     this.route.params.subscribe(params => {
       if (params.hasOwnProperty('id')) {
         this.id = params['id'];
@@ -54,6 +84,8 @@ export class PostComponent implements OnInit {
           } else {
             this.GetActualRenderContent(data.post);
             this.post = data.post;
+            this.getComments();
+
           }
         });
       }

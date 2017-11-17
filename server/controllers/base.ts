@@ -1,3 +1,4 @@
+import Post from '../models/post';
 abstract class BaseCtrl {
 
     abstract model: any;
@@ -51,6 +52,34 @@ abstract class BaseCtrl {
         this.model.findOneAndRemove({ _id: req.params.id }, (err) => {
             if (err) { return console.error(err); }
             res.sendStatus(200);
+        });
+    }
+    getComments = (req, res) => {
+        const postId = req.params.id;
+        Post.findOne({ _id: postId }, { comments: 1, _id: 0 }, (err, raw) => {
+            if (err) {
+                res.status(400).json({ token: err });
+            } else {
+                res.status(200).json(raw);
+            }
+        });
+    }
+
+    addComment = (req, res) => {
+        const postId = req.params.id;
+        const comment = {
+            text: req.body.text
+            , posted: Date.now()
+            , username: req.body.username
+            , userid: req.body.userid
+        };
+        Post.update({ _id: postId }, { $push: { 'comments': comment } }, (err, raw) => {
+
+            if (err) {
+                res.status(400).json({ token: err });
+            } else {
+                res.status(200).json(comment);
+            }
         });
     }
 }

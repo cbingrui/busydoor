@@ -1,8 +1,7 @@
 import { AccountModel } from './../../models/account';
 import { UserService } from './../user/user.service';
-import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
-import { JwtHelper } from 'angular2-jwt';
+import { JwtHelper, AuthHttpError } from 'angular2-jwt';
 
 @Injectable()
 export class AuthService {
@@ -45,6 +44,7 @@ export class AuthService {
     return this.userService.login(user).map(res => res.json())
       .map(res => {
         localStorage.setItem('token', res.token);
+        this.authToken = res.token;
         const decodedUser = this.decodeUserFromToken(res.token);
         this.setCurrentUser(decodedUser);
 
@@ -62,5 +62,19 @@ export class AuthService {
 
   decodeUserFromToken(token) {
     return this.jwtHelper.decodeToken(token).user;
+  }
+
+  addComment(postId, commentBody) {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.currentUser = this.decodeUserFromToken(token);
+    }
+    const body = {
+      username: this.currentUser.username
+      , userid: this.currentUser._id
+      , text: commentBody
+      , token
+    };
+    return this.userService.post(`/api/posts/${postId}/comments`, body);
   }
 }

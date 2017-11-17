@@ -13,14 +13,15 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UserService } from './services/user/user.service';
 import { PaginationComponent } from './pagination/pagination.component';
 import { PinHeaderDirective } from './directives/pin-header.directive';
+import { CommentsService } from 'app/modules/shared/services/comments/comments.service';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     HttpModule,
-    ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     HeaderComponent,
@@ -33,12 +34,14 @@ import { PinHeaderDirective } from './directives/pin-header.directive';
     ToastrService,
     AuthService,
     UserService,
-    WindowRef
+    WindowRef,
+    CommentsService
   ],
   exports: [HeaderComponent,
     FooterComponent,
     MarkdownPipe,
     FetchPipe,
+    FormsModule,
     ReactiveFormsModule,
     PaginationComponent,
     PinHeaderDirective]

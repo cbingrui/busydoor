@@ -47,4 +47,12 @@ export class UserService {
     return this.http.delete(this.domain + `/api/user/${user._id}`, this.options);
   }
 
+  post(url, body) {
+    return this.http.post(this.domain + url, JSON.stringify(body), this.options);
+  }
+
+  get(url) {
+    return this.http.get(this.domain + url);
+
+  }
 }
