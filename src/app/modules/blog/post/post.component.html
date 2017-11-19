@@ -1,45 +1,39 @@
-<div>
-  <div class="container page">
-
-    <div class="row">
-      <div class="md-col-12">
-        <div [innerHTML]='renderedContent'></div>
-      </div>
-    </div>
-    <div>
-      <a *ngIf="post" [routerLink]="['/blog/post/edit', post?._id]" class="btn btn-sm btn-outline-secondary faedit">
+<article class="container">
+  <header class="blog_header">
+    <h1>{{post.title}}</h1>
+  </header>
+  <section>
+    <div [innerHTML]='renderedContent'></div>
+  </section>
+  <div>
+    <a *ngIf="post" [routerLink]="['/blog/post/edit', post?._id]" class="btn btn-sm btn-outline-secondary faedit">
         Edit
       </a>
-      <a *ngIf="post" [routerLink]="['/blog/edit', post?._id]" class="btn btn-sm btn-outline-secondary fatrash">
+    <a *ngIf="post" [routerLink]="['/blog/edit', post?._id]" class="btn btn-sm btn-outline-secondary fatrash">
         Remove
       </a>
-      <a *ngIf="post" [routerLink]="['/blog/post/edit', post?._id]" class="btn btn-sm btn-outline-secondary fathumbsup">
+    <a *ngIf="post" [routerLink]="['/blog/post/edit', post?._id]" class="btn btn-sm btn-outline-secondary fathumbsup">
         Like
       </a>
-    </div>
-    <div *ngIf="isLoggedIn">
-      <form class="card" (ngSubmit)="addComment()">
-
-        <div class="card-block">
-          <textarea class="form-control" placeholder="Write a comment..." rows="3" [formControl]="commentControl"></textarea>
-        </div>
-        <div class="card-footer">
-          <button class="btn btn-sm btn-primary" type="submit">
+  </div>
+  <div *ngIf="isLoggedIn">
+    <form class="card" (ngSubmit)="addComment()">
+      <div class="card-block">
+        <textarea class="form-control" placeholder="Write a comment..." rows="3" [formControl]="commentControl"></textarea>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-sm btn-primary" type="submit">
             Post Comment
           </button>
-        </div>
-
-      </form>
-    </div>
-    <div>
-      <div *ngIf="!isLoggedIn">
-        <a [routerLink]="['/account/login']">Sign in</a> or
-        <a [routerLink]="['/account/register']">sign up</a> to add comments on this article.
       </div>
-    </div>
-    <app-post-comment *ngFor="let comment of comments" [comment]='comment'>
-
-    </app-post-comment>
+    </form>
   </div>
-</div>
-<!-- <div [innerHTML]='post?.body|markdown'></div> -->
+  <div>
+    <div *ngIf="!isLoggedIn">
+      <a [routerLink]="['/account/login']">Sign in</a> or
+      <a [routerLink]="['/account/register']">sign up</a> to add comments on this article.
+    </div>
+  </div>
+  <app-post-comment *ngFor="let comment of comments" [comment]='comment'>
+  </app-post-comment>
+</article>
