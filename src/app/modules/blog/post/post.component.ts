@@ -32,6 +32,7 @@ export class PostComponent implements OnInit {
     , private postHelper: PostHelper
     , private commentService: CommentsService
     , private authService: AuthService
+    , private router: Router
   ) { }
 
   public GetActualRenderContent(post: Post) {
@@ -73,7 +74,6 @@ export class PostComponent implements OnInit {
       );
   }
   ngOnInit() {
-
     this.isLoggedIn = this.authService.isLoggedIn();
     this.route.params.subscribe(params => {
       if (params.hasOwnProperty('id')) {
@@ -91,5 +91,13 @@ export class PostComponent implements OnInit {
       }
     });
   }
-
+  deleteArticle() {
+    this.postService.delete(this.id).subscribe(data => {
+      if (data.err) {
+        this.toastrService.error(data.err);
+      } else {
+        this.router.navigateByUrl('/blog');
+      }
+    });
+  }
 }

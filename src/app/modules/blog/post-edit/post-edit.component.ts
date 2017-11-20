@@ -37,7 +37,6 @@ export class PostEditComponent implements OnInit {
   ctrlSummary = new FormControl('');
   ctrlBody = new FormControl('');
 
-
   validateUrl(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
       if (!control.value) {
@@ -120,6 +119,8 @@ export class PostEditComponent implements OnInit {
             this.toastrService.error(data.err.message);
           } else {
             this.toastrService.success('new post success');
+            const postId = data.post._id;
+            this.router.navigateByUrl('/blog/' + postId);
           }
         }
       );

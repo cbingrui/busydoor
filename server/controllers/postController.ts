@@ -49,7 +49,6 @@ export function getPostById(req, res, next) {
     });
 }
 
-
 // create
 export function createPost(req, res, next) {
     const title = req.body.title || '';
@@ -64,11 +63,11 @@ export function createPost(req, res, next) {
         timestamp: new Date()
     });
 
-    post.save((err, posts) => {
+    post.save((err, newpost) => {
         if (err) {
             res.status(201).json({ 'err': err });
         } else {
-            res.status(201).json({ posts });
+            res.status(201).json({ post: newpost });
         }
     });
 }

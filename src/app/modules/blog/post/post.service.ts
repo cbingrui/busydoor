@@ -32,4 +32,8 @@ export class PostService {
   public fetchContent(url: string) {
     return this.http.get(url).map(res => res.text() || '');
   }
+
+  public delete(postId: string) {
+    return this.http.delete(`${this.domain}/api/posts/${postId}`, this.options).map(res => res.json());
+  }
 }

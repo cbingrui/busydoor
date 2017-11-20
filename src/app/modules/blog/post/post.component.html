@@ -1,17 +1,17 @@
 <article class="container">
   <header class="blog_header">
-    <h1>{{post.title}}</h1>
+    <h1>{{post?.title}}</h1>
   </header>
   <section>
     <div [innerHTML]='renderedContent'></div>
   </section>
-  <div>
+  <div *ngIf='isLoggedIn'>
     <a *ngIf="post" [routerLink]="['/blog/post/edit', post?._id]" class="btn btn-sm btn-outline-secondary faedit">
         Edit
       </a>
-    <a *ngIf="post" [routerLink]="['/blog/edit', post?._id]" class="btn btn-sm btn-outline-secondary fatrash">
-        Remove
-      </a>
+    <button *ngIf='post' class="btn btn-sm btn-outline-danger fatrash" (click)="deleteArticle()">
+      Delete Article
+    </button>
     <a *ngIf="post" [routerLink]="['/blog/post/edit', post?._id]" class="btn btn-sm btn-outline-secondary fathumbsup">
         Like
       </a>

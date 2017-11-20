@@ -2,36 +2,32 @@
   <div class="container">
     <a class="navbar-brand" routerLink='/'>Busydoor</a>
     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbars" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+        <span class="navbar-toggler-icon"></span>
+      </button>
     <div class="navbar-collapse collapse" id="navbars">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
           <li class="nav-item">
             <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" routerLink="/blog">Blog</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" routerLink="/account/register">Register</a>
-          </li>
           <li *ngIf='!authService.isLoggedIn()' class="nav-item">
-            <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" routerLink="/account/login">Login</a>
-          </li>
-          <li *ngIf='authService.isLoggedIn()' class="nav-item">
-            <a class="nav-link" href="#" (click)="onLogoutClick()">Logout</a>
+            <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" routerLink="/account/login">Account</a>
           </li>
           <li *ngIf='authService.isLoggedIn()' class="nav-item">
             <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/blog/post/new']">New Post</a>
           </li>
-          <li class="nav-item">
+          <li *ngIf='authService.isLoggedIn()' class="nav-item">
             <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" routerLink="/account/profile">Setting</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" routerLink="/about">About</a>
+          <li *ngIf='authService.isLoggedIn()' class="nav-item">
+            <a class="nav-link" href="#" (click)="onLogoutClick()">Logout</a>
           </li>
       </ul>
-      <form class="form-inline my-2 my-md-0">
-        <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-      </form>
+      <ul class="navbar-nav ">
+        <li class="nav-item">
+          <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" routerLink="/about">About</a>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>

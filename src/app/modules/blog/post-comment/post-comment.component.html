@@ -1,17 +1,15 @@
-<div class="card">
+<article class="card">
   <div class="card-body">
     <p class="card-text">
       {{ comment.text }}
     </p>
   </div>
-  <div class="card-footer">
+  <footer class="card-footer">
     <a class="comment-author" [routerLink]="['/profile', comment.username]">
       {{ comment.username }} {{ comment.userid }}
     </a>
-    <span class="date-posted">
-      {{ comment.posted | date: 'short' }}
-    </span>
+    <time [attr.datetime]="comment.posted">{{ comment.posted | date: 'short' }}</time>
     <span class="mod-options" aria-label="delete comment" [hidden]="!canModify" (click)='onDeleteComment()'>
     </span>
-  </div>
-</div>
+  </footer>
+</article>
