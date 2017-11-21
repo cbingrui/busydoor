@@ -20,7 +20,14 @@ export function getPagedPosts(req, res, next) {
         console.log(`Skip: ${skip} Top: ${top}`);
         console.log(`Posts count: ${postCount}`);
 
-        Post.find({})
+        Post.find({}
+            , {
+                'comments._id': 0
+                , 'comments.posted': 0
+                , 'comments.text': 0
+                , 'comments.userid': 0
+                , 'comments.username': 0
+            })
             .sort({ lastName: 1 })
             .skip(skip)
             .limit(top)

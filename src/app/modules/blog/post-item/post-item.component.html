@@ -1,9 +1,9 @@
 <section class="container post_item">
   <div class='row'>
     <a class='col-md-2'>
-      <img class="figure-img img-fluid" src="https://mbkr-minimalistbaker.netdna-ssl.com/wp-content/uploads/2017/07/AMAZING-PBJ-Acai-Bowls-Low-sugar-super-healthy-tastes-like-a-MILKSHAKE-vegan-glutenfree-acai-healthy-recipe-5-340x340.jpg">
-      <div class="comment-count">
-        22</div>
+      <img class="figure-img img-fluid" src="assets/images/icon_door-650x650.png">
+      <div *ngIf="post.comments.length>0" class="comment-count">
+        {{ post.comments.length}}</div>
     </a>
     <article class='col-md-8 offset-md-2'>
       <header class="entry-header">
