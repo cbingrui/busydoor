@@ -20,6 +20,21 @@ export function getPagedPosts(req, res, next) {
         console.log(`Skip: ${skip} Top: ${top}`);
         console.log(`Posts count: ${postCount}`);
 
+        // // The below query would omit the item without any comment
+        // db.getCollection('posts').aggregate(
+        //     {
+        //         $unwind: {
+        //             path: "$comments"
+        //         }
+        //     },
+        //     {
+        //         $group: {
+        //             _id: '$_id',
+        //             count: { $sum: 1 }
+        //         }
+        //     }
+        // )
+
         Post.find({}
             , {
                 'comments._id': 0

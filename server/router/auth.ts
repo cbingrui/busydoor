@@ -11,6 +11,7 @@ export default function setRoutes(app) {
     // Cats
     router.route('/login').post(authCtrl.login);
     router.route('/posts/:id/comments').get(authCtrl.getComments);
+    router.route('/user').post(authCtrl.insert);
 
     router.get('/', authCtrl.authenticate, function (req, res) {
         res.status(201).json({ message: 'Welcome to the authenticated routes!' });
@@ -18,7 +19,6 @@ export default function setRoutes(app) {
     router.use(authCtrl.authenticate);
     router.route('/users').get(authCtrl.getAll);
     router.route('/users/count').get(authCtrl.count);
-    router.route('/user').post(authCtrl.insert);
     router.route('/user/:id').get(authCtrl.get);
     router.route('/user/:id').put(authCtrl.update);
     router.route('/user/:id').delete(authCtrl.delete);
