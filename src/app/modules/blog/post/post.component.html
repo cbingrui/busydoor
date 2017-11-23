@@ -2,7 +2,7 @@
   <header class="blog_header">
     <h1>{{post?.title}}</h1>
   </header>
-  <section>
+  <section class="blog_content">
     <div [innerHTML]='renderedContent'></div>
   </section>
   <div *ngIf='isLoggedIn'>
@@ -34,6 +34,8 @@
       <a [routerLink]="['/account/register']">sign up</a> to add comments on this article.
     </div>
   </div>
-  <app-post-comment *ngFor="let comment of comments" [comment]='comment'>
-  </app-post-comment>
+  <div class='post_comments'>
+    <app-post-comment *ngFor="let comment of comments" [comment]='comment'>
+    </app-post-comment>
+  </div>
 </article>

@@ -153,11 +153,12 @@ ul.tag-list li {
   }
   .post_img_cover {
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     z-index: 1;
+    max-height: 300px;
+    overflow: hidden;
+    float: none;
   }
   .post_text_cover {
     display: block;
