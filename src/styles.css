@@ -142,6 +142,54 @@ li {
   border: 1px solid #ddd;
 }
 
+.sticky_post {
+  position: absolute;
+  z-index: 3;
+}
+
+.stick {
+  position: absolute;
+  top: 42px;
+  width: 200px;
+  padding: 1px 0;
+  background: #000;
+  color: #eee;
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 3;
+}
+
+.stick.left {
+  left: -42px;
+  -moz-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+.stick a {
+  display: block;
+  padding: 1px 0;
+  height: 24px;
+  line-height: 24px;
+  color: inherit;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Cabin Condensed', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  -moz-text-shadow: 0 0 10px rgba(0, 0, 0, 0.31);
+  -webkit-text-shadow: 0 0 10px rgba(0, 0, 0, 0.31);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.31);
+}
+
+.post_img_cover {
+  overflow: hidden;
+}
+
 
 /* // Extra small devices (portrait phones, less than 576px)
 // No media query since this is the default in Bootstrap
@@ -159,10 +207,8 @@ li {
 @media (min-width: 1200px) { ... } */
 
 @media (max-width :768px) {
-  .post_cover {
-    position: relative;
-  }
   .post_item {
+    position: relative;
     padding: 3rem 2rem;
   }
   .entry-headline {

@@ -31,12 +31,11 @@ export class PostEditComponent implements OnInit {
     title: '',
     summary: '',
     contentUrl: '',
-    body: ''
+    body: '',
+    tags: [],
+    sticky: false
   };
-  ctrlContentUrl = new FormControl('', [this.validateUrl()]);
-  ctrlTitle = new FormControl('', [Validators.required]);
-  ctrlSummary = new FormControl('');
-  ctrlBody = new FormControl('');
+
   ctrlTag = new FormControl('');
 
   validateUrl(): ValidatorFn {
@@ -81,7 +80,6 @@ export class PostEditComponent implements OnInit {
       } else {
         this.post = data.post;
         this.setFormValue();
-        this.initTags(data.post.tags);
       }
     });
   }
@@ -91,15 +89,18 @@ export class PostEditComponent implements OnInit {
       , summary: this.post.summary
       , contenturl: this.post.contentUrl
       , content: this.post.body
+      , sticky: this.post.sticky
     });
+    this.initTags(this.post.tags);
   }
 
   buildForm() {
     this.postForm = this.formBuilder.group({
-      title: this.ctrlTitle,
-      content: this.ctrlBody,
-      summary: this.ctrlSummary,
-      contenturl: this.ctrlContentUrl,
+      title: ['', Validators.required],
+      content: '',
+      summary: '',
+      contenturl: ['', this.validateUrl()],
+      sticky: false
     });
   }
   initTags(tags) {
@@ -112,6 +113,7 @@ export class PostEditComponent implements OnInit {
       body: this.postForm.get('content').value,
       summary: this.postForm.get('summary').value,
       contentUrl: this.postForm.get('contenturl').value,
+      sticky: this.postForm.get('sticky').value,
       tags: this.tags,
       _id: this.postID
     };

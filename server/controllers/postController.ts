@@ -43,7 +43,7 @@ export function getPagedPosts(req, res, next) {
                 , 'comments.userid': 0
                 , 'comments.username': 0
             })
-            .sort({ lastName: 1 })
+            .sort({ sticky: 'desc', timestamp: 'desc' })
             .skip(skip)
             .limit(top)
             .exec((errInner, posts) => {
@@ -78,12 +78,14 @@ export function createPost(req, res, next) {
     const contentUrl = req.body.contentUrl || '';
     const summary = req.body.summary || '';
     const tags = req.body.tags || '';
+    const sticky = req.body.sticky || false;
     const post = new Post({
         title,
         body,
         contentUrl,
         summary,
         tags,
+        sticky,
         timestamp: new Date()
     });
 

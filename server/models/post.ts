@@ -55,6 +55,11 @@ const postSchema = new mongoose.Schema({
         type: [String],
         default: [],
         required: false
+    },
+    sticky: {
+        type: Boolean,
+        default: false,
+        required: false
     }
 });
 

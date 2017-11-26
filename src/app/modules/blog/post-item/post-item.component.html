@@ -1,11 +1,14 @@
 <section class="container post_item">
-  <div class='row post_cover'>
+  <div class='row'>
     <a class='col-md-3 post_img_cover'>
+      <div *ngIf="post?.sticky" class='stick left'>
+        <a href="#">Sticky Post</a>
+      </div>
       <img class="figure-img img-fluid" src="assets/images/icon_door-650x650.png">
       <div *ngIf="post.comments.length>0" class="comment-count">
         {{ post.comments.length}}</div>
     </a>
-    <article class='col-md-9   post_text_cover'>
+    <article class='col-md-9 post_text_cover'>
       <header class="entry-header">
         <h2 class="entry-title" itemprop="headline">
           <a [routerLink]='this.post._id' rel="bookmark">{{post.title}}</a>

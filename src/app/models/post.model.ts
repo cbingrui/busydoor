@@ -7,12 +7,14 @@ export class Post {
     public contentUrl: string;
     public comments = [];
     public tags: string[];
+    public sticky: boolean;
     private _renderedontented: string;
     public get renderedContent(): string {
         return this.body;
     }
 
-    constructor(id: string, title: string, body: string, date: Date, url: string, summary: string, comments, tags: string[]) {
+    constructor(id: string, title: string, body: string, date: Date
+        , url: string, summary: string, comments, tags: string[], sticky: boolean) {
         this._id = id;
         this.title = title;
         this.body = body;
@@ -21,6 +23,7 @@ export class Post {
         this.summary = summary;
         this.comments = comments;
         this.tags = tags;
+        this.sticky = sticky;
     }
 
 }
