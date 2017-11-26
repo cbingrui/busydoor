@@ -5,4 +5,6 @@
     </li>
   </ul>
 </div>
-<app-pagination [totalItems]="totalRecords" [pageSize]="pageSize" (pageChanged)="onPageChanged($event)"></app-pagination>
+<div class='container'>
+  <app-pagination [totalItems]="totalRecords" [pageSize]="pageSize" (pageChanged)="onPageChanged($event)"></app-pagination>
+</div>

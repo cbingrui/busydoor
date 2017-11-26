@@ -24,6 +24,7 @@ export class PostEditComponent implements OnInit {
   postForm: FormGroup;
   operationText = OperationType.New;
   postID = '';
+  tags = [];
   post = {
     _id: '',
     timestamp: null,
@@ -36,6 +37,7 @@ export class PostEditComponent implements OnInit {
   ctrlTitle = new FormControl('', [Validators.required]);
   ctrlSummary = new FormControl('');
   ctrlBody = new FormControl('');
+  ctrlTag = new FormControl('');
 
   validateUrl(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
@@ -69,6 +71,7 @@ export class PostEditComponent implements OnInit {
     }
 
     this.buildForm();
+
   }
 
   getPost(id: string) {
@@ -78,6 +81,7 @@ export class PostEditComponent implements OnInit {
       } else {
         this.post = data.post;
         this.setFormValue();
+        this.initTags(data.post.tags);
       }
     });
   }
@@ -98,7 +102,9 @@ export class PostEditComponent implements OnInit {
       contenturl: this.ctrlContentUrl,
     });
   }
-
+  initTags(tags) {
+    this.tags = tags;
+  }
   onConfirm() {
 
     const post = {
@@ -106,6 +112,7 @@ export class PostEditComponent implements OnInit {
       body: this.postForm.get('content').value,
       summary: this.postForm.get('summary').value,
       contentUrl: this.postForm.get('contenturl').value,
+      tags: this.tags,
       _id: this.postID
     };
     console.log('post');
@@ -135,6 +142,21 @@ export class PostEditComponent implements OnInit {
         }
       );
     }
+  }
+  addTag(e: Event) {
+    e.preventDefault();
+    const newTag = this.ctrlTag.value;
+    if (newTag === '' || this.tags.indexOf(newTag) > -1) {
+      return;
+    }
+
+    this.tags.push(newTag);
+    this.ctrlTag.reset('');
+
+  }
+
+  removeTag(tag: string) {
+    this.tags = this.tags.filter(t => t !== tag);
   }
 
 }

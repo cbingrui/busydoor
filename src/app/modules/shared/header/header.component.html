@@ -10,18 +10,20 @@
           <li class="nav-item">
             <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" routerLink="/blog">Blog</a>
           </li>
-          <li *ngIf='!authService.isLoggedIn()' class="nav-item">
-            <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" routerLink="/account/login">Account</a>
-          </li>
-          <li *ngIf='authService.isLoggedIn()' class="nav-item">
-            <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/blog/post/new']">New Post</a>
-          </li>
-          <li *ngIf='authService.isLoggedIn()' class="nav-item">
-            <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" routerLink="/account/profile">Setting</a>
-          </li>
-          <li *ngIf='authService.isLoggedIn()' class="nav-item">
-            <a class="nav-link" href="#" (click)="onLogoutClick()">Logout</a>
-          </li>
+      </ul>
+      <ul class="navbar-nav ">
+        <li *ngIf='!authService.isLoggedIn()' class="nav-item">
+          <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" routerLink="/account/login">Account</a>
+        </li>
+        <li *ngIf='authService.isLoggedIn()' class="nav-item">
+          <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/blog/post/new']">New Post</a>
+        </li>
+        <li *ngIf='authService.isLoggedIn()' class="nav-item">
+          <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" routerLink="/account/profile">Setting</a>
+        </li>
+        <li *ngIf='authService.isLoggedIn()' class="nav-item">
+          <a class="nav-link" href="#" (click)="onLogoutClick()">Logout</a>
+        </li>
       </ul>
     </div>
   </div>

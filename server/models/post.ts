@@ -50,6 +50,11 @@ const postSchema = new mongoose.Schema({
     },
     comments: {
         type: [comment]
+    },
+    tags: {
+        type: [String],
+        default: [],
+        required: false
     }
 });
 

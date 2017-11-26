@@ -10,7 +10,8 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+  margin-bottom: 5rem;
+  margin-top: 1rem;
   /* Margin bottom by footer height */
 }
 
@@ -106,6 +107,7 @@ ul.tag-list li {
 
 #outletcontent {
   padding-top: 56px;
+  padding-bottom: 2rem;
 }
 
 .entry-headline {
@@ -129,6 +131,17 @@ ul.tag-list li {
   list-style-type: disc;
 }
 
+li {
+  list-style-type: none;
+}
+
+.tagitem {
+  border-radius: .25em;
+  margin: 0.5rem;
+  padding: 0.25rem;
+  border: 1px solid #ddd;
+}
+
 
 /* // Extra small devices (portrait phones, less than 576px)
 // No media query since this is the default in Bootstrap
@@ -148,6 +161,9 @@ ul.tag-list li {
 @media (max-width :768px) {
   .post_cover {
     position: relative;
+  }
+  .post_item {
+    padding: 3rem 2rem;
   }
   .entry-headline {
     color: hsla(0, 0%, 100%, .98);
@@ -170,6 +186,9 @@ ul.tag-list li {
     padding: 120px 40px 40px;
     background-color: rgba(0, 0, 0, .42);
     transition: background-color .2s ease;
+  }
+  ul {
+    padding: 0px;
   }
 }
 
