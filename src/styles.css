@@ -190,6 +190,11 @@ li {
   overflow: hidden;
 }
 
+.entry-footer {
+  position: absolute;
+  bottom: 0;
+}
+
 
 /* // Extra small devices (portrait phones, less than 576px)
 // No media query since this is the default in Bootstrap
@@ -231,7 +236,6 @@ li {
     color: #fff;
     padding: 120px 40px 40px;
     background-color: rgba(0, 0, 0, .42);
-    transition: background-color .2s ease;
   }
   ul {
     padding: 0px;

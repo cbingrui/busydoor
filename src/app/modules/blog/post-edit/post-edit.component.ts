@@ -139,7 +139,7 @@ export class PostEditComponent implements OnInit {
           if (data.err) {
             this.toastrService.error(data.err.message);
           } else {
-            this.toastrService.success('new post success');
+            this.toastrService.success('update post success');
           }
         }
       );

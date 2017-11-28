@@ -22,7 +22,7 @@
       <div class="entry-headline" itemprop="text">
         <p>{{post.summary}}</p>
       </div>
-      <footer class="entry-footer">
+      <footer *ngIf="post?.tags.length > 0" class="entry-footer">
         <ul class="tag-list">
           <li class="tagitem" *ngFor="let tag of post.tags">
             {{ tag }}
