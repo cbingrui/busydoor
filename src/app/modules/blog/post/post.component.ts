@@ -31,7 +31,7 @@ export class PostComponent implements OnInit {
     , private http: Http
     , private postHelper: PostHelper
     , private commentService: CommentsService
-    , private authService: AuthService
+    , public authService: AuthService
     , private router: Router
   ) { }
 

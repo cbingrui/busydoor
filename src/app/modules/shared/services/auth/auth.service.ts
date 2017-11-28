@@ -10,9 +10,13 @@ export class AuthService {
   authToken;
   currentUser = { _id: '', username: '', role: '' };
   jwtHelper: JwtHelper = new JwtHelper();
+  public hasRoles(roles: string[]): boolean {
+
+    return this.isLoggedIn() && (roles.length === 0
+      || roles.map(r => r.trim().toLowerCase()).indexOf(this.currentUser.role.toLowerCase()) > -1);
+  }
 
   constructor(private userService: UserService) {
-
   }
   isLoggedIn(): boolean {
     let decodedUser;
@@ -27,6 +31,7 @@ export class AuthService {
     const isLogin = !!decodedUser;
     return isLogin;
   }
+
   registerUser(user) {
     return this.userService.register(user).map(res => res.json())
       .map(res => {
@@ -45,6 +50,7 @@ export class AuthService {
       .map(res => {
         localStorage.setItem('token', res.token);
         this.authToken = res.token;
+
         const decodedUser = this.decodeUserFromToken(res.token);
         this.setCurrentUser(decodedUser);
 
@@ -56,8 +62,7 @@ export class AuthService {
     this.currentUser._id = decodedUser._id;
     this.currentUser.username = decodedUser.username;
     this.currentUser.role = decodedUser.role;
-    decodedUser.role === 'admin' ? this.isAdmin = true : this.isAdmin = false;
-    delete decodedUser.role;
+
   }
 
   decodeUserFromToken(token) {

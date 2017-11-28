@@ -15,7 +15,7 @@
         <li *ngIf='!authService.isLoggedIn()' class="nav-item">
           <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" routerLink="/account/login">Account</a>
         </li>
-        <li *ngIf='authService.isLoggedIn()' class="nav-item">
+        <li *ngIf="authService.hasRoles([' Admin '])" class="nav-item">
           <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/blog/post/new']">New Post</a>
         </li>
         <li *ngIf='authService.isLoggedIn()' class="nav-item">

@@ -5,7 +5,7 @@
   <section class="blog_content">
     <div [innerHTML]='renderedContent'></div>
   </section>
-  <div *ngIf='isLoggedIn'>
+  <div *ngIf="authService.hasRoles([' Admin '])">
     <a *ngIf="post" [routerLink]="['/blog/post/edit', post?._id]" class="btn btn-sm btn-outline-secondary faedit">
         Edit
       </a>

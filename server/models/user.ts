@@ -1,8 +1,6 @@
 import * as bcrypt from 'bcryptjs';
 import * as mongoose from 'mongoose';
 
-
-
 // Validate Function to check if valid e-mail format
 const validEmailChecker = (email) => {
     // Check if e-mail exists
@@ -29,9 +27,8 @@ const userSchema = new mongoose.Schema({
     username: String,
     email: { type: String, unique: true, lowercase: true, trim: true, validate: emailValidators },
     password: String,
-    role: String
+    role: { type: String, default: '' }
 });
-
 
 // Before saving the user, hash the password
 userSchema.pre('save', function (next) {

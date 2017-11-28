@@ -3,7 +3,7 @@ import { AuthService } from './services/auth/auth.service';
 import { ToastrService } from './services/toastr/toastr.service';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { MarkdownPipe } from './markdown.pipe';
@@ -30,13 +30,7 @@ import { CommentsService } from 'app/modules/shared/services/comments/comments.s
     FetchPipe,
     PaginationComponent,
     PinHeaderDirective],
-  providers: [
-    ToastrService,
-    AuthService,
-    UserService,
-    WindowRef,
-    CommentsService
-  ],
+
   exports: [HeaderComponent,
     FooterComponent,
     MarkdownPipe,
@@ -46,4 +40,17 @@ import { CommentsService } from 'app/modules/shared/services/comments/comments.s
     PaginationComponent,
     PinHeaderDirective]
 })
-export class SharedModule { }
+export class SharedModule {
+
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+
+      providers: [ToastrService,
+        AuthService,
+        UserService,
+        WindowRef,
+        CommentsService]
+    };
+  }
+}
