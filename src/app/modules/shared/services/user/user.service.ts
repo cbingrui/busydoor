@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
 import { environment } from 'environments/environment';
-
 
 @Injectable()
 export class UserService {
 
   domain = environment.backendApiUrl;
-  private headers = new Headers({ 'Content-Type': 'application/json', 'charset': 'UTF-8' });
-  private options = new RequestOptions({ headers: this.headers });
+  private headers = new HttpHeaders({ 'Content-Type': 'application/json', 'charset': 'UTF-8' });
+  private options = { headers: this.headers };
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   register(user): Observable<any> {
     return this.http.post(this.domain + '/api/user', JSON.stringify(user), this.options);
@@ -24,11 +22,11 @@ export class UserService {
   }
 
   getUsers(): Observable<any> {
-    return this.http.get(this.domain + '/api/users').map(res => res.json());
+    return this.http.get(this.domain + '/api/users');
   }
 
   countUsers(): Observable<any> {
-    return this.http.get(this.domain + '/api/users/count').map(res => res.json());
+    return this.http.get(this.domain + '/api/users/count');
   }
 
   addUser(user): Observable<any> {
@@ -36,7 +34,7 @@ export class UserService {
   }
 
   getUser(user): Observable<any> {
-    return this.http.get(this.domain + `/api/user/${user._id}`).map(res => res.json());
+    return this.http.get(this.domain + `/api/user/${user._id}`);
   }
 
   editUser(user): Observable<any> {
@@ -47,11 +45,11 @@ export class UserService {
     return this.http.delete(this.domain + `/api/user/${user._id}`, this.options);
   }
 
-  post(url, body) {
+  post(url, body): Observable<any> {
     return this.http.post(this.domain + url, JSON.stringify(body), this.options);
   }
 
-  get(url) {
+  get(url): Observable<any> {
     return this.http.get(this.domain + url);
 
   }

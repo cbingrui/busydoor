@@ -1,5 +1,5 @@
 import { WindowRef } from './../window-ref';
-import { Directive, HostListener, ElementRef, Renderer, Input, OnInit } from '@angular/core';
+import { Directive, HostListener, ElementRef, Renderer2, Input, OnInit } from '@angular/core';
 
 @Directive({
   selector: '[appPinHeader]'
@@ -15,16 +15,16 @@ export class PinHeaderDirective implements OnInit {
     if (this.pinHeaderStyleClass) {
       this.el.nativeElement.classList.add(this.pinHeaderStyleClass);
     } else {
-      this.renderer.setElementStyle(this.el.nativeElement, 'transition', 'top 0.3s ease-in-out');
-      this.renderer.setElementStyle(this.el.nativeElement, 'position', 'fixed');
-      this.renderer.setElementStyle(this.el.nativeElement, 'top', '0');
-      this.renderer.setElementStyle(this.el.nativeElement, 'right', '0');
-      this.renderer.setElementStyle(this.el.nativeElement, 'left', '0');
-      this.renderer.setElementStyle(this.el.nativeElement, 'z-index', '1030');
+      this.renderer.setStyle(this.el.nativeElement, 'transition', 'top 0.3s ease-in-out');
+      this.renderer.setStyle(this.el.nativeElement, 'position', 'fixed');
+      this.renderer.setStyle(this.el.nativeElement, 'top', '0');
+      this.renderer.setStyle(this.el.nativeElement, 'right', '0');
+      this.renderer.setStyle(this.el.nativeElement, 'left', '0');
+      this.renderer.setStyle(this.el.nativeElement, 'z-index', '1030');
     }
   }
 
-  constructor(private el: ElementRef, private renderer: Renderer, private windRef: WindowRef) {
+  constructor(private el: ElementRef, private renderer: Renderer2, private windRef: WindowRef) {
 
   }
 
@@ -39,13 +39,13 @@ export class PinHeaderDirective implements OnInit {
         this.el.nativeElement.classList.remove(this.pinHeaderStyleClass);
 
       } else {
-        this.renderer.setElementStyle(this.el.nativeElement, 'top', '-56px');
+        this.renderer.setStyle(this.el.nativeElement, 'top', '-56px');
       }
     } else {
       if (this.pinHeaderStyleClass) {
         this.el.nativeElement.classList.add(this.pinHeaderStyleClass);
       } else {
-        this.renderer.setElementStyle(this.el.nativeElement, 'top', '0');
+        this.renderer.setStyle(this.el.nativeElement, 'top', '0');
       }
     }
     this.lastScrollY = offsetY;

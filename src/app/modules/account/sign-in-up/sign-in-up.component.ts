@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
-
 @Component({
   selector: 'app-sign-in-up',
   templateUrl: './sign-in-up.component.html',

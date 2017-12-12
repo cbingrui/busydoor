@@ -7,7 +7,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { MarkdownPipe } from './markdown.pipe';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FetchPipe } from './pipes/fetch.pipe';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UserService } from './services/user/user.service';
@@ -19,7 +19,7 @@ import { CommentsService } from 'app/modules/shared/services/comments/comments.s
   imports: [
     CommonModule,
     RouterModule,
-    HttpModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule
   ],

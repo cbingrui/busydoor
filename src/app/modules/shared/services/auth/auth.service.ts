@@ -2,7 +2,7 @@ import { AccountModel } from './../../models/account';
 import { UserService } from './../user/user.service';
 import { Injectable } from '@angular/core';
 import { JwtHelper, AuthHttpError } from 'angular2-jwt';
-
+import { map } from 'rxjs/operators';
 @Injectable()
 export class AuthService {
   isAdmin: boolean;
@@ -33,10 +33,7 @@ export class AuthService {
   }
 
   registerUser(user) {
-    return this.userService.register(user).map(res => res.json())
-      .map(res => {
-
-      });
+    return this.userService.register(user);
   }
   validate(type: string, credentials) {
     if (type === AccountModel.loginName) {
@@ -46,15 +43,15 @@ export class AuthService {
     }
   }
   login(user) {
-    return this.userService.login(user).map(res => res.json())
-      .map(res => {
+    return this.userService.login(user)
+      .pipe(map(res => {
         localStorage.setItem('token', res.token);
         this.authToken = res.token;
 
         const decodedUser = this.decodeUserFromToken(res.token);
         this.setCurrentUser(decodedUser);
 
-      });
+      }));
 
   }
   setCurrentUser(decodedUser) {

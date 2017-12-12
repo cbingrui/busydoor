@@ -1,6 +1,5 @@
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Pipe, PipeTransform } from '@angular/core';
-import 'rxjs/add/operator/map';
 
 @Pipe({
   name: 'fetch',
@@ -10,7 +9,7 @@ export class FetchPipe implements PipeTransform {
 
   private cachedData: any = '';
   private cachedUrl = '';
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   transform(url: string): any {
     if (url === '' || url === undefined) {
@@ -20,8 +19,7 @@ export class FetchPipe implements PipeTransform {
     if (url !== this.cachedUrl) {
       this.cachedData = null;
       this.cachedUrl = url;
-      this.http.get(url)
-        .map(res => res.text() || '')
+      this.http.get(url, { responseType: 'text' })
         .subscribe(result =>
           this.cachedData = result);
     }

@@ -1,8 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { MarkedOptions } from 'marked';
 import * as marked from 'marked';
-import { Http } from '@angular/http';
-// import 'rxjs/add/operator/map';
 @Pipe({
   name: 'markdown'
   // , pure: false
@@ -11,7 +9,6 @@ export class MarkdownPipe implements PipeTransform {
 
   private cachedData: any = '';
   private cachedUrl = '';
-  // constructor(private http: Http) { }
 
   transform(markdown: string, options?: MarkedOptions): string {
     if (markdown == null) {

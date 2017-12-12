@@ -1,5 +1,4 @@
 import { Comment } from './../../shared/models/comment.model';
-import { Http } from '@angular/http';
 
 import { ToastrService } from './../../shared/services/toastr/toastr.service';
 import { Post } from './../../../models/post.model';
@@ -28,7 +27,6 @@ export class PostComponent implements OnInit {
   constructor(private route: ActivatedRoute
     , private postService: PostService
     , private toastrService: ToastrService
-    , private http: Http
     , private postHelper: PostHelper
     , private commentService: CommentsService
     , public authService: AuthService
