@@ -10,7 +10,7 @@ const autoprefixer = require('autoprefixer');
 const postcssUrl = require('postcss-url');
 const cssnano = require('cssnano');
 const customProperties = require('postcss-custom-properties');
-
+const webpack = require('webpack');
 const {
   NoEmitOnErrorsPlugin,
   SourceMapDevToolPlugin,
@@ -510,6 +510,7 @@ module.exports = {
         "main"
       ]
     }),
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new SourceMapDevToolPlugin({
       "filename": "[file].map[query]",
       "moduleFilenameTemplate": "[resource-path]",
