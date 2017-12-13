@@ -11,14 +11,12 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   constructor(public authService: AuthService
-    , private toastr: ToastrService
-    , private router: Router) { }
+    , private toastr: ToastrService) { }
 
   ngOnInit() {
   }
   onLogoutClick() {
     localStorage.clear();
     this.toastr.info('logout success');
-    this.router.navigateByUrl('/');
   }
 }

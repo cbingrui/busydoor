@@ -22,7 +22,7 @@
           <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" routerLink="/account/profile">Setting</a>
         </li>
         <li *ngIf='authService.isLoggedIn()' class="nav-item">
-          <a class="nav-link" href="#" (click)="onLogoutClick()">Logout</a>
+          <a class="nav-link" routerLink="/" (click)="onLogoutClick()">Logout</a>
         </li>
       </ul>
     </div>
