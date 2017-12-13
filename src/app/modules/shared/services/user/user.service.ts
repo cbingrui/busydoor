@@ -14,11 +14,11 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   register(user): Observable<any> {
-    return this.http.post(this.domain + '/api/user', JSON.stringify(user), this.options);
+    return this.http.post(this.domain + '/api/user', user, this.options);
   }
 
   login(credentials): Observable<any> {
-    return this.http.post(this.domain + '/api/login', JSON.stringify(credentials), this.options);
+    return this.http.post(this.domain + '/api/login', credentials, this.options);
   }
 
   getUsers(): Observable<any> {
@@ -30,7 +30,7 @@ export class UserService {
   }
 
   addUser(user): Observable<any> {
-    return this.http.post(this.domain + '/api/user', JSON.stringify(user), this.options);
+    return this.http.post(this.domain + '/api/user', user, this.options);
   }
 
   getUser(user): Observable<any> {
@@ -38,7 +38,7 @@ export class UserService {
   }
 
   editUser(user): Observable<any> {
-    return this.http.put(this.domain + `/api/user/${user._id}`, JSON.stringify(user), this.options);
+    return this.http.put(this.domain + `/api/user/${user._id}`, user, this.options);
   }
 
   deleteUser(user): Observable<any> {
@@ -46,7 +46,7 @@ export class UserService {
   }
 
   post(url, body): Observable<any> {
-    return this.http.post(this.domain + url, JSON.stringify(body), this.options);
+    return this.http.post(this.domain + url, body, this.options);
   }
 
   get(url): Observable<any> {

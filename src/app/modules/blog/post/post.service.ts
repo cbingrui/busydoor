@@ -28,10 +28,10 @@ export class PostService {
   }
 
   public newPost(post) {
-    return this.http.post<BodyReturn>(`${this.domain}/api/posts/post`, JSON.stringify(post), this.options);
+    return this.http.post<BodyReturn>(`${this.domain}/api/posts/post`, post, this.options);
   }
   public updatePost(post) {
-    return this.http.put<BodyReturn>(`${this.domain}/api/posts/${post._id}`, JSON.stringify(post), this.options);
+    return this.http.put<BodyReturn>(`${this.domain}/api/posts/${post._id}`, post, this.options);
   }
   public fetchContent(url: string) {
     return this.http.get(url, { responseType: 'text' });
