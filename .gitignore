@@ -52,4 +52,4 @@ output.log
 yarn-error.log
 
 # exclude
-!webpack.config.js
+!webpack.config*.js
