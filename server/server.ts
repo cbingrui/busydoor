@@ -18,7 +18,7 @@ app.use(cookieParse());
 app.use(logger('dev'));
 app.use(helmet());
 app.use(cors({
-    origin: `http://${config.MONGODB_DOMAIN}`
+    origin: `http://${config.WEB_HOST}`
 }));
 
 // init
