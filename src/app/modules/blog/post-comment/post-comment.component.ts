@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class PostCommentComponent implements OnInit {
 
   createdAt = new Date();
+  canModify: boolean;
   @Input() comment: Comment;
   constructor() { }
 

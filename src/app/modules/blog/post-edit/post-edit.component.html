@@ -20,7 +20,7 @@
               {{ tag }}
             </span>
           <span *ngIf="tags?.length==0">(Empty)</span>
-          <input [formControl]="ctrlTag" type="text" placeholder="'ENTER' new tag" (keydown.enter)='addTag($event)' (blur)='addTag()'>
+          <input [formControl]="ctrlTag" type="text" placeholder="'ENTER' new tag" (keydown.enter)='addTag($event)' (blur)='addTag($event)'>
         </fieldset>
         <fieldset class="input-group">
           <label>
