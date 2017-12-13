@@ -50,3 +50,6 @@ yarn.lock
 # log
 output.log
 yarn-error.log
+
+# exclude
+!webpack.config.js
