@@ -6,9 +6,9 @@ import { PostService } from './post.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PostHelper } from './../helper/post.helper';
-import { CommentsService } from 'app/modules/shared/services/comments/comments.service';
+import { CommentsService } from './../../shared/services/comments/comments.service';
 import { FormControl } from '@angular/forms';
-import { AuthService } from 'app/modules/shared/services/auth/auth.service';
+import { AuthService } from './../../shared/services/auth/auth.service';
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',

@@ -13,7 +13,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UserService } from './services/user/user.service';
 import { PaginationComponent } from './pagination/pagination.component';
 import { PinHeaderDirective } from './directives/pin-header.directive';
-import { CommentsService } from 'app/modules/shared/services/comments/comments.service';
+import { CommentsService } from './services/comments/comments.service';
 
 @NgModule({
   imports: [

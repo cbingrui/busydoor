@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from 'app/modules/shared/services/auth/auth.service';
-import { UserService } from 'app/modules/shared/services/user/user.service';
+import { AuthService } from './../auth/auth.service';
+import { UserService } from './../user/user.service';
 
 @Injectable()
 export class CommentsService {
