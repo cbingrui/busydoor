@@ -3,6 +3,9 @@ import * as toastr from 'toastr';
 @Injectable()
 
 export class ToastrService {
+  constructor() {
+    toastr.options.positionClass = 'toast-bottom-right';
+  }
   success(message: string, title?: string) {
     toastr.success(message, title);
   }
