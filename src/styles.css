@@ -216,14 +216,21 @@ li {
   bottom: 0;
 }
 
-dt,
-dd {
-  float: left
+.post-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.post-info dt,
+.post-info dd {
+  display: flex;
 }
 
 dd {
   margin-right: 15px;
-  margin-bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 
