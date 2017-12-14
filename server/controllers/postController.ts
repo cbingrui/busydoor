@@ -1,4 +1,5 @@
 import Post from '../models/post';
+import { ObjectID } from 'mongodb';
 
 // get
 export function getAllPosts(req, res, next) {
@@ -61,7 +62,7 @@ export function getPagedPosts(req, res, next) {
 // get by ID
 export function getPostById(req, res, next) {
     const id = req.params.id;
-
+    hitPost(id);
     Post.findById(id, (err, post) => {
         if (err) {
             res.status(500).json({ err });
@@ -70,7 +71,17 @@ export function getPostById(req, res, next) {
         }
     });
 }
+function hitPost(id: string) {
+    const v = Post.findByIdAndUpdate(id, { $inc: { views: 1 } },
+        (err, post) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('findByIdAndUpdate error');
+            }
+        });
 
+}
 // create
 export function createPost(req, res, next) {
     const title = req.body.title || '';

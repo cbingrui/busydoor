@@ -8,13 +8,14 @@ export class Post {
     public comments = [];
     public tags: string[];
     public sticky: boolean;
+    public views: number;
     private _renderedontented: string;
     public get renderedContent(): string {
         return this.body;
     }
 
     constructor(id: string, title: string, body: string, date: Date
-        , url: string, summary: string, comments, tags: string[], sticky: boolean) {
+        , url: string, summary: string, comments, tags: string[], sticky: boolean, views: number) {
         this._id = id;
         this.title = title;
         this.body = body;
@@ -24,6 +25,7 @@ export class Post {
         this.comments = comments;
         this.tags = tags;
         this.sticky = sticky;
+        this.views = views;
     }
 
 }

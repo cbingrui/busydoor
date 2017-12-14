@@ -60,6 +60,11 @@ const postSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
         required: false
+    },
+    views: {
+        type: Number,
+        default: 0,
+        required: false
     }
 });
 
