@@ -1,7 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
+.logo {
+  fill: white;
+}
+
 .navbar-nav>li>a.active {
-  color: #d9230f !important;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 html {
