@@ -95,13 +95,13 @@ article header .actual-date {
   border-radius: 0.4rem;
 }
 
-ul.tag-list li {
-  display: inline-block !important;
+.tag-list {
+  padding: 0;
+  color: #999999;
 }
 
-.tag-list::before {
-  content: "\f02c";
-  font-family: "FontAwesome";
+ul.tag-list li {
+  display: inline-block !important;
 }
 
 .fathumbsup::before {
@@ -159,11 +159,8 @@ li {
   list-style-type: none;
 }
 
-.tagitem {
-  border-radius: .25em;
-  margin: 0.5rem;
-  padding: 0.25rem;
-  border: 1px solid #ddd;
+.tagitem::before {
+  content: '`'
 }
 
 .sticky_post {
@@ -176,7 +173,7 @@ li {
   top: 42px;
   width: 200px;
   padding: 1px 0;
-  background: #000;
+  background: rgba(0, 0, 0, .3);
   color: #eee;
   -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -217,6 +214,16 @@ li {
 .entry-footer {
   position: absolute;
   bottom: 0;
+}
+
+dt,
+dd {
+  float: left
+}
+
+dd {
+  margin-right: 15px;
+  margin-bottom: 0;
 }
 
 
