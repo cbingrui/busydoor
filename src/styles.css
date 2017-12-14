@@ -4,6 +4,10 @@
   fill: white;
 }
 
+.logo-footer {
+  fill: black;
+}
+
 .navbar-nav>li>a.active {
   color: rgba(255, 255, 255, 0.75);
 }
