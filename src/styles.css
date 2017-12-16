@@ -95,7 +95,12 @@ footer>.container {
   content: "\f1f8";
   font-family: "FontAwesome";
 }
-
+.post-summary{
+  padding: 10px 20px;
+  margin: 0 0 20px;
+  border-left: 5px solid #eee;
+  color: rgb(136,136,136);
+}
 article header .actual-date {
   color: #f53145;
   margin: 5px 0 0 0;

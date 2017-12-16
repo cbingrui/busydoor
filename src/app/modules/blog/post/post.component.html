@@ -2,6 +2,9 @@
   <header class="blog_header">
     <h1>{{post?.title}}</h1>
   </header>
+  <section *ngIf="post.summary" class="post-summary">
+    {{post.summary}}
+  </section>
   <section class="blog_content">
     <div [innerHTML]='renderedContent'></div>
   </section>
