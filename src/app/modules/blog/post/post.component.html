@@ -1,4 +1,4 @@
-<article class="container">
+<article class="container page boxshadow">
   <header class="blog_header">
     <h1>{{post?.title}}</h1>
   </header>
@@ -7,14 +7,14 @@
   </section>
   <div *ngIf="authService.hasRoles([' Admin '])">
     <a *ngIf="post" [routerLink]="['/blog/post/edit', post?._id]" class="btn btn-sm btn-outline-secondary faedit">
-        Edit
-      </a>
+      Edit
+    </a>
     <button *ngIf='post' class="btn btn-sm btn-outline-danger fatrash" (click)="deleteArticle()">
       Delete Article
     </button>
     <a *ngIf="post" [routerLink]="['/blog/post/edit', post?._id]" class="btn btn-sm btn-outline-secondary fathumbsup">
-        Like
-      </a>
+      Like
+    </a>
   </div>
   <div *ngIf="isLoggedIn">
     <form class="card" (ngSubmit)="addComment()">
@@ -23,15 +23,14 @@
       </div>
       <div class="card-footer">
         <button class="btn btn-sm btn-primary" type="submit">
-            Post Comment
-          </button>
+          Post Comment
+        </button>
       </div>
     </form>
   </div>
   <div>
     <div *ngIf="!isLoggedIn">
-      <a [routerLink]="['/account/login']">Sign in</a> or
-      <a [routerLink]="['/account/register']">sign up</a> to add comments on this article.
+      <a [routerLink]="['/account/login']">Sign in</a> to add comments on this article.
     </div>
   </div>
   <div class='post_comments'>
