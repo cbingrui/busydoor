@@ -95,17 +95,23 @@ footer>.container {
   content: "\f1f8";
   font-family: "FontAwesome";
 }
-.post-summary{
+
+.post-summary {
   padding: 10px 20px;
   margin: 0 0 20px;
   border-left: 5px solid #eee;
-  color: rgb(136,136,136);
+  color: rgb(136, 136, 136);
 }
+
 article header .actual-date {
   color: #f53145;
   margin: 5px 0 0 0;
   text-transform: uppercase;
   letter-spacing: .5px;
+}
+
+.img-post-item {
+  max-width: 100%;
 }
 
 .container.page {
@@ -167,6 +173,9 @@ ul.tag-list li {
 
 .entry-headline {
   color: #999999;
+  /* margin-bottom: 50px; */
+  flex: 1;
+  
 }
 
 .entry-title>a {
@@ -194,11 +203,6 @@ li {
   content: '`'
 }
 
-.sticky_post {
-  position: absolute;
-  z-index: 3;
-}
-
 .stick {
   position: absolute;
   top: 42px;
@@ -209,7 +213,6 @@ li {
   -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  z-index: 3;
 }
 
 .stick.left {
@@ -239,23 +242,26 @@ li {
 }
 
 .post_img_cover {
+  position: relative;
   overflow: hidden;
+  vertical-align: middle;
 }
 
 .entry-footer {
-  position: absolute;
+  /* position: absolute;
   bottom: 0;
+  display: inline; */
 }
 
 .post-info {
-  display: flex;
+  float: left;
   justify-content: center;
   align-items: center;
 }
 
 .post-info dt,
 .post-info dd {
-  display: flex;
+  float: left;
 }
 
 dd {
@@ -264,7 +270,10 @@ dd {
   margin-bottom: auto;
 }
 
-
+.postitem-flex{
+  display: flex;
+  flex-direction: column;
+}
 /* // Extra small devices (portrait phones, less than 576px)
 // No media query since this is the default in Bootstrap
 
@@ -283,32 +292,23 @@ dd {
 @media (max-width :768px) {
   .post_item {
     position: relative;
-    padding: 3rem 2rem;
+    padding: 0;
   }
-  .entry-headline {
-    color: hsla(0, 0%, 100%, .98);
-  }
-  .post_img_cover {
+  .entry-header {
+    margin: 0;
     position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    max-height: 300px;
-    overflow: hidden;
-    float: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.5);
   }
-  .post_text_cover {
-    display: block;
-    position: relative;
-    width: 100%;
-    z-index: 2;
-    color: #fff;
-    padding: 120px 40px 40px;
-    background-color: rgba(0, 0, 0, .42);
+
+  .positiondefault{
+    position: inherit;
   }
-  ul {
+  /* ul {
     padding: 0px;
-  }
+  } */
 }
 
 @media print {

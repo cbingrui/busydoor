@@ -1,12 +1,14 @@
 <section class="post_item">
   <div class='row'>
-    <a class='col-md-3 post_img_cover'>
-      <div *ngIf="post?.sticky" class='stick left'>
-        <a>Sticky Post</a>
+    <a class='col-md-5 '>
+      <div class='post_img_cover'>
+        <span *ngIf="post?.sticky" class='stick left'>
+          <a>Sticky</a>
+        </span>
+        <img class="img-post-item" src="assets/images/tiger.png">
       </div>
-      <img class="figure-img img-fluid" src="assets/images/icon_door-650x650.png">
     </a>
-    <article class='col-md-9 post_text_cover'>
+    <article class='col-md-7 postitem-flex positiondefault'>
       <header class="entry-header">
         <h2 class="entry-title" itemprop="headline">
           <a [routerLink]='this.post._id' rel="bookmark">{{post.title}}</a>
