@@ -7,7 +7,7 @@ import { Directive, HostListener, ElementRef, Renderer2, Input, OnInit } from '@
 export class PinHeaderDirective implements OnInit {
 
   lastScrollY = 0;
-  delta = 100;
+  isShowing = true;
   // tslint:disable-next-line:no-input-rename
   @Input('appPinHeader') pinHeaderStyleClass: string;
 
@@ -29,8 +29,16 @@ export class PinHeaderDirective implements OnInit {
   }
 
   @HostListener('window:scroll', ['$event']) onScroll() {
+
     const offsetY: number = this.windRef.nativeWindow.pageYOffset;
-    if (Math.abs(this.lastScrollY - offsetY) <= this.delta) {
+
+    if (offsetY > this.lastScrollY) {
+      if (this.isShowing === false) {
+        this.lastScrollY = offsetY;
+        return;
+      }
+    } else if (this.isShowing === true) {
+      this.lastScrollY = offsetY;
       return;
     }
 
@@ -41,12 +49,16 @@ export class PinHeaderDirective implements OnInit {
       } else {
         this.renderer.setStyle(this.el.nativeElement, 'top', '-56px');
       }
+
+      this.isShowing = false;
     } else {
       if (this.pinHeaderStyleClass) {
         this.el.nativeElement.classList.add(this.pinHeaderStyleClass);
       } else {
         this.renderer.setStyle(this.el.nativeElement, 'top', '0');
       }
+
+      this.isShowing = true;
     }
     this.lastScrollY = offsetY;
   }
