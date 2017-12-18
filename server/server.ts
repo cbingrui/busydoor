@@ -8,26 +8,47 @@ import * as cors from 'cors';
 import router from './router/v1';
 import authRoute from './router/auth';
 import config from './config/database';
-const app = express();
-mongoose.connect(config.MONGODB_URI);
+import { Server } from 'mongodb';
 
-// middleware
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(cookieParse());
-app.use(logger('dev'));
-app.use(helmet());
-app.use(cors({
-    origin: `http://${config.WEB_HOST}`
-}));
+class ServerApp {
 
-// init
-const server = app.listen(config.port);
-console.log(`server listening on ${config.port}`);
+    private expressApp: express.Express;
 
-// router
-router(app);
-authRoute(app);
+    constructor() {
+        this.initDB();
+        this.initExpress();
+    }
 
-// export
-export default server;
+    private initDB() {
+        mongoose.connect(config.MONGODB_URI);
+    }
+
+    private initExpress() {
+        this.expressApp = express();
+        this.initMiddleware(this.expressApp);
+        this.initRouts(this.expressApp);
+    }
+
+    private initMiddleware(app) {
+        app.use(bodyParser.urlencoded({ extended: false }));
+        app.use(bodyParser.json());
+        app.use(cookieParse());
+        app.use(logger('dev'));
+        app.use(helmet());
+        app.use(cors({
+            origin: `http://${config.WEB_HOST}`
+        }));
+    }
+
+    private initRouts(app) {
+        router(app);
+        authRoute(app);
+    }
+
+    public serverStart() {
+        const server = this.expressApp.listen(config.port);
+        console.log(`server listening on ${config.port}`);
+    }
+}
+
+export default new ServerApp();
