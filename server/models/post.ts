@@ -65,6 +65,11 @@ const postSchema = new mongoose.Schema({
         type: Number,
         default: 0,
         required: false
+    },
+    coverimgurl: {
+        type: String,
+        default: '',
+        required: false
     }
 });
 

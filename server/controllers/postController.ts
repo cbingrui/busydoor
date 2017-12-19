@@ -87,6 +87,7 @@ export function createPost(req, res, next) {
     const title = req.body.title || '';
     const body = req.body.body || '';
     const contentUrl = req.body.contentUrl || '';
+    const coverimgurl = req.body.coverimgurl || '';
     const summary = req.body.summary || '';
     const tags = req.body.tags || '';
     const sticky = req.body.sticky || false;
@@ -94,6 +95,7 @@ export function createPost(req, res, next) {
         title,
         body,
         contentUrl,
+        coverimgurl,
         summary,
         tags,
         sticky,

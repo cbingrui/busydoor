@@ -10,12 +10,14 @@ export class Post {
     public sticky: boolean;
     public views: number;
     private _renderedontented: string;
+    private coverimgurl: string;
+
     public get renderedContent(): string {
         return this.body;
     }
 
     constructor(id: string, title: string, body: string, date: Date
-        , url: string, summary: string, comments, tags: string[], sticky: boolean, views: number) {
+        , url: string, summary: string, comments, tags: string[], sticky: boolean, views: number, coverimgurl: string) {
         this._id = id;
         this.title = title;
         this.body = body;
@@ -26,6 +28,7 @@ export class Post {
         this.tags = tags;
         this.sticky = sticky;
         this.views = views;
+        this.coverimgurl = coverimgurl;
     }
 
 }

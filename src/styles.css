@@ -130,6 +130,11 @@ article header .actual-date {
 .tag-list {
   padding: 0;
   color: #999999;
+  margin: 5px 0;
+}
+
+.taginput {
+  margin: 0;
 }
 
 ul.tag-list li {
@@ -175,7 +180,6 @@ ul.tag-list li {
   color: #999999;
   /* margin-bottom: 50px; */
   flex: 1;
-  
 }
 
 .entry-title>a {
@@ -199,8 +203,21 @@ li {
   list-style-type: none;
 }
 
-.tagitem::before {
-  content: '`'
+.tagitem {
+  display: inline-block;
+  border-radius: 3px;
+  border: 1px solid #f0f0f0;
+  background-color: #fafafa;
+  color: rgba(0, 0, 0, .54);
+  padding: 2px;
+  margin-right: 5px;
+}
+
+.button-close {
+  border-width: 0;
+  background-color: transparent;
+  color: rgba(0, 0, 0, .54);
+  padding: 0;
 }
 
 .stick {
@@ -254,14 +271,16 @@ li {
 }
 
 .post-info {
-  float: left;
   justify-content: center;
   align-items: center;
+  line-height: 1;
 }
 
+.post-info dt svg,
 .post-info dt,
 .post-info dd {
-  float: left;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 dd {
@@ -270,10 +289,12 @@ dd {
   margin-bottom: auto;
 }
 
-.postitem-flex{
+.postitem-flex {
   display: flex;
   flex-direction: column;
 }
+
+
 /* // Extra small devices (portrait phones, less than 576px)
 // No media query since this is the default in Bootstrap
 
@@ -302,8 +323,7 @@ dd {
     right: 0;
     background: rgba(255, 255, 255, 0.5);
   }
-
-  .positiondefault{
+  .positiondefault {
     position: inherit;
   }
   /* ul {

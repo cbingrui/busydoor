@@ -7,27 +7,31 @@
           <input id="title" formControlName="title" type="text" class="form-control" placeholder="Title">
         </fieldset>
         <fieldset class="form-group">
+          <textarea id="content" formControlName="content" rows="12" class="form-control" placeholder="Content (markdown support)"></textarea>
+        </fieldset>
+        <span>More options (optional):</span>
+        <fieldset class='tag-list'>
+          <span class='tagitem' *ngFor="let tag of tags">
+              {{ tag }}
+              <button (click)="removeTag(tag)" class="button-close " data-action="remove-token">×</button>
+            </span>
+          <span *ngIf="tags?.length==0">(Empty)</span>
+          <input class="taginput" [formControl]="ctrlTag" type="text" placeholder="Add a tag" (keydown.enter)='addTag($event)' (keydown.backspace)='tryRemoveLastTag()' (keydown.tab)='addTag($event)'>
+        </fieldset>
+        <fieldset class="form-group">
           <textarea id="summary" formControlName="summary" rows="4" class="form-control" placeholder="Summary / What's it about"></textarea>
         </fieldset>
         <fieldset class="form-group">
-          <input id="contenurl" formControlName="contenturl" type="URL" class="form-control" placeholder="Content Url (optional)">
-        </fieldset>
-        <fieldset class="form-group">
-          <textarea id="content" formControlName="content" rows="12" class="form-control" placeholder="Content (markdown support)"></textarea>
-        </fieldset>
-        <fieldset class='tag-list'>
-          <span class='tagitem' *ngFor="let tag of tags">
-              <i class="fa fa-times" aria-hidden="true" (click)="removeTag(tag)"> </i>
-              {{ tag }}
-            </span>
-          <span *ngIf="tags?.length==0">(Empty)</span>
-          <input [formControl]="ctrlTag" type="text" placeholder="'ENTER' new tag" (keydown.enter)='addTag($event)' (blur)='addTag($event)'>
+          <input id="contenurl" formControlName="contenturl" type="URL" class="form-control" placeholder="Content(markdown support) URI">
         </fieldset>
         <fieldset class="input-group">
           <label>
-                <input formControlName='sticky' type="checkbox">
-                  Stick this post to the front page
-            </label>
+            <input formControlName='sticky' type="checkbox">
+            Stick this post to the front page
+          </label>
+        </fieldset>
+        <fieldset>
+          <input id="coverimgurl" formControlName="coverimgurl" type="URL" class="form-control" placeholder="Post cover image URI">
         </fieldset>
         <button [disabled]="!postForm.valid" type="submit" class="btn btn-lg float-sm-right btn-primary">
             {{operationText}}

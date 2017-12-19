@@ -18,6 +18,7 @@ const OperationType = {
 })
 export class PostEditComponent implements OnInit {
   contenturl: any;
+  coverimgurl: any;
   summary: any;
   content: string;
   title: string;
@@ -31,6 +32,7 @@ export class PostEditComponent implements OnInit {
     title: '',
     summary: '',
     contentUrl: '',
+    coverimgurl: '',
     body: '',
     tags: [],
     sticky: false
@@ -90,6 +92,7 @@ export class PostEditComponent implements OnInit {
       , contenturl: this.post.contentUrl
       , content: this.post.body
       , sticky: this.post.sticky
+      , coverimgurl: this.post.coverimgurl
     });
     this.initTags(this.post.tags);
   }
@@ -100,6 +103,7 @@ export class PostEditComponent implements OnInit {
       content: '',
       summary: '',
       contenturl: ['', this.validateUrl()],
+      coverimgurl: ['', this.validateUrl()],
       sticky: false
     });
   }
@@ -107,12 +111,14 @@ export class PostEditComponent implements OnInit {
     this.tags = tags;
   }
   onConfirm() {
+    console.log(this.postForm.get('coverimgurl').value);
 
     const post = {
       title: this.postForm.get('title').value,
       body: this.postForm.get('content').value,
       summary: this.postForm.get('summary').value,
       contentUrl: this.postForm.get('contenturl').value,
+      coverimgurl: this.postForm.get('coverimgurl').value,
       sticky: this.postForm.get('sticky').value,
       tags: this.tags,
       _id: this.postID
@@ -160,5 +166,9 @@ export class PostEditComponent implements OnInit {
   removeTag(tag: string) {
     this.tags = this.tags.filter(t => t !== tag);
   }
-
+  tryRemoveLastTag() {
+    if (this.ctrlTag.value === '') {
+      this.tags.pop();
+    }
+  }
 }
