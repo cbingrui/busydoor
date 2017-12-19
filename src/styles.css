@@ -129,8 +129,13 @@ article header .actual-date {
 
 .tag-list {
   padding: 0;
-  color: #999999;
+  color: #999;
   margin: 5px 0;
+  display: inline;
+}
+
+.post-list {
+  padding: 0;
 }
 
 .taginput {
@@ -138,7 +143,7 @@ article header .actual-date {
 }
 
 ul.tag-list li {
-  display: inline-block !important;
+  display: inline
 }
 
 .fathumbsup::before {
@@ -177,7 +182,7 @@ ul.tag-list li {
 }
 
 .entry-headline {
-  color: #999999;
+  color: #999;
   /* margin-bottom: 50px; */
   flex: 1;
 }
@@ -273,13 +278,14 @@ li {
 .post-info {
   justify-content: center;
   align-items: center;
-  line-height: 1;
+  color: #999;
+  fill: #999;
 }
 
 .post-info dt svg,
 .post-info dt,
 .post-info dd {
-  display: inline-block;
+  display: inline;
   vertical-align: middle;
 }
 

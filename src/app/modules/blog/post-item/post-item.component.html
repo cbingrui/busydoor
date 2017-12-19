@@ -9,7 +9,7 @@
         <img class="img-post-item" src="{{post.coverimgurl}}">
       </div>
     </a>
-    <article [ngClass]="{'col-md-7': post.coverimgurl}" class='col-md-7 postitem-flex positiondefault'>
+    <article [ngClass]="post.coverimgurl?'col-md-7':'col-md-12'" class='postitem-flex positiondefault'>
       <header [ngClass]="{'entry-header': post.coverimgurl}">
         <h2 class="entry-title" itemprop="headline">
           <a [routerLink]='this.post._id' rel="bookmark">{{post.title}}</a>
