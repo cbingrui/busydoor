@@ -3,23 +3,64 @@
     <div class="col-md-6 offset-md-3 col-xs-12">
       <h1 class="text-center">{{ title }}</h1>
       <p class="text-center">
-        <a [routerLink]="['/account/login']" *ngIf="IsRegister">Have an account?</a>
-        <a [routerLink]="['/account/register']" *ngIf="!IsRegister">Need an account?</a>
+        <a [routerLink]="['/account/login']"
+           *ngIf="IsRegister">Have an account?</a>
+        <a [routerLink]="['/account/register']"
+           *ngIf="!IsRegister">Need an account?</a>
       </p>
-      <form [formGroup]="signForm" (ngSubmit)="submitForm()">
+      <!-- <p>Name errors: {{usernameCtrl?.errors | json}}</p>
+      <p>Email errors: {{emailCtrl?.errors | json}}</p>
+      <p>Password errors: {{passwordsCtrl?.errors | json}}</p> -->
+      <form [formGroup]="signForm"
+            (ngSubmit)="submitForm()">
         <fieldset [disabled]="isSubmitting">
-          <div class="form-group">
-            <input formControlName="username" placeholder="Username" class="form-control form-control-lg" type="text" *ngIf="IsRegister" />
+          <div class="form-group"
+               *ngIf="IsRegister">
+            <input formControlName="username"
+                   placeholder="Username"
+                   class="form-control form-control-lg"
+                   type="text">
+            <section *ngIf="usernameCtrl.errors">
+              <span *ngIf="usernameCtrl.touched &&  usernameCtrl.errors.required"> Name is required. </span>
+              <span *ngIf="usernameCtrl.errors.minlength"> Name should be minimum {{usernameCtrl.errors.minlength.requiredLength}} characters. </span>
+              <span *ngIf="usernameCtrl.errors.maxlength">
+              Name should be maximum {{usernameCtrl.errors.maxlength.requiredLength}} characters. </span>
+            </section>
           </div>
-          <div class="form-group">
-            <input formControlName="email" placeholder="Email" class="form-control form-control-lg" type="text" />
-          </div>
-          <div class="form-group">
-            <input formControlName="password" placeholder="Password" class="form-control form-control-lg" type="password" />
-          </div>
-          <button class="btn btn-lg btn-primary float-sm-right" [disabled]="!signForm.valid" type="submit">
-            {{ title }}
-          </button>
+          <fieldset class="form-group">
+            <input formControlName="email"
+                   placeholder="Email"
+                   class="form-control form-control-lg"
+                   type="text">
+            <section *ngIf="emailCtrl.touched && emailCtrl.errors">
+              <span *ngIf="emailCtrl.errors.required ">Email is required</span>
+              <span *ngIf="emailCtrl.errors.validateEmail">This must be a valid e-mail</span>
+            </section>
+          </fieldset>
+          <fieldset formGroupName='passwords'>
+            <fieldset class="form-group">
+              <input formControlName="password"
+                     placeholder="Password"
+                     class="form-control form-control-lg"
+                     type="password">
+              <section *ngIf="passwordCtrl.touched && passwordCtrl.errors">
+                <span *ngIf="passwordCtrl.errors.required">Password is required</span>
+              </section>
+            </fieldset>
+            <fieldset class="form-group"
+                      *ngIf="IsRegister">
+              <input formControlName="confirm"
+                     placeholder="Input password again"
+                     class="form-control form-control-lg confirmpassword"
+                     type="password">
+              <section *ngIf="passwordsCtrl.touched && passwordsCtrl.errors">
+                <span *ngIf="passwordsCtrl.errors.nomatch">Passwords are not matching!</span>
+              </section>
+            </fieldset>
+          </fieldset>
+          <button class="btn btn-lg btn-primary float-sm-right"
+                  [disabled]="!signForm.valid"
+                  type="submit"> {{ title }} </button>
         </fieldset>
       </form>
     </div>

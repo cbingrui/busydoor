@@ -6,7 +6,7 @@
   </div>
   <footer class="card-footer">
     <a class="comment-author" [routerLink]="['/profile', comment.username]">
-      {{ comment.username }} {{ comment.userid }}
+      {{ comment.username }}
     </a>
     <time [attr.datetime]="comment.posted">{{ comment.posted | date: 'short' }}</time>
     <span class="mod-options" aria-label="delete comment" [hidden]="!canModify" (click)='onDeleteComment()'>

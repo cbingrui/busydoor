@@ -13,7 +13,7 @@ export class PostsComponent implements OnInit {
   posts: Post[];
   id: string;
   totalRecords = 0;
-  pageSize = 5;
+  pageSize = 10;
   currentPage = 1;
   constructor(private route: ActivatedRoute
     , private postService: PostService
