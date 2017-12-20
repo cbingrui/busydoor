@@ -54,6 +54,7 @@ export class SignInUpComponent implements OnInit {
         // ,{ validator: this.emailMatcher.bind(this) }
       )
     });
+
     if (this.IsRegister) {
       this.confirmCtrl.setValidators(Validators.required);
       this.passwordsCtrl.setValidators(this.passwordMatcher.bind(this));
@@ -68,22 +69,58 @@ export class SignInUpComponent implements OnInit {
       );
     }
   }
+
   updateTitle(lastUrlPart) {
     this.title =
       lastUrlPart === AccountModel.registerUrl
         ? AccountModel.registerName
         : AccountModel.loginName;
   }
+
   submitForm() {
     this.isSubmitting = true;
 
-    const credentials = this.signForm.value;
+    if (this.title === AccountModel.loginName) {
+      this.login();
+    } else {
+      this.register();
+    }
+  }
 
-    this.authService.validate(this.title, credentials).subscribe(
+  resetForm() {
+    this.signForm.reset();
+    this.isSubmitting = false;
+  }
+
+  register() {
+    const credentialsRegister: RequestBody.RegisterBody = {
+      username: this.signForm.value.username,
+      email: this.signForm.value.email,
+      password: this.signForm.value.passwords.password
+    };
+    this.authService.registerUser(credentialsRegister).subscribe(
       res => {
         this.router.navigate(['/']);
       },
       err => {
+        this.resetForm();
+        console.log('err' + err);
+        this.toast.error(err);
+      }
+    );
+  }
+
+  login() {
+    const credentialsBody: RequestBody.LoginBody = {
+      email: this.signForm.value.email,
+      password: this.signForm.value.passwords.password
+    };
+    this.authService.login(credentialsBody).subscribe(
+      res => {
+        this.router.navigate(['/']);
+      },
+      err => {
+        this.resetForm();
         console.log('err' + err);
         this.toast.error(err);
       }

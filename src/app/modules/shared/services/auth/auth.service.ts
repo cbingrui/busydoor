@@ -18,8 +18,10 @@ export class AuthService {
     let bHasRole = false;
     const isLogged = this.isLoggedIn();
     if (isLogged) {
-      bHasRole = roles.map(r => r.trim().toLowerCase())
-        .indexOf(this.currentUser.role.toLowerCase()) > -1;
+      bHasRole =
+        roles
+          .map(r => r.trim().toLowerCase())
+          .indexOf(this.currentUser.role.toLowerCase()) > -1;
     }
     return bHasRole;
   }
@@ -39,27 +41,20 @@ export class AuthService {
     return isLogin;
   }
 
-  registerUser(user) {
+  registerUser(user: RequestBody.RegisterBody) {
     return this.userService.register(user);
   }
-  validate(type: string, credentials) {
-    if (type === AccountModel.loginName) {
-      return this.login(credentials);
-    } else {
-      return this.registerUser(credentials);
-    }
-  }
-  login(user) {
-    return this.userService.login(user)
-      .pipe(map(res => {
+
+  login(user: RequestBody.LoginBody) {
+    return this.userService.login(user).pipe(
+      map(res => {
         localStorage.setItem('token', res.token);
-        const decodedUser = this.decodeUserFromToken(res.token);
+        const decodedUser = this.jwtHelper.decodeToken(res.token).user;
 
         this.authToken = res.token;
         this.setCurrentUser(decodedUser);
-
-      }));
-
+      })
+    );
   }
   setCurrentUser(decodedUser) {
     if (decodedUser) {
@@ -83,13 +78,12 @@ export class AuthService {
   addComment(postId, commentBody) {
     this.currentUser = this.decodeUserFromToken();
     if (this.currentUser) {
-
       const token = localStorage.getItem('token');
       const body = {
-        username: this.currentUser.username
-        , userid: this.currentUser._id
-        , text: commentBody
-        , token
+        username: this.currentUser.username,
+        userid: this.currentUser._id,
+        text: commentBody,
+        token
       };
       return this.userService.post(`/api/posts/${postId}/comments`, body);
     }

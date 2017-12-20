@@ -1,24 +1,30 @@
+// import debug from 'decorator-debug';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { environment } from './../../../../../environments/environment';
-
 @Injectable()
 export class UserService {
-
   domain = environment.backendApiUrl;
-  private headers = new HttpHeaders({ 'Content-Type': 'application/json', 'charset': 'UTF-8' });
+  private headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    charset: 'UTF-8'
+  });
   private options = { headers: this.headers };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  register(user): Observable<any> {
+  register(user: RequestBody.RegisterBody): Observable<any> {
     return this.http.post(this.domain + '/api/user', user, this.options);
   }
 
-  login(credentials): Observable<any> {
-    return this.http.post(this.domain + '/api/login', credentials, this.options);
+  login(credentials: RequestBody.LoginBody): Observable<any> {
+    return this.http.post(
+      this.domain + '/api/login',
+      credentials,
+      this.options
+    );
   }
 
   getUsers(): Observable<any> {
@@ -38,11 +44,18 @@ export class UserService {
   }
 
   editUser(user): Observable<any> {
-    return this.http.put(this.domain + `/api/user/${user._id}`, user, this.options);
+    return this.http.put(
+      this.domain + `/api/user/${user._id}`,
+      user,
+      this.options
+    );
   }
 
   deleteUser(user): Observable<any> {
-    return this.http.delete(this.domain + `/api/user/${user._id}`, this.options);
+    return this.http.delete(
+      this.domain + `/api/user/${user._id}`,
+      this.options
+    );
   }
 
   post(url, body): Observable<any> {
@@ -51,6 +64,5 @@ export class UserService {
 
   get(url): Observable<any> {
     return this.http.get(this.domain + url);
-
   }
 }
