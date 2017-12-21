@@ -20,11 +20,17 @@ export class UserService {
   public $currentUser = this.currentUserSubject.pipe(distinctUntilChanged());
   // ReplaySubject
   // listen with a buffer size of one('1') user being eliminated and all the later subsequent user before 'OnCompleted'
-  private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
-  public $isAuthenticated = this.isAuthenticatedSubject.asObservable();
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
+  public $isAuthenticated = this.isAuthenticatedSubject.pipe(
+    distinctUntilChanged()
+  );
 
   get currentUser(): ResponseBody.User {
     return this.currentUserSubject.value;
+  }
+
+  get isAuthenticated() {
+    return this.isAuthenticatedSubject.value;
   }
   register(user: RequestBody.RegisterBody): Observable<any> {
     return this.http.post(this.domain + '/api/user', user, this.options);

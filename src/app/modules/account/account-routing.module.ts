@@ -1,3 +1,4 @@
+import { LoginGuardService } from './../shared/services/login-guard.service';
 import { SignInUpComponent } from './sign-in-up/sign-in-up.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NgModule } from '@angular/core';
@@ -14,7 +15,8 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    component: ProfileComponent
+    component: ProfileComponent,
+    canActivate: [LoginGuardService]
   }
 ];
 
