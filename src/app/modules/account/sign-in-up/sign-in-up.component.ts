@@ -1,5 +1,5 @@
+import { UserService } from './../../shared/services/user/user.service';
 import { ToastrService } from './../../shared/services/toastr/toastr.service';
-import { AuthService } from './../../shared/services/auth/auth.service';
 import { AccountModel } from './../../shared/models/account';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -12,7 +12,6 @@ import {
 } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { MinLengthValidator } from '@angular/forms/src/directives/validators';
-import { retry } from 'rxjs/operators/retry';
 
 @Component({
   selector: 'app-sign-in-up',
@@ -30,7 +29,7 @@ export class SignInUpComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private authService: AuthService,
+    private userService: UserService,
     private toast: ToastrService,
     private router: Router
   ) {}
@@ -98,7 +97,7 @@ export class SignInUpComponent implements OnInit {
       email: this.signForm.value.email,
       password: this.signForm.value.passwords.password
     };
-    this.authService.registerUser(credentialsRegister).subscribe(
+    this.userService.register(credentialsRegister).subscribe(
       res => {
         this.router.navigate(['/']);
       },
@@ -115,8 +114,9 @@ export class SignInUpComponent implements OnInit {
       email: this.signForm.value.email,
       password: this.signForm.value.passwords.password
     };
-    this.authService.login(credentialsBody).subscribe(
+    this.userService.login(credentialsBody).subscribe(
       res => {
+        this.userService.setAuth(res);
         this.router.navigate(['/']);
       },
       err => {

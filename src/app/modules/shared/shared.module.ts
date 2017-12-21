@@ -1,5 +1,7 @@
-import { WindowRef } from './window-ref';
 import { AuthService } from './services/auth/auth.service';
+import { LoginGuardService } from './services/login-guard.service';
+import { JwtService } from './services/jwt.service';
+import { WindowRef } from './window-ref';
 import { ToastrService } from './services/toastr/toastr.service';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
@@ -29,28 +31,34 @@ import { CommentsService } from './services/comments/comments.service';
     MarkdownPipe,
     FetchPipe,
     PaginationComponent,
-    PinHeaderDirective],
+    PinHeaderDirective
+  ],
 
-  exports: [HeaderComponent,
+  exports: [
+    HeaderComponent,
     FooterComponent,
     MarkdownPipe,
     FetchPipe,
     FormsModule,
     ReactiveFormsModule,
     PaginationComponent,
-    PinHeaderDirective]
+    PinHeaderDirective
+  ]
 })
 export class SharedModule {
-
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
 
-      providers: [ToastrService,
+      providers: [
         AuthService,
+        ToastrService,
         UserService,
         WindowRef,
-        CommentsService]
+        CommentsService,
+        JwtService,
+        LoginGuardService
+      ]
     };
   }
 }

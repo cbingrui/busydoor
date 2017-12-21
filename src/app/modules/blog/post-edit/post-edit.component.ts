@@ -2,9 +2,15 @@ import { Post } from './../../../models/post.model';
 import { ToastrService } from './../../shared/services/toastr/toastr.service';
 import { PostService } from './../post/post.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ValidatorFn, FormControl, AbstractControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ValidatorFn,
+  FormControl,
+  AbstractControl
+} from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../shared/services/auth/auth.service';
 
 const OperationType = {
   New: 'New',
@@ -45,21 +51,24 @@ export class PostEditComponent implements OnInit {
       if (!control.value) {
         return null;
       }
-      const regExp = new RegExp(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+      const regExp = new RegExp(
+        /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+      );
       const urlInvalid = !regExp.test(control.value);
       console.log('invalid' + urlInvalid);
-      return urlInvalid ? { 'validateUrl': { value: control.value } } : null;
+      return urlInvalid ? { validateUrl: { value: control.value } } : null;
     };
   }
 
-  constructor(private formBuilder: FormBuilder, private router: Router
-    , private auth: AuthService
-    , private route: ActivatedRoute
-    , private postService: PostService
-    , private toastrService: ToastrService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private postService: PostService,
+    private toastrService: ToastrService
+  ) {}
 
   ngOnInit() {
-
     // if (this.auth.loggedIn) {
     //   this.router.navigate(['/']);
     // }
@@ -72,7 +81,6 @@ export class PostEditComponent implements OnInit {
     }
 
     this.buildForm();
-
   }
 
   getPost(id: string) {
@@ -87,12 +95,12 @@ export class PostEditComponent implements OnInit {
   }
   setFormValue() {
     this.postForm.setValue({
-      title: this.post.title
-      , summary: this.post.summary
-      , contenturl: this.post.contentUrl
-      , content: this.post.body
-      , sticky: this.post.sticky
-      , coverimgurl: this.post.coverimgurl
+      title: this.post.title,
+      summary: this.post.summary,
+      contenturl: this.post.contentUrl,
+      content: this.post.body,
+      sticky: this.post.sticky,
+      coverimgurl: this.post.coverimgurl
     });
     this.initTags(this.post.tags);
   }
@@ -127,28 +135,23 @@ export class PostEditComponent implements OnInit {
     console.log(post);
     console.log(this.post);
     if (this.operationText === OperationType.New) {
-
-      this.postService.newPost(post).subscribe(
-        data => {
-          if (data.err) {
-            this.toastrService.error(data.err.message);
-          } else {
-            this.toastrService.success('new post success');
-            const postId = data.post._id;
-            this.router.navigateByUrl('/blog/' + postId);
-          }
+      this.postService.newPost(post).subscribe(data => {
+        if (data.err) {
+          this.toastrService.error(data.err.message);
+        } else {
+          this.toastrService.success('new post success');
+          const postId = data.post._id;
+          this.router.navigateByUrl('/blog/' + postId);
         }
-      );
+      });
     } else {
-      this.postService.updatePost(post).subscribe(
-        data => {
-          if (data.err) {
-            this.toastrService.error(data.err.message);
-          } else {
-            this.toastrService.success('update post success');
-          }
+      this.postService.updatePost(post).subscribe(data => {
+        if (data.err) {
+          this.toastrService.error(data.err.message);
+        } else {
+          this.toastrService.success('update post success');
         }
-      );
+      });
     }
   }
   addTag(e: Event) {
@@ -160,7 +163,6 @@ export class PostEditComponent implements OnInit {
 
     this.tags.push(newTag);
     this.ctrlTag.reset('');
-
   }
 
   removeTag(tag: string) {

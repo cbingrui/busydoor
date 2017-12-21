@@ -1,3 +1,4 @@
+import { UserService } from './../../shared/services/user/user.service';
 import { Comment } from './../../shared/models/comment.model';
 
 import { ToastrService } from './../../shared/services/toastr/toastr.service';
@@ -8,14 +9,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { PostHelper } from './../helper/post.helper';
 import { CommentsService } from './../../shared/services/comments/comments.service';
 import { FormControl } from '@angular/forms';
-import { AuthService } from './../../shared/services/auth/auth.service';
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
-
   id: string;
   post: Post;
   comments: Comment[] = [];
@@ -24,14 +23,15 @@ export class PostComponent implements OnInit {
   commentControl = new FormControl();
   renderedContent: string;
   isLoggedIn = false;
-  constructor(private route: ActivatedRoute
-    , private postService: PostService
-    , private toastrService: ToastrService
-    , private postHelper: PostHelper
-    , private commentService: CommentsService
-    , public authService: AuthService
-    , private router: Router
-  ) { }
+  constructor(
+    private route: ActivatedRoute,
+    private postService: PostService,
+    private toastrService: ToastrService,
+    private postHelper: PostHelper,
+    private commentService: CommentsService,
+    public userService: UserService,
+    private router: Router
+  ) {}
 
   public GetActualRenderContent(post: Post) {
     const url = post.contentUrl;
@@ -49,9 +49,7 @@ export class PostComponent implements OnInit {
   addComment() {
     const commentBody = this.commentControl.value;
 
-    this.commentService
-      .addComment(this.post._id, commentBody)
-      .subscribe(
+    this.commentService.addComment(this.post._id, commentBody).subscribe(
       comment => {
         this.comments.unshift(comment);
         this.commentControl.reset('');
@@ -59,20 +57,17 @@ export class PostComponent implements OnInit {
       errors => {
         console.log(errors);
       }
-      );
+    );
   }
 
   getComments() {
-    this.commentService.getComments(this.post._id)
-      .subscribe(
-      data => {
-        console.log(`comments:${data.comments}`);
-        this.comments = data.comments;
-      }
-      );
+    this.commentService.getComments(this.post._id).subscribe(data => {
+      console.log(`comments:${data.comments}`);
+      this.comments = data.comments;
+    });
   }
   ngOnInit() {
-    this.isLoggedIn = this.authService.isLoggedIn();
+    this.isLoggedIn = this.userService.isLoggedIn();
     this.route.params.subscribe(params => {
       if (params.hasOwnProperty('id')) {
         this.id = params['id'];
@@ -83,7 +78,6 @@ export class PostComponent implements OnInit {
             this.GetActualRenderContent(data.post);
             this.post = data.post;
             this.getComments();
-
           }
         });
       }

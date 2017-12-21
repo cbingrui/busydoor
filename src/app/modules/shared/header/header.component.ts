@@ -1,6 +1,6 @@
+import { UserService } from './../services/user/user.service';
 import { ToastrService } from './../services/toastr/toastr.service';
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,14 +9,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  constructor(public userService: UserService, private toastr: ToastrService) {}
 
-  constructor(public authService: AuthService
-    , private toastr: ToastrService) { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
   onLogoutClick() {
-    localStorage.clear();
+    this.userService.clearAuth();
     this.toastr.info('logout success');
   }
 }

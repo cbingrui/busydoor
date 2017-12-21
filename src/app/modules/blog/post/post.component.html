@@ -2,42 +2,42 @@
   <header class="blog_header">
     <h1>{{post?.title}}</h1>
   </header>
-  <section *ngIf="post?.summary" class="post-summary">
-    {{post?.summary}}
-  </section>
+  <section *ngIf="post?.summary"
+           class="post-summary"> {{post?.summary}} </section>
   <section class="blog_content">
     <div [innerHTML]='renderedContent'></div>
   </section>
-  <div *ngIf="authService.hasRoles([' Admin '])">
-    <a *ngIf="post" [routerLink]="['/blog/post/edit', post?._id]" class="btn btn-sm btn-outline-secondary faedit">
-      Edit
-    </a>
-    <button *ngIf='post' class="btn btn-sm btn-outline-danger fatrash" (click)="deleteArticle()">
-      Delete Article
-    </button>
-    <a *ngIf="post" [routerLink]="['/blog/post/edit', post?._id]" class="btn btn-sm btn-outline-secondary fathumbsup">
-      Like
-    </a>
+  <div *ngIf="userService.hasRoles([' Admin '])">
+    <a *ngIf="post"
+       [routerLink]="['/blog/post/edit', post?._id]"
+       class="btn btn-sm btn-outline-secondary faedit"> Edit </a>
+    <button *ngIf='post'
+            class="btn btn-sm btn-outline-danger fatrash"
+            (click)="deleteArticle()"> Delete Article </button>
+    <a *ngIf="post"
+       [routerLink]="['/blog/post/edit', post?._id]"
+       class="btn btn-sm btn-outline-secondary fathumbsup"> Like </a>
   </div>
   <div *ngIf="isLoggedIn">
-    <form class="card" (ngSubmit)="addComment()">
+    <form class="card"
+          (ngSubmit)="addComment()">
       <div class="card-block">
-        <textarea class="form-control" placeholder="Write a comment..." rows="3" [formControl]="commentControl"></textarea>
-      </div>
+        <textarea class="form-control"
+                  placeholder="Write a comment..."
+                  rows="3"
+                  [formControl]="commentControl"></textarea> </div>
       <div class="card-footer">
-        <button class="btn btn-sm btn-primary" type="submit">
-          Post Comment
-        </button>
+        <button class="btn btn-sm btn-primary"
+                type="submit"> Post Comment </button>
       </div>
     </form>
   </div>
   <div>
     <div *ngIf="!isLoggedIn">
-      <a [routerLink]="['/account/login']">Sign in</a> to add comments on this article.
-    </div>
+      <a [routerLink]="['/account/login']">Sign in</a> to add comments on this article. </div>
   </div>
   <div class='post_comments'>
-    <app-post-comment *ngFor="let comment of comments" [comment]='comment'>
-    </app-post-comment>
+    <app-post-comment *ngFor="let comment of comments"
+                      [comment]='comment'> </app-post-comment>
   </div>
 </article>

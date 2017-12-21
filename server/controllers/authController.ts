@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import usermodel from './../models/user';
+import usermodel, { IUserModel } from './../models/user';
 import BaseCtrl from './base';
 import config from '../config/database';
 
@@ -7,7 +7,7 @@ export default class AuthCtrl extends BaseCtrl {
   model = usermodel;
 
   login = (req: { body: RequestBody.LoginBody }, res) => {
-    this.model.findOne({ email: req.body.email }, (err, user) => {
+    this.model.findOne({ email: req.body.email }, (err, user: IUserModel) => {
       if (!user) {
         return res.sendStatus(403);
       }
@@ -18,7 +18,7 @@ export default class AuthCtrl extends BaseCtrl {
         const token = jwt.sign({ user: user }, config.SECRET_TOKEN, {
           expiresIn: '24h'
         });
-        res.status(200).json({ token: token });
+        res.status(200).json({ token, user });
       });
     });
   };
@@ -29,7 +29,6 @@ export default class AuthCtrl extends BaseCtrl {
     if (token) {
       jwt.verify(token, config.SECRET_TOKEN, function(err, decoded) {
         if (err) {
-          // tslint:disable-next-line:max-line-length
           return res.status(201).json({
             success: false,
             message: 'Authenticate token expired, please login again.',
@@ -47,5 +46,11 @@ export default class AuthCtrl extends BaseCtrl {
         errcode: 'no-token'
       });
     }
+  };
+  getWithToken = (
+    req: Express.Request & { decoded: { user: RequestBody.User } },
+    res
+  ) => {
+    this.getById(req, res, req.decoded.user._id);
   };
 }
