@@ -11,7 +11,6 @@
       "runtimeExecutable": "nodemon",
       "program": "${workspaceFolder}/server/dist/out-tsc/index.js",
       "restart": true,
-      "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     },
     {
