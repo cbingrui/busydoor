@@ -86,7 +86,6 @@ input.ng-untouched {
 }
 
 .post_item {
-  padding-top: 20px;
   padding-bottom: 20px;
 }
 
@@ -208,6 +207,14 @@ ul.tag-list li {
   /* margin-bottom: 50px; */
   flex: 1;
 }
+.postitem-border {
+  border-top: 1px solid gainsboro;
+}
+.entry-footer {
+  background: #f7f7f7;
+  margin-left: -15px;
+  margin-right: -15px;
+}
 
 .entry-title > a {
   color: inherit;
@@ -298,6 +305,9 @@ li {
   fill: #999;
 }
 
+.post-info {
+  display: inline;
+}
 .post-info dt svg,
 .post-info dt,
 .post-info dd {
