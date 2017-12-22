@@ -24,6 +24,9 @@ abstract class BaseCtrl {
 
   // Insert
   insert = (req, res) => {
+    this.emailExist(req, res);
+    this.usernameExist(req, res);
+
     const obj = new this.model(req.body);
     obj.save((err, item) => {
       if (err) {
@@ -46,6 +49,54 @@ abstract class BaseCtrl {
       }
       res.json(obj);
     });
+  };
+
+  emailExist = (req, res) => {
+    this.valueExist(res, 'email', req.params.email);
+  };
+
+  valueExist = (res, field: string, value: string) => {
+    this.model.findOne({ [field]: value }, (err, user) => {
+      if (err) {
+        res
+          .status(400)
+          .json({ success: false, message: 'Error processing request ' + err });
+      }
+
+      if (user) {
+        return res.status(201).json({
+          success: false,
+          message: `${field} already exists.'`
+        });
+      } else {
+        return res.status(200).json({
+          success: true
+        });
+      }
+    });
+  };
+
+  usernameExist = (req, res) => {
+    this.valueExist(res, 'username', req.params.username);
+    // this.model.findOne({ username: req.params.username }, (err, user) => {
+    //   if (err) {
+    //     res
+    //       .status(400)
+    //       .json({ success: false, message: 'Error processing request ' + err });
+    //   }
+
+    //   if (user) {
+    //     return res.status(201).json({
+    //       success: false,
+    //       message: 'Email already exists.'
+    //     });
+    //   } else {
+    //     return res.status(200).json({
+    //       success: true
+    //     });
+    //   }
+    // });
+    // If user is not unique, return error
   };
   // Update by id
   update = (req, res) => {

@@ -28,7 +28,16 @@ export class UserService {
   get currentUser(): ResponseBody.User {
     return this.currentUserSubject.value;
   }
-
+  isEmailRegisterd(email: string) {
+    return this.http.get<{ success: boolean }>(
+      `${this.domain}/api/user/email/${email}`
+    );
+  }
+  isUserNameUsed(username: string) {
+    return this.http.get<{ success: boolean }>(
+      `${this.domain}/api/user/username/${username}`
+    );
+  }
   get isAuthenticated() {
     return this.isAuthenticatedSubject.value;
   }

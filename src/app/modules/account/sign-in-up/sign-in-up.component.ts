@@ -12,6 +12,15 @@ import {
 } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { MinLengthValidator } from '@angular/forms/src/directives/validators';
+import {
+  debounceTime,
+  filter,
+  distinctUntilChanged,
+  map,
+  delay
+} from 'rxjs/operators';
+import { Observable } from 'rxjs/Observable';
+import * as Rx from 'rxjs/Rx';
 
 @Component({
   selector: 'app-sign-in-up',
@@ -55,6 +64,7 @@ export class SignInUpComponent implements OnInit {
     });
 
     if (this.IsRegister) {
+      this.emailCtrl.setAsyncValidators(this.uniqueEmail.bind(this));
       this.confirmCtrl.setValidators(Validators.required);
       this.passwordsCtrl.setValidators(this.passwordMatcher.bind(this));
 
@@ -66,6 +76,7 @@ export class SignInUpComponent implements OnInit {
           Validators.minLength(3)
         ])
       );
+      this.usernameCtrl.setAsyncValidators(this.uniqueUsername.bind(this));
     }
   }
 
@@ -177,5 +188,29 @@ export class SignInUpComponent implements OnInit {
     } else {
       return { validateEmail: true }; // Return as invalid email
     }
+  }
+
+  uniqueUsername(control: AbstractControl) {
+    return Rx.Observable.timer(400)
+      .distinctUntilChanged()
+      .switchMap(() => {
+        return this.userService.isUserNameUsed(control.value).pipe(
+          map(res => {
+            return res.success ? null : { existUserName: true };
+          })
+        );
+      });
+  }
+
+  uniqueEmail(control: AbstractControl) {
+    return Rx.Observable.timer(400)
+      .distinctUntilChanged()
+      .switchMap(() => {
+        return this.userService.isEmailRegisterd(control.value).pipe(
+          map(res => {
+            return res.success ? null : { existEmail: true };
+          })
+        );
+      });
   }
 }

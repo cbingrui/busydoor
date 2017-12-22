@@ -12,9 +12,11 @@ export default function setRoutes(app) {
   router.route('/posts/:id/comments').get(authCtrl.getComments);
   router.route('/user').post(authCtrl.insert);
 
-  router.get('/', authCtrl.authenticate, function(req, res) {
-    res.status(201).json({ message: 'Welcome to the authenticated routes!' });
-  });
+  router.route('/user/email/:email').get(authCtrl.emailExist);
+  router.route('/user/username/:username').get(authCtrl.usernameExist);
+  // router.get('/', authCtrl.authenticate, function(req, res) {
+  //   res.status(201).json({ message: 'Welcome to the authenticated routes!' });
+  // });
   router.use(authCtrl.authenticate);
   router.route('/users').get(authCtrl.getAll);
   router.route('/users/count').get(authCtrl.count);

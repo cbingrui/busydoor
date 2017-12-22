@@ -20,6 +20,7 @@
                    placeholder="Username"
                    class="form-control form-control-lg"
                    type="text">
+            <span *ngIf="usernameCtrl.errors?.existUserName">User name already be used.</span>
             <section *ngIf="usernameCtrl.errors">
               <span *ngIf="usernameCtrl.touched &&  usernameCtrl.errors.required"> Name is required. </span>
               <span *ngIf="usernameCtrl.errors.minlength"> Name should be minimum {{usernameCtrl.errors.minlength.requiredLength}} characters. </span>
@@ -32,6 +33,7 @@
                    placeholder="Email"
                    class="form-control form-control-lg"
                    type="text">
+            <span *ngIf="emailCtrl.errors?.existEmail">Email already be used.</span>
             <section *ngIf="emailCtrl.touched && emailCtrl.errors">
               <span *ngIf="emailCtrl.errors.required ">Email is required</span>
               <span *ngIf="emailCtrl.errors.validateEmail">This must be a valid e-mail</span>
