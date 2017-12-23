@@ -24,8 +24,8 @@ abstract class BaseCtrl {
 
   // Insert
   insert = (req, res) => {
-    this.emailExist(req, res);
-    this.usernameExist(req, res);
+    this.emailExist(req, res, req.params.email);
+    this.usernameExist(req, req, res.params.username);
 
     const obj = new this.model(req.body);
     obj.save((err, item) => {
@@ -51,7 +51,7 @@ abstract class BaseCtrl {
     });
   };
 
-  emailExist = (req, res) => {
+  emailExist = (req, res, email) => {
     this.valueExist(res, 'email', req.params.email);
   };
 
@@ -76,7 +76,7 @@ abstract class BaseCtrl {
     });
   };
 
-  usernameExist = (req, res) => {
+  usernameExist = (req, res, username) => {
     this.valueExist(res, 'username', req.params.username);
     // this.model.findOne({ username: req.params.username }, (err, user) => {
     //   if (err) {

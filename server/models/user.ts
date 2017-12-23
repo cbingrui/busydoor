@@ -37,7 +37,9 @@ const userSchema = new mongoose.Schema({
     validate: emailValidators
   },
   password: String,
-  role: { type: String, default: '' }
+  role: { type: String, default: '' },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date
 });
 
 // Before saving the user, hash the password
