@@ -17,6 +17,14 @@ const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     canActivate: [LoginGuardService]
+  },
+  {
+    path: 'resetpassword',
+    component: SignInUpComponent
+  },
+  {
+    path: 'findpassword',
+    component: SignInUpComponent
   }
 ];
 

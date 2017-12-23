@@ -38,6 +38,23 @@ export class UserService {
       `${this.domain}/api/user/username/${username}`
     );
   }
+  resetPassword(password: string, token: string) {
+    return this.http.put<{ error: string; message: string }>(
+      `${this.domain}/api/user/password`,
+      { password, token },
+      this.options
+    );
+  }
+  checkResetExpired(token: string) {
+    return this.http.get<{ error: string; message: string }>(
+      `${this.domain}/api/user/password/token/${token}`
+    );
+  }
+  emailPasswordReset(email: string) {
+    return this.http.get<{ error: string; message: string }>(
+      `${this.domain}/api/user/emailpasswordreset/${email}`
+    );
+  }
   get isAuthenticated() {
     return this.isAuthenticatedSubject.value;
   }
@@ -116,15 +133,6 @@ export class UserService {
   }
 
   get options() {
-    // const headers = new HttpHeaders({
-    //   'Content-Type': 'application/json',
-    //   charset: 'UTF-8'
-    // });
-    // if (this.jwtService.getToken()) {
-    //   headers.append('authorization', `JWT ${this.jwtService.getToken()}`);
-    // }
-    // const options = { headers: headers };
-
     const headersConfig = {
       'Content-Type': 'application/json',
       Accept: 'application/json'

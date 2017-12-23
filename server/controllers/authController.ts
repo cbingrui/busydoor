@@ -12,7 +12,7 @@ export default class AuthCtrl extends BaseCtrl {
   login = (req: { body: RequestBody.LoginBody }, res) => {
     usermodel.findOne({ email: req.body.email }, (err, user: IUserModel) => {
       if (!user) {
-        return res.sendStatus(403);
+        return res.send(204);
       }
       user.comparePassword(req.body.password, (error, isMatch) => {
         if (!isMatch) {
@@ -32,7 +32,7 @@ export default class AuthCtrl extends BaseCtrl {
     if (token) {
       jwt.verify(token, config.SECRET_TOKEN, function(err, decoded) {
         if (err) {
-          return res.status(201).json({
+          return res.status(401).json({
             success: false,
             message: 'Authenticate token expired, please login again.',
             errcode: 'exp-token'
@@ -43,7 +43,7 @@ export default class AuthCtrl extends BaseCtrl {
         }
       });
     } else {
-      return res.status(201).json({
+      return res.status(403).json({
         success: false,
         message: 'Fatal error, Authenticate token not available.',
         errcode: 'no-token'
@@ -58,7 +58,7 @@ export default class AuthCtrl extends BaseCtrl {
     this.getById(req, res, req.decoded.user._id);
   };
 
-  resetPassword = (req, res) => {
+  emailPasswordReset = (req, res) => {
     async.waterfall(
       [
         function(done) {
@@ -96,8 +96,8 @@ export default class AuthCtrl extends BaseCtrl {
         },
         (token, user, done) => {
           const url = `http://${
-            config.SERVER
-          }/api/reset/password?token=${token}`;
+            config.WEB_HOST
+          }/account/resetpassword?token=${token}`;
           resetEmailTo(user.email, url, (err, info) => {
             if (!err) {
               return res.json({
@@ -113,5 +113,48 @@ export default class AuthCtrl extends BaseCtrl {
         return res.status(422).json({ message: err });
       }
     );
+  };
+  checkResetExpired = (req, res) => {
+    usermodel
+      .findOne({
+        resetPasswordToken: req.params.token,
+        resetPasswordExpires: {
+          $gt: Date.now()
+        }
+      })
+      .exec((err, user) => {
+        if (!user) {
+          res
+            .status(201)
+            .send({ error: true, message: 'token invalid or expired!' });
+        }
+      });
+  };
+  updatePassword = (req, res) => {
+    usermodel
+      .findOne({
+        resetPasswordToken: req.body.token,
+        resetPasswordExpires: {
+          $gt: Date.now()
+        }
+      })
+      .exec((err, user) => {
+        if (err) {
+          res.status(422).send({ success: false, message: err });
+        } else if (!user) {
+          res
+            .status(422)
+            .send({ success: false, message: 'token invalid orexpired!' });
+        } else {
+          user.resetPasswordToken = undefined;
+          user.resetPasswordExpires = undefined;
+          user.password = req.body.password;
+          user.save().then(errSave => {
+            res
+              .status(200)
+              .send({ message: 'Password is reset successfully!' });
+          });
+        }
+      });
   };
 }

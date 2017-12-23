@@ -53,3 +53,7 @@ yarn-error.log
 
 # exclude
 !webpack.config*.js
+server/config/email.1.ts
+
+# subfix
+*.ig

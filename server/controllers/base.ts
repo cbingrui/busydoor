@@ -23,18 +23,35 @@ abstract class BaseCtrl {
   };
 
   // Insert
-  insert = (req, res) => {
-    this.emailExist(req, res, req.params.email);
-    this.usernameExist(req, req, res.params.username);
-
-    const obj = new this.model(req.body);
-    obj.save((err, item) => {
-      if (err) {
-        res.status(400).json({ token: err });
-      } else {
-        res.status(200).json(item);
-      }
-    });
+  insert = (req: RequestBody.UserBody, res) => {
+    this.model
+      .findOne({
+        $or: [{ username: req.body.username }, { email: req.body.email }]
+      })
+      .exec((error, user) => {
+        if (error) {
+          res.status(400).json({
+            success: false,
+            message: error
+          });
+        } else if (user) {
+          res.status(412).json({
+            success: false,
+            message: 'Cannot create user because username or email are existed.'
+          });
+        } else {
+          const obj = new this.model(req.body);
+          obj.save((err, item) => {
+            if (err) {
+              res.status(400).json({
+                error: err
+              });
+            } else {
+              res.status(200).json(item);
+            }
+          });
+        }
+      });
   };
 
   // Get by id
@@ -78,25 +95,6 @@ abstract class BaseCtrl {
 
   usernameExist = (req, res, username) => {
     this.valueExist(res, 'username', req.params.username);
-    // this.model.findOne({ username: req.params.username }, (err, user) => {
-    //   if (err) {
-    //     res
-    //       .status(400)
-    //       .json({ success: false, message: 'Error processing request ' + err });
-    //   }
-
-    //   if (user) {
-    //     return res.status(201).json({
-    //       success: false,
-    //       message: 'Email already exists.'
-    //     });
-    //   } else {
-    //     return res.status(200).json({
-    //       success: true
-    //     });
-    //   }
-    // });
-    // If user is not unique, return error
   };
   // Update by id
   update = (req, res) => {

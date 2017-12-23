@@ -10,7 +10,7 @@ import {
   ValidatorFn,
   AbstractControl
 } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MinLengthValidator } from '@angular/forms/src/directives/validators';
 import {
   debounceTime,
@@ -21,27 +21,33 @@ import {
 } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import * as Rx from 'rxjs/Rx';
+import { AfterViewChecked } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-sign-in-up',
   templateUrl: './sign-in-up.component.html',
   styleUrls: ['./sign-in-up.component.css']
 })
-export class SignInUpComponent implements OnInit {
+export class SignInUpComponent implements OnInit, AfterViewChecked {
   title = '';
 
   signForm: FormGroup;
   isSubmitting = false;
   lastUrlPart = '';
   signType = { register: 'Sign up', login: 'Sign in' };
-
+  resetToken = undefined;
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private userService: UserService,
     private toast: ToastrService,
-    private router: Router
+    private router: Router,
+    private changeDetector: ChangeDetectorRef
   ) {}
+
+  ngAfterViewChecked() {
+    this.changeDetector.detectChanges();
+  }
 
   ngOnInit() {
     this.route.url.subscribe(data => {
@@ -52,6 +58,34 @@ export class SignInUpComponent implements OnInit {
   }
 
   buildForm(signType: string) {
+    if (signType === AccountModel.resetpasswordUrl) {
+      this.resetToken = this.route.snapshot.queryParams['token'];
+      this.userService.checkResetExpired(this.resetToken).subscribe(res => {
+        if (res.error) {
+          this.toast.error(res.message);
+          this.title = res.message;
+          this.signForm.disable();
+        }
+      });
+      this.signForm = this.fb.group({
+        passwords: this.fb.group({
+          password: ['', Validators.required],
+          confirm: ['', Validators.required]
+        })
+      });
+      this.passwordsCtrl.setValidators(this.passwordMatcher.bind(this));
+      return;
+    }
+    if (signType === AccountModel.findpasswordUrl) {
+      this.signForm = this.fb.group({
+        email: [
+          '',
+          [Validators.required, this.validateEmail],
+          this.validExistEmail.bind(this)
+        ]
+      });
+      return;
+    }
     this.signForm = this.fb.group({
       email: ['', [Validators.required, this.validateEmail]],
       passwords: this.fb.group(
@@ -64,7 +98,7 @@ export class SignInUpComponent implements OnInit {
     });
 
     if (this.IsRegister) {
-      this.emailCtrl.setAsyncValidators(this.uniqueEmail.bind(this));
+      this.emailCtrl.setAsyncValidators(this.validUniqueEmail.bind(this));
       this.confirmCtrl.setValidators(Validators.required);
       this.passwordsCtrl.setValidators(this.passwordMatcher.bind(this));
 
@@ -81,22 +115,63 @@ export class SignInUpComponent implements OnInit {
   }
 
   updateTitle(lastUrlPart) {
-    this.title =
-      lastUrlPart === AccountModel.registerUrl
-        ? AccountModel.registerName
-        : AccountModel.loginName;
+    let title = '';
+    switch (lastUrlPart) {
+      case AccountModel.registerUrl:
+        title = AccountModel.registerName;
+        break;
+      case AccountModel.resetpasswordUrl:
+        title = AccountModel.resetpasswordName;
+        break;
+      case AccountModel.loginUrl:
+        title = AccountModel.loginName;
+        break;
+      case AccountModel.findpasswordUrl:
+        title = AccountModel.findpasswordName;
+        break;
+    }
+    this.title = title;
   }
 
   submitForm() {
     this.isSubmitting = true;
 
-    if (this.title === AccountModel.loginName) {
-      this.login();
-    } else {
-      this.register();
+    switch (this.lastUrlPart) {
+      case AccountModel.loginUrl:
+        this.login();
+        break;
+      case AccountModel.loginUrl:
+        this.register();
+        break;
+      case AccountModel.findpasswordUrl:
+        this.emailPasswordReset();
+        break;
+      case AccountModel.resetpasswordUrl:
+        this.resetPassword();
+        break;
     }
   }
-
+  resetPassword() {
+    this.userService
+      .resetPassword(this.passwordCtrl.value, this.resetToken)
+      .subscribe(res => {
+        if (res.error) {
+          this.toast.error(res.error);
+        } else {
+          this.toast.success(res.message);
+        }
+        this.resetForm();
+      });
+  }
+  emailPasswordReset() {
+    this.userService.emailPasswordReset(this.emailCtrl.value).subscribe(res => {
+      if (res.error) {
+        this.toast.error(res.error);
+      } else {
+        this.toast.success(res.message);
+      }
+    });
+  }
   resetForm() {
     this.signForm.reset();
     this.isSubmitting = false;
@@ -110,7 +185,12 @@ export class SignInUpComponent implements OnInit {
     };
     this.userService.register(credentialsRegister).subscribe(
       res => {
-        this.router.navigate(['/']);
+        if (res.error) {
+          this.toast.error(res.error);
+        } else {
+          this.router.navigate(['/account/login']);
+          this.toast.success('You can login with new account!');
+        }
       },
       err => {
         this.resetForm();
@@ -161,6 +241,26 @@ export class SignInUpComponent implements OnInit {
   get IsRegister(): boolean {
     return this.lastUrlPart === AccountModel.registerUrl;
   }
+  get IsForgot() {
+    return this.lastUrlPart === AccountModel.findpasswordUrl;
+  }
+  get IsReset(): boolean {
+    return this.lastUrlPart === AccountModel.resetpasswordUrl;
+  }
+  get showUsername() {
+    return this.IsRegister && !this.IsForgot;
+  }
+  get showEmail() {
+    return this.lastUrlPart !== AccountModel.resetpasswordUrl || this.IsForgot;
+  }
+  get showConfirm() {
+    return this.lastUrlPart !== AccountModel.loginUrl && !this.IsForgot;
+  }
+
+  get showPassword() {
+    return !this.IsForgot;
+  }
+
   passwordMatcher() {
     if (!this.passwordCtrl.value || !this.confirmCtrl.value) {
       return null;
@@ -202,13 +302,24 @@ export class SignInUpComponent implements OnInit {
       });
   }
 
-  uniqueEmail(control: AbstractControl) {
+  validUniqueEmail(control: AbstractControl, should) {
     return Rx.Observable.timer(400)
       .distinctUntilChanged()
       .switchMap(() => {
         return this.userService.isEmailRegisterd(control.value).pipe(
           map(res => {
-            return res.success ? null : { existEmail: true };
+            return res.success ? null : { uniqueEmail: true };
+          })
+        );
+      });
+  }
+  validExistEmail(control: AbstractControl, should) {
+    return Rx.Observable.timer(400)
+      .distinctUntilChanged()
+      .switchMap(() => {
+        return this.userService.isEmailRegisterd(control.value).pipe(
+          map(res => {
+            return !res.success ? null : { existEmail: true };
           })
         );
       });

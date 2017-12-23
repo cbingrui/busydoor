@@ -2,20 +2,20 @@
   <div class="row">
     <div class="col-md-6 offset-md-3 col-xs-12">
       <h1 class="text-center">{{ title }}</h1>
-      <p class="text-center">
+      <p class="text-center"
+         *ngIf="!IsReset">
         <a [routerLink]="['/account/login']"
            *ngIf="IsRegister">Have an account?</a>
         <a [routerLink]="['/account/register']"
            *ngIf="!IsRegister">Need an account?</a>
+        <a [routerLink]="['/account/findpassword']"
+           *ngIf="!IsRegister">Find password?</a>
       </p>
-      <!-- <p>Name errors: {{usernameCtrl?.errors | json}}</p>
-      <p>Email errors: {{emailCtrl?.errors | json}}</p>
-      <p>Password errors: {{passwordsCtrl?.errors | json}}</p> -->
       <form [formGroup]="signForm"
             (ngSubmit)="submitForm()">
         <fieldset [disabled]="isSubmitting">
-          <div class="form-group"
-               *ngIf="IsRegister">
+          <fieldset class="form-group"
+                    *ngIf="showUsername">
             <input formControlName="username"
                    placeholder="Username"
                    class="form-control form-control-lg"
@@ -27,19 +27,22 @@
               <span *ngIf="usernameCtrl.errors.maxlength">
               Name should be maximum {{usernameCtrl.errors.maxlength.requiredLength}} characters. </span>
             </section>
-          </div>
-          <fieldset class="form-group">
+          </fieldset>
+          <fieldset class="form-group"
+                    *ngIf="showEmail">
             <input formControlName="email"
                    placeholder="Email"
                    class="form-control form-control-lg"
                    type="text">
-            <span *ngIf="emailCtrl.errors?.existEmail">Email already be used.</span>
+            <span *ngIf="emailCtrl.errors?.uniqueEmail">Email already be used.</span>
+            <span *ngIf="emailCtrl.errors?.existEmail">Email is not existing.</span>
             <section *ngIf="emailCtrl.touched && emailCtrl.errors">
               <span *ngIf="emailCtrl.errors.required ">Email is required</span>
               <span *ngIf="emailCtrl.errors.validateEmail">This must be a valid e-mail</span>
             </section>
           </fieldset>
-          <fieldset formGroupName='passwords'>
+          <fieldset formGroupName='passwords'
+                    *ngIf='showPassword'>
             <fieldset class="form-group">
               <input formControlName="password"
                      placeholder="Password"
@@ -50,7 +53,7 @@
               </section>
             </fieldset>
             <fieldset class="form-group"
-                      *ngIf="IsRegister">
+                      *ngIf="showConfirm">
               <input formControlName="confirm"
                      placeholder="Input password again"
                      class="form-control form-control-lg confirmpassword"

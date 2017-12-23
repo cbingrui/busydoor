@@ -11,10 +11,14 @@ export default function setRoutes(app) {
   router.route('/login').post(authCtrl.login);
   router.route('/posts/:id/comments').get(authCtrl.getComments);
   router.route('/user').post(authCtrl.insert);
-  router.route('/reset/email/:email').get(authCtrl.resetPassword);
+  router
+    .route('/user/emailpasswordreset/:email')
+    .get(authCtrl.emailPasswordReset);
 
   router.route('/user/email/:email').get(authCtrl.emailExist);
   router.route('/user/username/:username').get(authCtrl.usernameExist);
+  router.route('/user/password').put(authCtrl.updatePassword);
+  router.route('/user/password/token/:token').get(authCtrl.checkResetExpired);
   // router.get('/', authCtrl.authenticate, function(req, res) {
   //   res.status(201).json({ message: 'Welcome to the authenticated routes!' });
   // });
