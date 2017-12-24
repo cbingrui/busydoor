@@ -8,8 +8,8 @@
     <time [attr.datetime]="comment.posted">{{ comment.posted | date: 'short' }}</time>
     <span class="mod-options"
           aria-label="delete comment"
-          [hidden]="!canModify"
-          (click)='onDeleteComment()'> </span>
+          [hidden]="!isEditable"
+          (click)='onDelete()'> </span>
     <button *ngIf="isEditable"
             class="delete-comment"
             (click)='onDelete()'>Delete</button>
