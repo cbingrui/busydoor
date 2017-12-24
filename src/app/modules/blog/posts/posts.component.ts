@@ -15,33 +15,46 @@ export class PostsComponent implements OnInit {
   totalRecords = 0;
   pageSize = 10;
   currentPage = 1;
-  constructor(private route: ActivatedRoute
-    , private postService: PostService
-  ) { }
+  constructor(
+    private route: ActivatedRoute,
+    private postService: PostService
+  ) {}
 
   ngOnInit() {
     this.getPostPage(1);
   }
   getPostPage(pageIndex: number) {
-    this.postService.getPostUrls((pageIndex - 1) * this.pageSize, this.pageSize)
+    this.postService
+      .getPostUrls((pageIndex - 1) * this.pageSize, this.pageSize)
       .subscribe(data => {
         if (data.err) {
           console.log(data.err);
-
         } else {
           // for 'renderedContent' getter property template binding
           console.log(data);
-          this.posts = (data.posts)
-            .map(p => new Post(p._id, p.title, p.body, p.timestamp, p.contentUrl, p.summary
-              , p.comments, p.tags, p.sticky, p.views, p.coverimgurl));
+          this.posts = data.posts.map(
+            p =>
+              new Post(
+                p._id,
+                p.title,
+                p.body,
+                p.timestamp,
+                p.contentUrl,
+                p.summary,
+                p.comments,
+                p.tags,
+                p.sticky,
+                p.views,
+                p.coverimgurl,
+                p.isContentFromUrl
+              )
+          );
           this.totalRecords = data.postCount;
         }
       });
   }
 
   onPageChanged(page: number) {
-
     this.getPostPage(page);
-
   }
 }

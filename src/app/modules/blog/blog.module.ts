@@ -13,13 +13,15 @@ import { PostEditComponent } from './post-edit/post-edit.component';
 import { PostCommentComponent } from './post-comment/post-comment.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    BlogRoutingModule,
-    SharedModule,
-    AccountModule
+  imports: [CommonModule, BlogRoutingModule, SharedModule, AccountModule],
+  declarations: [
+    BlogComponent,
+    PostComponent,
+    PostsComponent,
+    PostItemComponent,
+    PostEditComponent,
+    PostCommentComponent
   ],
-  declarations: [BlogComponent, PostComponent, PostsComponent, PostItemComponent, PostEditComponent, PostCommentComponent],
   providers: [PostService, PostHelper]
 })
-export class BlogModule { }
+export class BlogModule {}

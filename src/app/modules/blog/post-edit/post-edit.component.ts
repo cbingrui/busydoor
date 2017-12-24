@@ -41,7 +41,8 @@ export class PostEditComponent implements OnInit {
     coverimgurl: '',
     body: '',
     tags: [],
-    sticky: false
+    sticky: false,
+    isContentFromUrl: false
   };
 
   ctrlTag = new FormControl('');
@@ -100,27 +101,29 @@ export class PostEditComponent implements OnInit {
       contenturl: this.post.contentUrl,
       content: this.post.body,
       sticky: this.post.sticky,
-      coverimgurl: this.post.coverimgurl
+      coverimgurl: this.post.coverimgurl,
+      cbContentFromUrl: this.post.isContentFromUrl
     });
     this.initTags(this.post.tags);
   }
-
+  test() {
+    console.log(this.postForm.controls['cbContentFromUrl']);
+  }
   buildForm() {
     this.postForm = this.formBuilder.group({
       title: ['', Validators.required],
       content: '',
       summary: '',
-      contenturl: ['', this.validateUrl()],
+      contenturl: [{ value: '', disabled: false }, this.validateUrl()],
       coverimgurl: ['', this.validateUrl()],
-      sticky: false
+      sticky: false,
+      cbContentFromUrl: false
     });
   }
   initTags(tags) {
     this.tags = tags;
   }
   onConfirm() {
-    console.log(this.postForm.get('coverimgurl').value);
-
     const post = {
       title: this.postForm.get('title').value,
       body: this.postForm.get('content').value,
@@ -129,11 +132,9 @@ export class PostEditComponent implements OnInit {
       coverimgurl: this.postForm.get('coverimgurl').value,
       sticky: this.postForm.get('sticky').value,
       tags: this.tags,
+      isContentFromUrl: this.ctrlContentFromUrl.value,
       _id: this.postID
     };
-    console.log('post');
-    console.log(post);
-    console.log(this.post);
     if (this.operationText === OperationType.New) {
       this.postService.newPost(post).subscribe(data => {
         if (data.err) {
@@ -172,5 +173,9 @@ export class PostEditComponent implements OnInit {
     if (this.ctrlTag.value === '') {
       this.tags.pop();
     }
+  }
+
+  get ctrlContentFromUrl() {
+    return this.postForm.get('cbContentFromUrl');
   }
 }

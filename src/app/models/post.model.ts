@@ -13,6 +13,7 @@ export class Post {
 
   private _renderedontented: string;
   public coverimgurl: string;
+  public isContentFromUrl: boolean;
 
   public get renderedContent(): string {
     return this.body;
@@ -29,7 +30,8 @@ export class Post {
     tags: string[],
     sticky: boolean,
     views: number,
-    coverimgurl: string
+    coverimgurl: string,
+    isContentFromUrl: boolean
   ) {
     this._id = id;
     this.title = title;
@@ -42,5 +44,6 @@ export class Post {
     this.sticky = sticky;
     this.views = views;
     this.coverimgurl = coverimgurl;
+    this.isContentFromUrl = isContentFromUrl;
   }
 }

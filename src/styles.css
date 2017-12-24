@@ -325,7 +325,16 @@ dd {
   display: flex;
   flex-direction: column;
 }
-
+.signRedirect {
+  display: block;
+}
+label.withinput {
+  cursor: pointer;
+  border: 1px solid gainsboro;
+  padding: 4px;
+  width: 100%;
+  border-radius: 0.25rem;
+}
 /* // Extra small devices (portrait phones, less than 576px)
 // No media query since this is the default in Bootstrap
 
@@ -340,7 +349,6 @@ dd {
 
 // Extra large devices (large desktops, 1200px and up)
 @media (min-width: 1200px) { ... } */
-
 @media (max-width: 768px) {
   .post_item {
     position: relative;

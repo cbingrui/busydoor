@@ -2,40 +2,68 @@
   <h1 class="text-center">New Post</h1>
   <div class="row">
     <div class="col-md-10 offset-md-1">
-      <form [formGroup]="postForm" (submit)="onConfirm()">
+      <form [formGroup]="postForm"
+            (submit)="onConfirm()">
         <fieldset class="form-group">
-          <input id="title" formControlName="title" type="text" class="form-control" placeholder="Title">
-        </fieldset>
+          <input id="title"
+                 formControlName="title"
+                 type="text"
+                 class="form-control"
+                 placeholder="Title"> </fieldset>
         <fieldset class="form-group">
-          <textarea id="content" formControlName="content" rows="12" class="form-control" placeholder="Content (markdown support)"></textarea>
-        </fieldset>
+          <label class="withinput"
+                 for="cbContentFromUrl">
+            <input type="checkbox"
+                   id="cbContentFromUrl"
+                   formControlName='cbContentFromUrl'>Content from URL </label>
+          <input id="contenurl"
+                 [attr.disabled]='!ctrlContentFromUrl.value? "" : null'
+                 formControlName="contenturl"
+                 type="URL"
+                 class="form-control"
+                 placeholder="Content(markdown support) URI">
+          <textarea id="content"
+                    [attr.disabled]='ctrlContentFromUrl.value? "" : null'
+                    formControlName="content"
+                    rows="12"
+                    class="form-control"
+                    placeholder="Content (markdown support)"></textarea> </fieldset>
         <span>More options (optional):</span>
         <fieldset class='tag-list'>
-          <span class='tagitem' *ngFor="let tag of tags">
-              {{ tag }}
-              <button (click)="removeTag(tag)" class="button-close " data-action="remove-token">×</button>
-            </span>
+          <span class='tagitem'
+                *ngFor="let tag of tags"> {{ tag }}
+            <button (click)="removeTag(tag)"
+                    class="button-close "
+                    data-action="remove-token">×</button>
+          </span>
           <span *ngIf="tags?.length==0">(Empty)</span>
-          <input class="taginput" [formControl]="ctrlTag" type="text" placeholder="Add a tag" (keydown.enter)='addTag($event)' (keydown.backspace)='tryRemoveLastTag()' (keydown.tab)='addTag($event)'>
-        </fieldset>
+          <input class="taginput"
+                 [formControl]="ctrlTag"
+                 type="text"
+                 placeholder="Add a tag"
+                 (keydown.enter)='addTag($event)'
+                 (keydown.backspace)='tryRemoveLastTag()'
+                 (keydown.tab)='addTag($event)'> </fieldset>
         <fieldset class="form-group">
-          <textarea id="summary" formControlName="summary" rows="4" class="form-control" placeholder="Summary / What's it about"></textarea>
-        </fieldset>
-        <fieldset class="form-group">
-          <input id="contenurl" formControlName="contenturl" type="URL" class="form-control" placeholder="Content(markdown support) URI">
-        </fieldset>
+          <textarea id="summary"
+                    formControlName="summary"
+                    rows="4"
+                    class="form-control"
+                    placeholder="Summary / What's it about"></textarea> </fieldset>
         <fieldset class="input-group">
-          <label>
-            <input formControlName='sticky' type="checkbox">
-            Stick this post to the front page
-          </label>
+          <label class="withinput">
+            <input formControlName='sticky'
+                   type="checkbox">Stick this post to the front page </label>
         </fieldset>
         <fieldset>
-          <input id="coverimgurl" formControlName="coverimgurl" type="URL" class="form-control" placeholder="Post cover image URI">
-        </fieldset>
-        <button [disabled]="!postForm.valid" type="submit" class="btn btn-lg float-sm-right btn-primary">
-            {{operationText}}
-          </button>
+          <input id="coverimgurl"
+                 formControlName="coverimgurl"
+                 type="URL"
+                 class="form-control"
+                 placeholder="Post cover image URI"> </fieldset>
+        <button [disabled]="!postForm.valid"
+                type="submit"
+                class="btn btn-lg float-sm-right btn-primary"> {{operationText}} </button>
       </form>
     </div>
   </div>
