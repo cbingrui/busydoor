@@ -23,7 +23,7 @@ export class PostComponent implements OnInit {
   commentControl = new FormControl();
   renderedContent: string;
   isLoggedIn = false;
-  userId = '';
+  curUserId = '';
   role = '';
   constructor(
     private route: ActivatedRoute,
@@ -71,7 +71,7 @@ export class PostComponent implements OnInit {
   ngOnInit() {
     this.isLoggedIn = this.userService.isLoggedIn;
     if (this.isLoggedIn) {
-      this.userId = this.userService.currentUser._id;
+      this.curUserId = this.userService.currentUser._id;
       this.role = this.userService.currentUser.role;
     }
     this.route.params.subscribe(params => {

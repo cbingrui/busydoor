@@ -58,7 +58,7 @@
              [routerLinkActiveOptions]="{exact:true}"
              routerLink="/account/login">Account</a>
         </li>
-        <li *ngIf="userService.hasRoles([' Admin '])"
+        <li *ngIf="userService.withAuth()"
             class="nav-item">
           <a class="nav-link"
              [routerLinkActive]="['active']"
@@ -70,7 +70,7 @@
           <a class="nav-link"
              [routerLinkActive]="['active']"
              [routerLinkActiveOptions]="{exact:true}"
-             routerLink="/account/profile">Profile</a>
+             routerLink="/account/profile">{{userService.currentUser.username}}</a>
         </li>
         <li *ngIf='userService.isLoggedIn'
             class="nav-item">

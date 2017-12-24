@@ -7,7 +7,7 @@
   <section class="blog_content">
     <div [innerHTML]='renderedContent'></div>
   </section>
-  <div *ngIf="userService.hasRoles([' Admin '])">
+  <div *ngIf="userService.withAuth()">
     <a *ngIf="post"
        [routerLink]="['/blog/post/edit', post?._id]"
        class="btn btn-sm btn-outline-secondary faedit"> Edit </a>
@@ -40,6 +40,6 @@
     <app-post-comment *ngFor="let comment of comments"
                       (deleteComment)='onDeleteComment(comment)'
                       [comment]='comment'
-                      [isEditable]='comment.userid === userId || role==="Admin"'> </app-post-comment>
+                      [isEditable]="userService.withAuth(comment.userid)"> </app-post-comment>
   </div>
 </article>

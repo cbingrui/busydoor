@@ -80,7 +80,16 @@ export class UserService {
       this.options
     );
   }
-  hasRoles(roles: string[]): boolean {
+
+  withAuth(userId?: string) {
+    if (!userId) {
+      return this.withAnyRole([' Admin ']);
+    } else {
+      return this.currentUser._id === userId || this.withAnyRole(['Admin']);
+    }
+  }
+
+  withAnyRole(roles: string[]): boolean {
     if (!roles) {
       return true;
     }

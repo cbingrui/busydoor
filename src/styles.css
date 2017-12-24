@@ -362,7 +362,7 @@ label.withinput {
     background: rgba(255, 255, 255, 0.5);
   }
   .positiondefault {
-    position: inherit;
+    position: initial;
   }
   /* ul {
     padding: 0px;
