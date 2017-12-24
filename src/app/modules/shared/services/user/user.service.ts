@@ -21,12 +21,23 @@ export class UserService {
   // ReplaySubject
   // listen with a buffer size of one('1') user being eliminated and all the later subsequent user before 'OnCompleted'
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
-  public $isAuthenticated = this.isAuthenticatedSubject.pipe(
+  public isAuthenticated$ = this.isAuthenticatedSubject.pipe(
     distinctUntilChanged()
   );
 
-  get currentUser(): ResponseBody.User {
-    return this.currentUserSubject.value;
+  get currentUser(): ResponseBody.User | any {
+    const value = this.currentUserSubject.value;
+    if (value) {
+      return value;
+    } else {
+      return <ResponseBody.User>{
+        _id: '',
+        username: '',
+        email: '',
+        role: '',
+        success: false
+      };
+    }
   }
   isEmailRegisterd(email: string) {
     return this.http.get<{ success: boolean }>(
@@ -75,8 +86,7 @@ export class UserService {
     }
 
     let bHasRole = false;
-    const isLogged = this.isLoggedIn();
-    if (isLogged) {
+    if (this.isLoggedIn) {
       bHasRole =
         roles
           .map(r => r.trim().toLowerCase())
@@ -85,8 +95,8 @@ export class UserService {
     return bHasRole;
   }
 
-  isLoggedIn(): boolean {
-    return !!this.currentUser;
+  get isLoggedIn(): boolean {
+    return !!this.currentUserSubject.value;
   }
 
   authValidation() {
@@ -108,6 +118,9 @@ export class UserService {
   }
 
   setAuth(res: ResponseBody.LoginBody) {
+    if (!res) {
+      return;
+    }
     this.jwtService.saveToken(res.token);
     this.currentUserSubject.next(res.user);
     this.isAuthenticatedSubject.next(true);
@@ -120,7 +133,7 @@ export class UserService {
   }
 
   addComment(postId, commentBody) {
-    if (this.currentUser) {
+    if (this.isLoggedIn) {
       const token = localStorage.getItem('token');
       const body = {
         username: this.currentUser.username,
@@ -143,8 +156,6 @@ export class UserService {
 
     const options = { headers: new HttpHeaders(headersConfig) };
     return options;
-
-    // return options;
   }
 
   getUserWithToken() {

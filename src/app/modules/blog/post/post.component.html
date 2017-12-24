@@ -38,6 +38,8 @@
   </div>
   <div class='post_comments'>
     <app-post-comment *ngFor="let comment of comments"
-                      [comment]='comment'> </app-post-comment>
+                      (deleteComment)='onDeleteComment(comment)'
+                      [comment]='comment'
+                      [isEditable]='comment.userid === userId || role==="Admin"'> </app-post-comment>
   </div>
 </article>

@@ -8,23 +8,18 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-
   settingsForm: FormGroup;
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
     this.builForm();
   }
 
-  submitForm() {
-
-  }
+  submitForm() {}
   builForm() {
     this.settingsForm = this.fb.group({
-      'username': [''],
-      'email': [''],
-      'password': [''],
+      username: [''],
+      password: ['']
     });
   }
-
 }

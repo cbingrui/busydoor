@@ -140,3 +140,19 @@ export function deletePost(req, res, next) {
     }
   });
 }
+export function deleteComment(req, res) {
+  const postId = req.params.postId;
+  const commentId = req.params.commentId;
+
+  Post.findByIdAndUpdate(
+    postId,
+    { $pull: { comments: { _id: commentId } } },
+    (err, post) => {
+      if (err) {
+        res.status(500).json({ error: true, message: err });
+      } else {
+        res.status(200).json({});
+      }
+    }
+  );
+}

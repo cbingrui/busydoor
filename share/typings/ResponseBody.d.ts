@@ -1,4 +1,15 @@
 declare namespace ResponseBody {
+  export interface BodyReturn {
+    err: any;
+    post: any;
+    posts: Array<any>;
+    postCount: number;
+  }
+  export interface Result {
+    error: boolean;
+    message: string;
+  }
+
   export interface LoginBody {
     token: string;
     user: User;

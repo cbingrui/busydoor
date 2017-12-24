@@ -1,21 +1,20 @@
 import { Comment } from './../../shared/models/comment.model';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-post-comment',
   templateUrl: './post-comment.component.html',
   styleUrls: ['./post-comment.component.css']
 })
 export class PostCommentComponent implements OnInit {
-
-  createdAt = new Date();
-  canModify: boolean;
+  @Input() isEditable: boolean;
   @Input() comment: Comment;
-  constructor() { }
+  @Output() deleteComment = new EventEmitter();
 
-  ngOnInit() {
-  }
+  constructor() {}
 
-  onDeleteComment() {
+  ngOnInit() {}
 
+  onDelete() {
+    this.deleteComment.emit();
   }
 }

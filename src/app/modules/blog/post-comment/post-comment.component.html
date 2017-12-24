@@ -1,15 +1,17 @@
 <article class="card">
   <div class="card-body">
-    <p class="card-text">
-      {{ comment.text }}
-    </p>
+    <p class="card-text"> {{ comment.text }} </p>
   </div>
   <footer class="card-footer">
-    <a class="comment-author" [routerLink]="['/profile', comment.username]">
-      {{ comment.username }}
-    </a>
+    <a class="comment-author"
+       [routerLink]="['/profile', comment.username]"> {{ comment.username }} </a>
     <time [attr.datetime]="comment.posted">{{ comment.posted | date: 'short' }}</time>
-    <span class="mod-options" aria-label="delete comment" [hidden]="!canModify" (click)='onDeleteComment()'>
-    </span>
+    <span class="mod-options"
+          aria-label="delete comment"
+          [hidden]="!canModify"
+          (click)='onDeleteComment()'> </span>
+    <button *ngIf="isEditable"
+            class="delete-comment"
+            (click)='onDelete()'>Delete</button>
   </footer>
 </article>

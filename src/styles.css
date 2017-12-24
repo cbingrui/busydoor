@@ -207,7 +207,9 @@ ul.tag-list li {
   /* margin-bottom: 50px; */
   flex: 1;
 }
-
+.delete-comment {
+  float: right;
+}
 .relative.hidden {
   position: relative;
   overflow: hidden;

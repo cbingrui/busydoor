@@ -51,7 +51,7 @@
           </li>
       </ul>
       <ul class="navbar-nav ">
-        <li *ngIf='!userService.isLoggedIn()'
+        <li *ngIf='!userService.isLoggedIn'
             class="nav-item">
           <a class="nav-link"
              [routerLinkActive]="['active']"
@@ -65,14 +65,14 @@
              [routerLinkActiveOptions]="{exact:true}"
              [routerLink]="['/blog/post/new']">New Post</a>
         </li>
-        <li *ngIf='userService.isLoggedIn()'
+        <li *ngIf='userService.isLoggedIn'
             class="nav-item">
           <a class="nav-link"
              [routerLinkActive]="['active']"
              [routerLinkActiveOptions]="{exact:true}"
-             routerLink="/account/profile">Setting</a>
+             routerLink="/account/profile">Profile</a>
         </li>
-        <li *ngIf='userService.isLoggedIn()'
+        <li *ngIf='userService.isLoggedIn'
             class="nav-item">
           <a class="nav-link"
              routerLink="/"

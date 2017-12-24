@@ -23,6 +23,8 @@ export class PostComponent implements OnInit {
   commentControl = new FormControl();
   renderedContent: string;
   isLoggedIn = false;
+  userId = '';
+  role = '';
   constructor(
     private route: ActivatedRoute,
     private postService: PostService,
@@ -67,7 +69,11 @@ export class PostComponent implements OnInit {
     });
   }
   ngOnInit() {
-    this.isLoggedIn = this.userService.isLoggedIn();
+    this.isLoggedIn = this.userService.isLoggedIn;
+    if (this.isLoggedIn) {
+      this.userId = this.userService.currentUser._id;
+      this.role = this.userService.currentUser.role;
+    }
     this.route.params.subscribe(params => {
       if (params.hasOwnProperty('id')) {
         this.id = params['id'];
@@ -89,6 +95,15 @@ export class PostComponent implements OnInit {
         this.toastrService.error(data.err);
       } else {
         this.router.navigateByUrl('/blog');
+      }
+    });
+  }
+  onDeleteComment(comment: Comment) {
+    this.postService.deleteComment(this.id, comment._id).subscribe(res => {
+      if (res.error) {
+        this.toastrService.error(res.message);
+      } else {
+        this.comments.splice(this.comments.indexOf(comment), 1);
       }
     });
   }
