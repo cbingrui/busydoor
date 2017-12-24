@@ -207,9 +207,16 @@ ul.tag-list li {
   /* margin-bottom: 50px; */
   flex: 1;
 }
+
+.relative.hidden {
+  position: relative;
+  overflow: hidden;
+}
+
 .postitem-border {
   border-top: 1px solid gainsboro;
 }
+
 .entry-footer {
   background: #f7f7f7;
   margin-left: -15px;
@@ -265,14 +272,10 @@ li {
   -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
-
-.stick.left {
-  left: -42px;
-  -moz-transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
-  -o-transform: rotate(-45deg);
-  -ms-transform: rotate(-45deg);
-  transform: rotate(-45deg);
+.stick.right {
+  right: -60px;
+  top: 5px;
+  transform: rotate(20deg);
 }
 
 .stick a {
@@ -290,12 +293,6 @@ li {
   -moz-text-shadow: 0 0 10px rgba(0, 0, 0, 0.31);
   -webkit-text-shadow: 0 0 10px rgba(0, 0, 0, 0.31);
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.31);
-}
-
-.post_img_cover {
-  position: relative;
-  overflow: hidden;
-  vertical-align: middle;
 }
 
 .post-info {

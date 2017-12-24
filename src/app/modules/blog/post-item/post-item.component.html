@@ -1,15 +1,15 @@
 <section class="post_item">
-  <div class='row postitem-border'>
+  <div class='row postitem-border relative hidden'>
     <a *ngIf="post.coverimgurl"
        class='col-md-5 '>
       <div class='post_img_cover'>
-        <span *ngIf="post?.sticky"
-              class='stick left'>
-          <a>Sticky</a>
-        </span>
         <img class="img-post-item"
              src="{{post.coverimgurl}}"> </div>
     </a>
+    <span *ngIf="post?.sticky"
+          class='stick right'>
+      <a>Sticky</a>
+    </span>
     <article [ngClass]="post.coverimgurl?'col-md-7':'col-md-12'"
              class='postitem-flex positiondefault'>
       <header [ngClass]="{'entry-header': post.coverimgurl}">
