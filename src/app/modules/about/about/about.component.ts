@@ -1,3 +1,4 @@
+import { ToastrService } from './../../shared/services/toastr/toastr.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./about.component.css']
 })
 export class AboutComponent implements OnInit {
-
-  constructor() { }
+  constructor(private toastr: ToastrService) {}
 
   ngOnInit() {
+    this.toastr.info('Resume can be printed with browser');
   }
-
 }
