@@ -1,4 +1,4 @@
-[![busydoor.net Logo](http://busydoor.net/favicon.png)](http:/busydoor.net/)
+[![busydoor.net Logo](http://busydoor.net/favicon.png)](http://busydoor.net/)
 
 ### [busydoor.net - Demo](http://busydoor.net)
 
