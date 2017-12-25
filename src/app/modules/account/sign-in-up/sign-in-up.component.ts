@@ -140,7 +140,7 @@ export class SignInUpComponent implements OnInit, AfterViewChecked {
       case AccountModel.loginUrl:
         this.login();
         break;
-      case AccountModel.loginUrl:
+      case AccountModel.registerUrl:
         this.register();
         break;
       case AccountModel.findpasswordUrl:
