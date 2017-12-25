@@ -85,7 +85,7 @@ b {
     position: absolute;
     top: 0px;
     text-align: right;
-    width: 180px;
+    width: 230px;
   }
   .cv_card strong {
     display: none;
@@ -113,6 +113,9 @@ ul.cv-others-item > li {
 .cv-listitem > p {
   display: inline-block;
   vertical-align: text-top;
+}
+.cv_card p {
+  margin-bottom: 0.2em;
 }
 @media print {
   body {
