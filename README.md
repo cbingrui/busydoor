@@ -8,7 +8,7 @@ Email: 'admin@gmail.com' , Password: 'admin'
 
 # Busydoor
 
-Busydoor is a MEAN Stack based website which with MongoDB v3.4.9, Express 4.11, Angular 5.1.2 and NodeJs 8.9.3.
+Busydoor is a MEAN Stack based website which with MongoDB v3.4.9, Express 4.11, Angular 5.1.2 and NodeJs 8.9.3. Bootstrap4 included.
 
 It's just a demo project for better understanding about the basic idea and knowledge of Full Stack Development.
 
