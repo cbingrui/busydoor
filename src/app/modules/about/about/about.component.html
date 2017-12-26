@@ -1,14 +1,76 @@
+<button class="btn-print-cv"
+        (click)='print()'>
+  <svg xmlns="http://www.w3.org/2000/svg"
+       xmlns:xlink="http://www.w3.org/1999/xlink"
+       enable-background="new 0 0 50 50"
+       height="50px"
+       id="Layer_1"
+       version="1.1"
+       viewBox="0 0 50 50"
+       width="50px"
+       xml:space="preserve">
+    <rect fill="none"
+          height="50"
+          width="50" />
+    <circle cx="43"
+            cy="21"
+            r="2" />
+    <path d="M40,15V1H10v14"
+          fill="none"
+          stroke="#000000"
+          stroke-linecap="round"
+          stroke-miterlimit="10"
+          stroke-width="2" />
+    <path d="M40,29v20H10V29H40z"
+          fill="none"
+          stroke="#000000"
+          stroke-linecap="round"
+          stroke-miterlimit="10"
+          stroke-width="2" />
+    <path d="M10,40H3  c-1.104,0-2-0.896-2-2V17c0-1.104,0.896-2,2-2h44c1.104,0,2,0.896,2,2v21c0,1.104-0.896,2-2,2h-7"
+          fill="none"
+          stroke="#000000"
+          stroke-linecap="round"
+          stroke-miterlimit="10"
+          stroke-width="2" />
+    <line fill="none"
+          stroke="#000000"
+          stroke-linecap="round"
+          stroke-miterlimit="10"
+          stroke-width="2"
+          x1="35"
+          x2="15"
+          y1="35"
+          y2="35" />
+    <line fill="none"
+          stroke="#000000"
+          stroke-linecap="round"
+          stroke-miterlimit="10"
+          stroke-width="2"
+          x1="31"
+          x2="15"
+          y1="39"
+          y2="39" />
+    <line fill="none"
+          stroke="#000000"
+          stroke-linecap="round"
+          stroke-miterlimit="10"
+          stroke-width="2"
+          x1="35"
+          x2="15"
+          y1="43"
+          y2="43" /> </svg>Print </button>
 <article class="container page boxshadow cvmain">
   <header class='row'>
     <h1 class='col-12'>Ray Chen</h1>
-    <p class='col-12'>Love coding and learning. Believe technology is always making something different.</p>
+    <p class='col-12'>Learning, coding and sharing. The technology is always making something different.</p>
     <h2 class='col-12'>Full Stack Engineer</h2>
   </header>
   <section class='row resume_session'>
     <h2 class='col-sm-1'>Skills</h2>
     <ul class='col-sm-9 offset-sm-2'>
-      <li class='cv-listitem'>Feel comfortable with JavaScript/Typescript, HTML/CSS, VC++, T-SQL(advanced)，C#/WPF. Python limited.</li>
-      <li class='cv-listitem'>Familiar with MEAN(MongoDB, ExpressJS, Angular2+, NodeJS) full-stack development process.</li>
+      <li class='cv-listitem'>Feel comfortable with JavaScript/Typescript, HTML5/CSS5, VC++, T-SQL，C#/WPF. Python limited.</li>
+      <li class='cv-listitem'>Familiar with MEAN(MongoDB, ExpressJS, Angular2+, NodeJS) stack development.</li>
       <li class='cv-listitem'>Good understanding of Subversion Control, Software Engineer.</li>
     </ul>
   </section>
@@ -17,9 +79,13 @@
     <div class='col-sm-9 offset-sm-2'>
       <section class='exp'>
         <h3 class='experience_h3'>Senior Developer
+          <span class="sd-from">from 2016-01</span>
           <span class="time">
-            <time datetime="2013-05-20"
-                  class="start">2013</time> &#8211; Present </span>
+            <time datetime="2013-05"
+                  class="start">2013</time> To
+            <time datetime="2017-09"
+                  class="start">2017</time>
+          </span>
         </h3>
         <p>
           <strong>
@@ -29,22 +95,22 @@
         <ul>
           <li class='cv-listitem'>
             <p>
-              <span> Enhance and maintain company's core product(ITWO). </span>
-              <span class='add-info'> VC++, MFC; C#/WPF (little); Database </span>
+              <span>Enhance and maintain company's core product. </span>
+              <span class='add-info'>VC++, MFC; C#/WPF (little); Database </span>
             </p>
           </li>
           <li class='cv-listitem'>
             <p>
               <span> Designed, developed and delivered customized reports independently, clarified requirements, leaded and supported
                 a project of four team members.</span>
-              <span class="add-info"> Javascript, T-SQL, VBScript, XSLT, XHR</span>
+              <span class="add-info">Javascript, T-SQL, VBScript, XSLT, XHR</span>
             </p>
           </li>
           <li class='cv-listitem'>
             <p>
               <span> Provided configurable integrated tools(Connector) based on external system interfaces to make data could be
                 interactived between each other. </span>
-              <span class='add-info'> JavaScript, VC++ </span>
+              <span class='add-info'>JavaScript, VC++, HTML/CSS </span>
             </p>
           </li>
           <li class='cv-listitem'>
@@ -64,8 +130,11 @@
       <section class='exp'>
         <h3 class='experience_h3'>Developer
           <span class="time">
-            <time datetime="2011-06-01"
-                  class="start">2011</time> &#8211; 2013 </span>
+            <time datetime="2011-06"
+                  class="start">2011</time> to
+            <time datetime="2013-05"
+                  class="end">2013</time>
+          </span>
         </h3>
         <p>
           <strong>
@@ -76,7 +145,7 @@
           <li class='cv-listitem'> As core developer, setup fashion and data oriented web applications. </li>
           <li class='cv-listitem'> Enhanced internal DataOne product, a configurable platform from data source to final report. </li>
           <li>
-            <span class='add-info'>C#, Silverlight(WPF), WCF, Database.</span>
+            <span class='add-info'>C#, Silverlight(WPF)/HTML/CSS, WCF, Database.</span>
           </li>
         </ul>
       </section>
@@ -87,8 +156,8 @@
     <div class='col-sm-9 offset-sm-2'>
       <h3>Guangdong University of Technology – Network Engineer
         <span class='time'>
-          <time datetime='2007-09-01'>2007</time> &#8211;
-          <time datetime='2011-06-30'>2011</time>
+          <time datetime='2007-09'>2007</time> to
+          <time datetime='2011-06'>2011</time>
         </span>
       </h3>
     </div>

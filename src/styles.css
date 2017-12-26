@@ -375,8 +375,14 @@ label.withinput {
   app-footer {
     display: none;
   }
-  #outletcontent {
-    padding-top: 0;
+  body {
+    font: 12pt Georgia, 'Times New Roman', Times, serif;
+  }
+  body,
+  #outletcontent,
+  .cvmain {
+    margin: 0 !important;
+    padding: 0 !important;
   }
   .col-sm-1,
   .col-sm-2,
