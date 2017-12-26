@@ -2,9 +2,11 @@
 
 ### [busydoor.net - Demo](http://busydoor.net)
 
-Please don't change the `admin's` password when testing:
+Please don't change the `admin's` password when testing administrator role:
 
 Email: 'admin@gmail.com' , Password: 'admin'
+
+用'admin@gmail.com'(账号)与 'admin'(密码)可作管理员角色测试。
 
 # Busydoor
 
@@ -25,6 +27,19 @@ Admin role. @media print for CV. Animation. Server/Client interface consistent w
 ## Development server
 
 (OSX)
+
+### Installation
+
+git clone --depth 1 https://github.com/cbingrui/busydoor.git  
+cd busydoor  
+yarn install  
+cd server  
+yarn install
+
+### Admin role
+
+For now we need to execut the mongo command manually for additional operations such as 'new post'.  
+`db.getCollection("users").update({ username: 'ray' }, { $set: { "role":`Admin`} })`
 
 ### Mongo
 
