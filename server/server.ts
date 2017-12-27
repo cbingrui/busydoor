@@ -20,6 +20,7 @@ class ServerApp {
 
   private initDB() {
     const options = {
+      authSource: 'admin',
       useMongoClient: true,
       autoIndex: false, // Don't build indexes
       reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
@@ -28,7 +29,10 @@ class ServerApp {
       // If not connected, return errors immediately rather than waiting for reconnect
       bufferMaxEntries: 0
     };
-    mongoose.connect(config.MONGODB_URI, options);
+    mongoose
+      .connect(config.MONGODB_URI, options)
+      .then(() => console.log('Connected to the database'))
+      .catch(err => console.log(err));
   }
 
   private initExpress() {
