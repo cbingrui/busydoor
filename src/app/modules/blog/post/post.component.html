@@ -2,11 +2,11 @@
   <header class="blog_header">
     <h1>{{post?.title}}</h1>
   </header>
-  <section *ngIf="post?.summary"
-           class="post-summary"> {{post?.summary}} </section>
-  <section class="blog_content">
-    <div [innerHTML]='renderedContent'></div>
-  </section>
+  <div *ngIf="post?.summary"
+       class="post-summary"
+       [innerHTML]='post?.renderedSummary'> </div>
+  <div class="blog_content"
+       [innerHTML]='post?.renderedContent$|async'> </div>
   <div *ngIf="userService.withAuth()">
     <a *ngIf="post"
        [routerLink]="['/blog/post/edit', post?._id]"

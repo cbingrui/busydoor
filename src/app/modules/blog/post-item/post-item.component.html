@@ -20,9 +20,7 @@
         </h2>
       </header>
       <div class="entry-headline"
-           itemprop="text">
-        <p>{{post.summary}}</p>
-      </div>
+           [innerHTML]='post.renderedSummary'> </div>
       <footer class="entry-footer">
         <dl class="post-info">
           <dt *ngIf="post.stars">

@@ -29,9 +29,7 @@ export class PostService {
   }
 
   public getPostUrl(id: string) {
-    return this.http.get<ResponseBody.BodyReturn>(
-      `${this.domain}/api/posts/${id}`
-    );
+    return this.http.get<{ err; post: Post }>(`${this.domain}/api/posts/${id}`);
   }
 
   public getPostUrls(page: number, pageSize: number) {

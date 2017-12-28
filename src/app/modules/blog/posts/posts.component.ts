@@ -32,23 +32,8 @@ export class PostsComponent implements OnInit {
         } else {
           // for 'renderedContent' getter property template binding
           console.log(data);
-          this.posts = data.posts.map(
-            p =>
-              new Post(
-                p._id,
-                p.title,
-                p.body,
-                p.timestamp,
-                p.contentUrl,
-                p.summary,
-                p.comments,
-                p.tags,
-                p.sticky,
-                p.views,
-                p.coverimgurl,
-                p.isContentFromUrl
-              )
-          );
+          this.posts = data.posts.map(p => new Post(p));
+
           this.totalRecords = data.postCount;
         }
       });

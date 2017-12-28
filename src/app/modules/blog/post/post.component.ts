@@ -6,7 +6,6 @@ import { Post } from './../../../models/post.model';
 import { PostService } from './post.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { PostHelper } from './../helper/post.helper';
 import { CommentsService } from './../../shared/services/comments/comments.service';
 import { FormControl } from '@angular/forms';
 @Component({
@@ -18,10 +17,7 @@ export class PostComponent implements OnInit {
   id: string;
   post: Post;
   comments: Comment[] = [];
-  private cachedData: any = '';
-  public cachedUrl = '';
   commentControl = new FormControl();
-  renderedContent: string;
   isLoggedIn = false;
   curUserId = '';
   role = '';
@@ -29,25 +25,11 @@ export class PostComponent implements OnInit {
     private route: ActivatedRoute,
     private postService: PostService,
     private toastrService: ToastrService,
-    private postHelper: PostHelper,
     private commentService: CommentsService,
     public userService: UserService,
     private router: Router
   ) {}
 
-  public GetActualRenderContent(post: Post) {
-    const url = post.contentUrl;
-    if (url === '' || url === undefined) {
-      this.renderedContent = this.postHelper.AfterMarkdown(post.body);
-    } else if (url !== this.cachedUrl) {
-      this.cachedData = null;
-      this.cachedUrl = url;
-      this.postService.fetchContent(url).subscribe(result => {
-        this.cachedData = this.postHelper.AfterMarkdown(result);
-        this.renderedContent = this.cachedData;
-      });
-    }
-  }
   addComment() {
     const commentBody = this.commentControl.value;
 
@@ -64,7 +46,6 @@ export class PostComponent implements OnInit {
 
   getComments() {
     this.commentService.getComments(this.post._id).subscribe(data => {
-      console.log(`comments:${data.comments}`);
       this.comments = data.comments;
     });
   }
@@ -81,8 +62,7 @@ export class PostComponent implements OnInit {
           if (data.err) {
             this.toastrService.error(data.err);
           } else {
-            this.GetActualRenderContent(data.post);
-            this.post = data.post;
+            this.post = new Post(data.post);
             this.getComments();
           }
         });
