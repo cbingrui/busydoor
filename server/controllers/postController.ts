@@ -1,64 +1,68 @@
+import { IPost } from './../models/post';
 import Post from '../models/post';
 import { ObjectID } from 'mongodb';
-
+import { Response } from 'express';
+import {
+  ConsoleError,
+  SendExtend,
+  ResponseExtend,
+  ResponseError
+} from '../utilities/server.helper';
+import HTTP_STATUS_CODES from '../utilities/HttpStatusCodes';
 // get
 export function getAllPosts(req, res, next) {
   Post.find((err, posts) => {
-    if (err) {
-      res.status(500).json({ err });
-    }
-    res.status(200).json({ posts });
+    SendExtend<ResponseBody.PostsBody>(res, err, { posts });
   });
 }
+
 export function getPagedPosts(req, res, next) {
-  console.log('*** getPagedPosts');
   const topVal = req.params.top,
     skipVal = req.params.skip,
     top = isNaN(topVal) ? 10 : +topVal,
     skip = isNaN(skipVal) ? 0 : +skipVal;
 
-  Post.count((err, postCount) => {
-    console.log(`Skip: ${skip} Top: ${top}`);
-    console.log(`Posts count: ${postCount}`);
+  // // The below query would omit the item without any comment
+  // db.getCollection('posts').aggregate(
+  //     {
+  //         $unwind: {
+  //             path: "$comments"
+  //         }
+  //     },
+  //     {
+  //         $group: {
+  //             _id: '$_id',
+  //             count: { $sum: 1 }
+  //         }
+  //     }
+  // )
 
-    // // The below query would omit the item without any comment
-    // db.getCollection('posts').aggregate(
-    //     {
-    //         $unwind: {
-    //             path: "$comments"
-    //         }
-    //     },
-    //     {
-    //         $group: {
-    //             _id: '$_id',
-    //             count: { $sum: 1 }
-    //         }
-    //     }
-    // )
-
-    Post.find(
-      {},
-      {
-        'comments._id': 0,
-        'comments.posted': 0,
-        'comments.text': 0,
-        'comments.userid': 0,
-        'comments.username': 0
+  Post.find(
+    {},
+    {
+      'comments._id': 0,
+      'comments.posted': 0,
+      'comments.text': 0,
+      'comments.userid': 0,
+      'comments.username': 0
+    }
+  )
+    .sort({ sticky: 'desc', timestamp: 'desc' })
+    .skip(skip)
+    .limit(top)
+    .exec((errInner, posts) => {
+      if (errInner) {
+        ResponseError(res, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, errInner);
+      } else if (posts) {
+        ResponseExtend<ResponseBody.PostsBody>(res, { posts });
+      } else {
+        ResponseError(
+          res,
+          HTTP_STATUS_CODES.NO_CONTENT,
+          `Cannot find any post range from ${skip} to ${top}`
+        );
       }
-    )
-      .sort({ sticky: 'desc', timestamp: 'desc' })
-      .skip(skip)
-      .limit(top)
-      .exec((errInner, posts) => {
-        if (errInner) {
-          const strErr = `*** getPagedPosts error: ${errInner}`;
-          console.log(strErr);
-          res.json({ err: strErr });
-        } else {
-          res.json({ posts, postCount });
-        }
-      });
-  });
+    });
 }
 // get by ID
 export function getPostById(req, res, next) {
@@ -66,92 +70,120 @@ export function getPostById(req, res, next) {
   hitPost(id);
   Post.findById(id, (err, post) => {
     if (err) {
-      res.status(500).json({ err });
+      ResponseError(res, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, err);
+    } else if (post) {
+      ResponseExtend<ResponseBody.PostBody>(res, { post });
     } else {
-      res.status(200).json({ post });
+      ResponseError(
+        res,
+        HTTP_STATUS_CODES.NO_CONTENT,
+        `Cannot find post by id ${id}`
+      );
     }
   });
 }
+
 function hitPost(id: string) {
-  const v = Post.findByIdAndUpdate(id, { $inc: { views: 1 } }, (err, post) => {
+  const v = Post.findByIdAndUpdate(id, { $inc: { views: 1 } }, err => {
     if (err) {
-      console.log(err);
-    } else {
-      console.log('findByIdAndUpdate error');
+      ConsoleError(err);
     }
   });
 }
+
 // create
-export function createPost(req, res, next) {
-  const title = req.body.title || '';
-  const body = req.body.body || '';
-  const contentUrl = req.body.contentUrl || '';
-  const coverimgurl = req.body.coverimgurl || '';
-  const summary = req.body.summary || '';
-  const tags = req.body.tags || '';
-  const sticky = req.body.sticky || false;
-  const isContentFromUrl = req.body.isContentFromUrl || false;
-  const post = new Post({
-    title,
-    body,
-    contentUrl,
-    coverimgurl,
-    summary,
-    tags,
-    sticky,
-    timestamp: new Date(),
-    isContentFromUrl
-  });
+export function createPost(req: { body: ResponseBody.Post }, res, next) {
+  req.body.timestamp = new Date();
+
+  const post = new Post(req.body);
 
   post.save((err, newpost) => {
-    if (err) {
-      res.status(201).json({ err: err });
-    } else {
-      res.status(201).json({ post: newpost });
-    }
+    SendExtend<ResponseBody.PostBody>(res, err, { post: newpost });
   });
 }
-
+function preCheckIdExist(ids: [string], res, message): boolean {
+  if (ids.some(id => id === '' || id === undefined)) {
+    ResponseError(res, HTTP_STATUS_CODES.PRECONDITION_FAILED, message);
+    return false;
+  }
+  return true;
+}
 // update
 export function updatePost(req, res, next) {
   const id = req.params.id;
-  if (id === '' || id === undefined) {
-    console.error('updatePost cannot be with empty id.');
+  if (!preCheckIdExist([id], res, 'route parameter [id] must be provided')) {
     return;
   }
   Post.findByIdAndUpdate(id, req.body, (err, post) => {
     if (err) {
-      res.status(500).json({ res });
+      ResponseError(res, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, err);
+    } else if (post) {
+      ResponseExtend<ResponseBody.PostBody>(res, {
+        code: HTTP_STATUS_CODES.RESET_CONTENT
+      });
     } else {
-      res.status(200).json({ post });
+      ResponseError(
+        res,
+        HTTP_STATUS_CODES.PRECONDITION_FAILED,
+        `Update post failed becuase cannot find post by id:${id}`
+      );
     }
   });
 }
 
 // delete
-export function deletePost(req, res, next) {
+export function deletePost(req, res: Response, next) {
   const id = req.params.id;
+  if (!preCheckIdExist([id], res, 'route parameter [id] must be provided')) {
+    return;
+  }
 
   Post.findByIdAndRemove(id, (err, post) => {
     if (err) {
-      res.status(500).json({ res });
+      ResponseError(res, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, err);
+    } else if (post) {
+      ResponseExtend<ResponseBody.PostBody>(res, {
+        code: HTTP_STATUS_CODES.NO_CONTENT
+      });
     } else {
-      res.status(200).json({ post });
+      ResponseError(
+        res,
+        HTTP_STATUS_CODES.PRECONDITION_FAILED,
+        `Delete post failed becuase cannot find post by id:${id}`
+      );
     }
   });
 }
+
 export function deleteComment(req, res) {
   const postId = req.params.postId;
   const commentId = req.params.commentId;
+  if (
+    !preCheckIdExist(
+      [postId, commentId],
+      res,
+      'route parameter [postId] and [commentId] must be provided'
+    )
+  ) {
+    return;
+  }
 
   Post.findByIdAndUpdate(
     postId,
     { $pull: { comments: { _id: commentId } } },
     (err, post) => {
       if (err) {
-        res.status(500).json({ error: true, message: err });
+        ResponseError(res, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, err);
+      } else if (post) {
+        ResponseExtend<ResponseBody.PostBody>(res, {
+          code: HTTP_STATUS_CODES.RESET_CONTENT
+        });
       } else {
-        res.status(200).json({});
+        ResponseError(
+          res,
+          HTTP_STATUS_CODES.PRECONDITION_FAILED,
+          `Delete post comment failed because cannot find post by postId:${postId} and commentId:${commentId}`
+        );
       }
     }
   );

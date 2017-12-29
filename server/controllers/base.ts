@@ -1,4 +1,7 @@
 import Post from '../models/post';
+import { ResponseError, ResponseExtend } from '../utilities/server.helper';
+import HTTP_STATUS_CODES from '../utilities/HttpStatusCodes';
+
 abstract class BaseCtrl {
   abstract model: any;
 
@@ -115,13 +118,23 @@ abstract class BaseCtrl {
       res.sendStatus(200);
     });
   };
+
   getComments = (req, res) => {
     const postId = req.params.id;
-    Post.findOne({ _id: postId }, { comments: 1, _id: 0 }, (err, raw) => {
+    Post.findOne({ _id: postId }, { comments: 1, _id: 0 }, (err, post) => {
       if (err) {
-        res.status(400).json({ token: err });
+        ResponseError(res, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, err);
+      } else if (post) {
+        ResponseExtend<ResponseBody.CommentsBody>(res, {
+          code: HTTP_STATUS_CODES.OK,
+          comments: post.comments
+        });
       } else {
-        res.status(200).json(raw);
+        ResponseError(
+          res,
+          HTTP_STATUS_CODES.PRECONDITION_FAILED,
+          `Get comment failed becuase cannot find its post by id:${postId}`
+        );
       }
     });
   };
@@ -134,14 +147,24 @@ abstract class BaseCtrl {
       username: req.body.username,
       userid: req.body.userid
     };
-    Post.update(
-      { _id: postId },
+    Post.findByIdAndUpdate(
+      postId,
       { $push: { comments: comment } },
-      (err, raw) => {
+      { new: true },
+      (err, post) => {
         if (err) {
-          res.status(400).json({ token: err });
+          ResponseError(res, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, err);
+        } else if (post) {
+          ResponseExtend<ResponseBody.CommentBody>(res, {
+            code: HTTP_STATUS_CODES.OK,
+            comment: post.comments.pop()
+          });
         } else {
-          res.status(200).json(comment);
+          ResponseError(
+            res,
+            HTTP_STATUS_CODES.PRECONDITION_FAILED,
+            `Add comment failed becuase cannot find post by id:${postId}`
+          );
         }
       }
     );

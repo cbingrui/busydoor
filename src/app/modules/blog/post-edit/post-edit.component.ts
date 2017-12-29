@@ -86,8 +86,8 @@ export class PostEditComponent implements OnInit {
 
   getPost(id: string) {
     this.postService.getPostUrl(id).subscribe(data => {
-      if (data.err) {
-        this.toastrService.error(data.err.message);
+      if (data.errMessage) {
+        this.toastrService.error(data.errMessage);
       } else {
         this.post = data.post;
         this.setFormValue();
@@ -137,8 +137,8 @@ export class PostEditComponent implements OnInit {
     };
     if (this.operationText === OperationType.New) {
       this.postService.newPost(post).subscribe(data => {
-        if (data.err) {
-          this.toastrService.error(data.err.message);
+        if (data.errMessage) {
+          this.toastrService.error(data.errMessage);
         } else {
           this.toastrService.success('new post success');
           const postId = data.post._id;
@@ -147,10 +147,10 @@ export class PostEditComponent implements OnInit {
       });
     } else {
       this.postService.updatePost(post).subscribe(data => {
-        if (data.err) {
-          this.toastrService.error(data.err.message);
-        } else {
+        if (!data) {
           this.toastrService.success('update post success');
+        } else if (data.errMessage) {
+          this.toastrService.error(data.errMessage);
         }
       });
     }

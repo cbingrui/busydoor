@@ -29,24 +29,26 @@ export class PostService {
   }
 
   public getPostUrl(id: string) {
-    return this.http.get<{ err; post: Post }>(`${this.domain}/api/posts/${id}`);
+    return this.http.get<ResponseBody.PostBody>(
+      `${this.domain}/api/posts/${id}`
+    );
   }
 
   public getPostUrls(page: number, pageSize: number) {
-    return this.http.get<ResponseBody.BodyReturn>(
+    return this.http.get<ResponseBody.PostsBody>(
       `${this.domain}/api/posts/page/${page}/${pageSize}`
     );
   }
 
   public newPost(post) {
-    return this.http.post<ResponseBody.BodyReturn>(
+    return this.http.post<ResponseBody.PostBody>(
       `${this.domain}/api/posts/post`,
       post,
       this.options
     );
   }
   public updatePost(post) {
-    return this.http.put<ResponseBody.BodyReturn>(
+    return this.http.put<ResponseBody.PostBody>(
       `${this.domain}/api/posts/${post._id}`,
       post,
       this.options
@@ -57,13 +59,13 @@ export class PostService {
   }
 
   public delete(postId: string) {
-    return this.http.delete<ResponseBody.BodyReturn>(
+    return this.http.delete<ResponseBody.PostBody>(
       `${this.domain}/api/posts/${postId}`,
       this.options
     );
   }
   public deleteComment(postId: string, commentId: string) {
-    return this.http.delete<ResponseBody.Result>(
+    return this.http.delete<ResponseBody.PostBody>(
       `${this.domain}/api/posts/${postId}/${commentId}`,
       this.options
     );

@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { environment } from './../../../../../environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { distinctUntilChanged } from 'rxjs/operators';
+import Comment from '../../../../models/comment.model';
 // import { Observable } from 'rxjs/Rx';
 // import 'rxjs/add/operator/distinctUntilChanged';
 @Injectable()
@@ -144,13 +145,18 @@ export class UserService {
   addComment(postId, commentBody) {
     if (this.isLoggedIn) {
       const token = localStorage.getItem('token');
-      const body = {
+      const body = new Comment({
+        _id: null,
         username: this.currentUser.username,
         userid: this.currentUser._id,
         text: commentBody,
-        token
-      };
-      return this.post(`/api/posts/${postId}/comments`, body);
+        posted: null
+      });
+      return this.http.post<ResponseBody.CommentBody>(
+        `${this.domain}/api/posts/${postId}/comments`,
+        body,
+        this.options
+      );
     }
   }
 
@@ -208,7 +214,7 @@ export class UserService {
     return this.http.post(this.domain + url, body, this.options);
   }
 
-  get(url): Observable<any> {
-    return this.http.get(this.domain + url);
+  get<T>(url) {
+    return this.http.get<T>(this.domain + url);
   }
 }

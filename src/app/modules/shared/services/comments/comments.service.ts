@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserService } from './../user/user.service';
+import Comment from '../../../../models/comment.model';
 
 @Injectable()
 export class CommentsService {
@@ -8,6 +9,8 @@ export class CommentsService {
     return this.userService.addComment(postId, commentBody);
   }
   getComments(postId: string) {
-    return this.userService.get(`/api/posts/${postId}/comments`);
+    return this.userService.get<ResponseBody.CommentsBody>(
+      `/api/posts/${postId}/comments`
+    );
   }
 }

@@ -29,6 +29,8 @@ export default class AuthCtrl extends BaseCtrl {
     // check header or url parameters or post parameters for token
     const token =
       req.body.token || req.query.token || req.headers['authorization'];
+    res.setHeader('WWW-Authenticate', 'Bearer token_type="JWT"');
+
     if (token) {
       jwt.verify(token, config.SECRET_TOKEN, function(err, decoded) {
         if (err) {

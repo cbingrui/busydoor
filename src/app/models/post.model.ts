@@ -1,7 +1,7 @@
 import { PostHelper } from './../modules/blog/helper/post.helper';
 import { Observable } from 'rxjs/Observable';
 
-export class Post {
+export class Post implements ResponseBody.Post {
   public _id: string;
   public title: string;
   public body: string;
@@ -51,7 +51,7 @@ export class Post {
   //   console.log(this.renderedSummary);
   // }
 
-  constructor(post: Post) {
+  constructor(post: ResponseBody.Post) {
     this._id = post._id;
     this.title = post.title;
     this.body = post.body;

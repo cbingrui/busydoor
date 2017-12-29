@@ -1,5 +1,4 @@
 import * as mongoose from 'mongoose';
-
 const comment = new mongoose.Schema({
   posted: {
     type: Date,
@@ -77,5 +76,5 @@ const postSchema = new mongoose.Schema({
     required: false
   }
 });
-
-export default mongoose.model('Post', postSchema);
+export interface IPost extends ResponseBody.PostWithoutID, mongoose.Document {}
+export default mongoose.model<IPost>('Post', postSchema);

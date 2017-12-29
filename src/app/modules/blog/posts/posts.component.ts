@@ -27,8 +27,8 @@ export class PostsComponent implements OnInit {
     this.postService
       .getPostUrls((pageIndex - 1) * this.pageSize, this.pageSize)
       .subscribe(data => {
-        if (data.err) {
-          console.log(data.err);
+        if (data.errMessage) {
+          console.log(data.errMessage);
         } else {
           // for 'renderedContent' getter property template binding
           console.log(data);

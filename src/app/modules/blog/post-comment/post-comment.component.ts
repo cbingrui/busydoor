@@ -1,4 +1,4 @@
-import { Comment } from './../../shared/models/comment.model';
+import Comment from '../../../models/comment.model';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-post-comment',
