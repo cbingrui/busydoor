@@ -12,7 +12,10 @@ import HTTP_STATUS_CODES from '../utilities/HttpStatusCodes';
 // get
 export function getAllPosts(req, res, next) {
   Post.find((err, posts) => {
-    SendExtend<ResponseBody.PostsBody>(res, err, { posts });
+    SendExtend<ResponseBody.PostsBody>(res, err, {
+      posts,
+      postCount: posts.length
+    });
   });
 }
 
@@ -22,48 +25,54 @@ export function getPagedPosts(req, res, next) {
     top = isNaN(topVal) ? 10 : +topVal,
     skip = isNaN(skipVal) ? 0 : +skipVal;
 
-  // // The below query would omit the item without any comment
-  // db.getCollection('posts').aggregate(
-  //     {
-  //         $unwind: {
-  //             path: "$comments"
-  //         }
-  //     },
-  //     {
-  //         $group: {
-  //             _id: '$_id',
-  //             count: { $sum: 1 }
-  //         }
-  //     }
-  // )
+  Post.count((err, postCount) => {
+    // // The below query would omit the item without any comment
+    // db.getCollection('posts').aggregate(
+    //     {
+    //         $unwind: {
+    //             path: "$comments"
+    //         }
+    //     },
+    //     {
+    //         $group: {
+    //             _id: '$_id',
+    //             count: { $sum: 1 }
+    //         }
+    //     }
+    // )
 
-  Post.find(
-    {},
-    {
-      'comments._id': 0,
-      'comments.posted': 0,
-      'comments.text': 0,
-      'comments.userid': 0,
-      'comments.username': 0
-    }
-  )
-    .sort({ sticky: 'desc', timestamp: 'desc' })
-    .skip(skip)
-    .limit(top)
-    .exec((errInner, posts) => {
-      if (errInner) {
-        ResponseError(res, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, errInner);
-      } else if (posts) {
-        ResponseExtend<ResponseBody.PostsBody>(res, { posts });
-      } else {
-        ResponseError(
-          res,
-          HTTP_STATUS_CODES.NO_CONTENT,
-          `Cannot find any post range from ${skip} to ${top}`
-        );
+    Post.find(
+      {},
+      {
+        'comments._id': 0,
+        'comments.posted': 0,
+        'comments.text': 0,
+        'comments.userid': 0,
+        'comments.username': 0
       }
-    });
+    )
+      .sort({ sticky: 'desc', timestamp: 'desc' })
+      .skip(skip)
+      .limit(top)
+      .exec((errInner, posts) => {
+        if (errInner) {
+          ResponseError(res, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, errInner);
+        } else if (posts) {
+          ResponseExtend<ResponseBody.PostsBody>(res, {
+            posts,
+            postCount
+          });
+        } else {
+          ResponseError(
+            res,
+            HTTP_STATUS_CODES.NO_CONTENT,
+            `Cannot find any post range from ${skip} to ${top}`
+          );
+        }
+      });
+  });
 }
+
 // get by ID
 export function getPostById(req, res, next) {
   const id = req.params.id;

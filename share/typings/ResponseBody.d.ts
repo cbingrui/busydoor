@@ -12,7 +12,7 @@ declare namespace ResponseBody {
   }
   export interface PostsBody extends Error {
     posts?: Post[];
-    postCount?: number;
+    postCount: number;
   }
 
   export interface Post extends PostWithoutID {
