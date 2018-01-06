@@ -1,6 +1,7 @@
 import * as nodemailer from 'nodemailer';
 import config from '../config/email';
-
+import { ConsoleError } from './server.helper';
+import configdb from '../config/database';
 export default function(resetEmail: string, resetLink: string, fn) {
   // Generate test SMTP service account from ethereal.email
   // Only needed if you don't have a real mail account for testing
@@ -34,11 +35,13 @@ export default function(resetEmail: string, resetLink: string, fn) {
   // send mail with defined transport object
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.log(error);
+      ConsoleError(error);
     }
-    console.log('Message sent: %s', info.messageId);
-    // Preview only available when sending through an Ethereal account
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+    if (!configdb.PRODUCTION) {
+      console.log('Message sent: %s', info.messageId);
+      // Preview only available when sending through an Ethereal account
+      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+    }
     fn(error, info);
     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@blurdybloop.com>
     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...

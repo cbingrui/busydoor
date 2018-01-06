@@ -1,5 +1,6 @@
 import { Response } from 'express';
 import HTTP_STATUS_CODES from './HttpStatusCodes';
+import config from '../config/database';
 // export function JsonT<T extends ResponseBody.Error>(
 //   res: Response,
 //   code: HTTP_STATUS_CODES,
@@ -27,7 +28,9 @@ export function ResponseExtend<T extends ResponseBody.Error>(
   res: Response,
   body: T
 ) {
-  console.log(body);
+  if (!config.PRODUCTION) {
+    console.log(body);
+  }
 
   // RESTful API would not include any 3** http status codes.
   // Redirection behavior would be controlled by angular.
@@ -54,8 +57,4 @@ export function ResponseError(
 
 export function ConsoleError(...args) {
   console.error(args);
-}
-
-export function Posthandler(err: string) {
-  console.error(err);
 }

@@ -9,6 +9,7 @@ import router from './router/post';
 import authRoute from './router/auth';
 import config from './config/database';
 import { Server } from 'mongodb';
+import { ConsoleError } from './utilities/server.helper';
 
 class ServerApp {
   private expressApp: express.Express;
@@ -32,7 +33,7 @@ class ServerApp {
     mongoose
       .connect(config.MONGODB_URI, options)
       .then(() => console.log('Connected to the database'))
-      .catch(err => console.log(err));
+      .catch(err => ConsoleError(err));
   }
 
   private initExpress() {
