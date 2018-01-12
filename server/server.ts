@@ -21,7 +21,8 @@ class ServerApp {
 
   private initDB() {
     const options = {
-      authSource: 'admin',
+      // authSource is mentioned in `config.MONGODB_URI`
+      // authSource: 'busydoor',
       useMongoClient: true,
       autoIndex: false, // Don't build indexes
       reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
