@@ -1,17 +1,24 @@
+import { PostService } from './../post/post.service';
+import { SharedModule } from './../../shared/shared.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PostsComponent } from './posts.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('PostsComponent', () => {
   let component: PostsComponent;
   let fixture: ComponentFixture<PostsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PostsComponent ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        imports: [SharedModule.forRoot()],
+        declarations: [PostsComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [PostService]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PostsComponent);

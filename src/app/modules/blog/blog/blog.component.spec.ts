@@ -1,17 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BlogComponent } from './blog.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('BlogComponent', () => {
   let component: BlogComponent;
   let fixture: ComponentFixture<BlogComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ BlogComponent ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        declarations: [BlogComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BlogComponent);

@@ -1,3 +1,4 @@
+import { RegisterModel } from './../../models/account';
 import { JwtService } from './../jwt.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -70,7 +71,7 @@ export class UserService {
   get isAuthenticated() {
     return this.isAuthenticatedSubject.value;
   }
-  register(user: RequestBody.RegisterBody) {
+  register(user: RegisterModel) {
     return this.http.post<ResponseBody.UserBody>(
       this.domain + '/api/user',
       user,

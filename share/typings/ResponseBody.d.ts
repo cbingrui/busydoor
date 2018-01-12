@@ -41,7 +41,7 @@ declare namespace ResponseBody {
     username: string;
     email: string;
     password: string;
-    role: string;
+    role?: string;
     resetPasswordToken?: string;
     resetPasswordExpires?: Date;
   }

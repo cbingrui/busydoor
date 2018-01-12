@@ -16,11 +16,13 @@ import { UserService } from './services/user/user.service';
 import { PaginationComponent } from './pagination/pagination.component';
 import { PinHeaderDirective } from './directives/pin-header.directive';
 import { CommentsService } from './services/comments/comments.service';
+import { RouterLinkStubDirective } from './directives/router-stubs';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
+    // Cannot use `RouterTestingModule` for lazy loading
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule
@@ -31,7 +33,8 @@ import { CommentsService } from './services/comments/comments.service';
     MarkdownPipe,
     FetchPipe,
     PaginationComponent,
-    PinHeaderDirective
+    PinHeaderDirective,
+    RouterLinkStubDirective
   ],
 
   exports: [
@@ -42,7 +45,8 @@ import { CommentsService } from './services/comments/comments.service';
     FormsModule,
     ReactiveFormsModule,
     PaginationComponent,
-    PinHeaderDirective
+    PinHeaderDirective,
+    RouterLinkStubDirective
   ]
 })
 export class SharedModule {

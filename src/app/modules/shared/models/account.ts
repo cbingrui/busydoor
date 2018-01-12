@@ -8,3 +8,5 @@ export class AccountModel {
   public static findpasswordUrl = 'findpassword';
   public static findpasswordName = 'send email';
 }
+// tslint:disable-next-line:no-empty-interface
+export interface RegisterModel extends ResponseBody.RegisterBody {}
