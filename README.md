@@ -1,18 +1,20 @@
 [![busydoor.net Logo](http://busydoor.net/favicon.png)](http://busydoor.net/)
 
-### [busydoor.net - Demo](http://busydoor.net)
-
-Please don't change the `admin's` password when testing administrator role:
-
-Email: 'admin@gmail.com' , Password: 'admin'
-
-用'admin@gmail.com'(账号)与 'admin'(密码)可作管理员角色测试。
-
 # Busydoor
 
-Busydoor is a MEAN Stack based website which with MongoDB v3.4.9, Express 4.11, Angular 5.1.2 and NodeJs 8.9.3. Bootstrap4 included.
+### [Demo](http://busydoor.net)
 
-It's just a demo project for better understanding about the basic idea and knowledge of Full Stack Development.
+busydoor.net is a `MEAN` Stack based website which with `MongoDB v3.4.9`, `Express 4.11`, `Angular 5.1.2` and `NodeJs 8.9.3`. `Bootstrap4` included.
+
+It's a project for our better understanding about the basic idea and knowledge of MEAN Full Stack Development with Typescript.
+
+### Account
+
+Use Admin role account so you are able to perform more operations when testing, such as delete and post new article:
+
+Email: 'admin@busydoor.net' , Password: 'admin'
+
+用'admin@busydoor.net'(账号)与 'admin'(密码)可作管理员登录进行更多操作。
 
 ## Features
 
@@ -38,12 +40,12 @@ yarn install
 
 ### Admin role
 
-For now we need to execut the mongo command manually for additional operations such as 'new post'.  
-`db.getCollection("users").update({ username: 'ray' }, { $set: { "role":`Admin`} })`
+For now we need to execut the mongo command manually for additional operations such as 'new post'. (only can assign the `Admin` role to existing account because password was parsed by `bcryptjs` before saving)  
+`db.getCollection("users").update({ email: 'admin@busydoor.net' }, { $set: { "role":'Admin'} })`
 
 ### Mongo
 
-Run `sudo mongo`for mongodb.
+Run `sudo mongo` for mongodb.
 
 ### Server
 
