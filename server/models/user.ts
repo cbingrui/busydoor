@@ -1,8 +1,6 @@
 import * as bcrypt from 'bcryptjs';
 import * as mongoose from 'mongoose';
-export interface IUserModel extends Document {
-  comparePassword(candidatePassword, callback): string;
-}
+
 // Validate Function to check if valid e-mail format
 const validEmailChecker = email => {
   // Check if e-mail exists
@@ -79,6 +77,7 @@ userSchema.set('toJSON', {
   }
 });
 
-const User = mongoose.model('User', userSchema);
-
-export default User;
+export interface IUser extends ResponseBody.UsertWithoutID, mongoose.Document {
+  comparePassword(candidatePassword, callback): string;
+}
+export default mongoose.model<IUser>('User', userSchema);

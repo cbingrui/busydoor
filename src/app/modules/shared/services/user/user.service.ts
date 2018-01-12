@@ -26,7 +26,7 @@ export class UserService {
     distinctUntilChanged()
   );
 
-  get currentUser(): ResponseBody.User | any {
+  get currentUser(): ResponseBody.User {
     const value = this.currentUserSubject.value;
     if (value) {
       return value;
@@ -36,7 +36,7 @@ export class UserService {
         username: '',
         email: '',
         role: '',
-        success: false
+        password: ''
       };
     }
   }
@@ -70,8 +70,12 @@ export class UserService {
   get isAuthenticated() {
     return this.isAuthenticatedSubject.value;
   }
-  register(user: RequestBody.RegisterBody): Observable<any> {
-    return this.http.post(this.domain + '/api/user', user, this.options);
+  register(user: RequestBody.RegisterBody) {
+    return this.http.post<ResponseBody.UserBody>(
+      this.domain + '/api/user',
+      user,
+      this.options
+    );
   }
 
   login(credentials: RequestBody.LoginBody): Observable<any> {
@@ -113,11 +117,11 @@ export class UserService {
     if (this.jwtService.getToken()) {
       this.getUserWithToken().subscribe(
         data => {
-          if (data.success !== false) {
-            this.currentUserSubject.next(data);
-            this.isAuthenticatedSubject.next(true);
+          if (data.errMessage) {
+            console.error(data.errMessage);
           } else {
-            console.error(data);
+            this.currentUserSubject.next(data.user);
+            this.isAuthenticatedSubject.next(true);
           }
         },
         err => this.clearAuth()
@@ -174,7 +178,7 @@ export class UserService {
   }
 
   getUserWithToken() {
-    return this.http.get<ResponseBody.User>(
+    return this.http.get<ResponseBody.UserBody>(
       this.domain + `/api/user`,
       this.options
     );

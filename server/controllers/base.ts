@@ -1,13 +1,17 @@
 import Post from '../models/post';
-import { ResponseError, ResponseExtend } from '../utilities/server.helper';
+import usermodel from './../models/user';
+
+import {
+  ResponseError,
+  ResponseExtend,
+  SendExtend
+} from '../utilities/server.helper';
 import HTTP_STATUS_CODES from '../utilities/HttpStatusCodes';
 
 abstract class BaseCtrl {
-  abstract model: any;
-
   // Get all
   getAll = (req, res) => {
-    this.model.find({}, (err, docs) => {
+    usermodel.find({}, (err, docs) => {
       if (err) {
         return console.error(err);
       }
@@ -17,7 +21,7 @@ abstract class BaseCtrl {
 
   // Count all
   count = (req, res) => {
-    this.model.count((err, count) => {
+    usermodel.count((err, count) => {
       if (err) {
         return console.error(err);
       }
@@ -27,31 +31,25 @@ abstract class BaseCtrl {
 
   // Insert
   insert = (req: RequestBody.UserBody, res) => {
-    this.model
+    usermodel
       .findOne({
         $or: [{ username: req.body.username }, { email: req.body.email }]
       })
       .exec((error, user) => {
         if (error) {
-          res.status(400).json({
-            success: false,
-            message: error
-          });
+          ResponseError(res, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, error);
         } else if (user) {
-          res.status(412).json({
-            success: false,
-            message: 'Cannot create user because username or email are existed.'
-          });
+          ResponseError(
+            res,
+            HTTP_STATUS_CODES.PRECONDITION_FAILED,
+            'Cannot create user because username or email are existed.'
+          );
         } else {
-          const obj = new this.model(req.body);
+          const obj = new usermodel(req.body);
           obj.save((err, item) => {
-            if (err) {
-              res.status(400).json({
-                error: err
-              });
-            } else {
-              res.status(200).json(item);
-            }
+            SendExtend<ResponseBody.UserBody>(res, err, {
+              user: item
+            });
           });
         }
       });
@@ -63,7 +61,7 @@ abstract class BaseCtrl {
   };
 
   getById = (req, res, id: string) => {
-    this.model.findOne({ _id: id }, (err, obj) => {
+    usermodel.findOne({ _id: id }, (err, obj) => {
       if (err) {
         return console.error(err);
       }
@@ -76,7 +74,7 @@ abstract class BaseCtrl {
   };
 
   valueExist = (res, field: string, value: string) => {
-    this.model.findOne({ [field]: value }, (err, user) => {
+    usermodel.findOne({ [field]: value }, (err, user) => {
       if (err) {
         res
           .status(400)
@@ -101,7 +99,7 @@ abstract class BaseCtrl {
   };
   // Update by id
   update = (req, res) => {
-    this.model.findOneAndUpdate({ _id: req.params.id }, req.body, err => {
+    usermodel.findOneAndUpdate({ _id: req.params.id }, req.body, err => {
       if (err) {
         return console.error(err);
       }
@@ -111,7 +109,7 @@ abstract class BaseCtrl {
 
   // Delete by id
   delete = (req, res) => {
-    this.model.findOneAndRemove({ _id: req.params.id }, err => {
+    usermodel.findOneAndRemove({ _id: req.params.id }, err => {
       if (err) {
         return console.error(err);
       }

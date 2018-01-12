@@ -185,8 +185,8 @@ export class SignInUpComponent implements OnInit, AfterViewChecked {
     };
     this.userService.register(credentialsRegister).subscribe(
       res => {
-        if (res.error) {
-          this.toast.error(res.error);
+        if (res.errMessage) {
+          this.toast.error(res.errMessage);
         } else {
           this.router.navigate(['/account/login']);
           this.toast.success('You can login with new account!');

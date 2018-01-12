@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import usermodel, { IUserModel } from './../models/user';
+import usermodel from './../models/user';
 import BaseCtrl from './base';
 import config from '../config/database';
 import * as nodemailer from 'nodemailer';
@@ -7,10 +7,8 @@ import resetEmailTo from '../utilities/resetEmail';
 import * as async from 'async';
 import * as crypto from 'crypto';
 export default class AuthCtrl extends BaseCtrl {
-  model = usermodel;
-
   login = (req: { body: RequestBody.LoginBody }, res) => {
-    usermodel.findOne({ email: req.body.email }, (err, user: IUserModel) => {
+    usermodel.findOne({ email: req.body.email }, (err, user) => {
       if (!user) {
         return res.send(204);
       }

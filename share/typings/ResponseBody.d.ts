@@ -10,6 +10,7 @@ declare namespace ResponseBody {
   export interface PostBody extends Error {
     post?: Post;
   }
+
   export interface PostsBody extends Error {
     posts?: Post[];
     postCount: number;
@@ -29,17 +30,34 @@ declare namespace ResponseBody {
     sticky: boolean;
     views: number;
     stars: number;
-
     coverimgurl: string;
     isContentFromUrl: boolean;
-
     summary: string;
     body: string;
+  }
+
+  export interface UsertWithoutID {
+    // _id: string;
+    username: string;
+    email: string;
+    password: string;
+    role: string;
+    resetPasswordToken?: string;
+    resetPasswordExpires?: Date;
+  }
+
+  export interface User extends UsertWithoutID {
+    _id: string;
+  }
+
+  export interface UserBody extends Error {
+    user: User;
   }
 
   export interface CommentBody extends Error {
     comment: Comment;
   }
+
   export interface CommentsBody extends Error {
     comments: Comment[];
   }
@@ -62,18 +80,5 @@ declare namespace ResponseBody {
     username: string;
     email: string;
     password: string;
-  }
-
-  export interface UserBody {
-    _id: string;
-    user: User;
-  }
-
-  export interface User {
-    _id: string;
-    username: string;
-    email: string;
-    role: string;
-    success: boolean;
   }
 }
