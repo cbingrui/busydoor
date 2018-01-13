@@ -6,7 +6,7 @@ import {
   ResponseExtend,
   SendExtend
 } from '../utilities/server.helper';
-import HTTP_STATUS_CODES from '../utilities/HttpStatusCodes';
+import HTTP_STATUS_CODES from '../../share/HttpStatusCodes';
 
 abstract class BaseCtrl {
   // Get all

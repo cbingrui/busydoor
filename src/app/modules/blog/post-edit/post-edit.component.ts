@@ -11,6 +11,7 @@ import {
   AbstractControl
 } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import HttpStatusCodes from '../../../../../share/HttpStatusCodes';
 
 const OperationType = {
   New: 'New',
@@ -147,10 +148,10 @@ export class PostEditComponent implements OnInit {
       });
     } else {
       this.postService.updatePost(post).subscribe(data => {
-        if (!data) {
-          this.toastrService.success('update post success');
-        } else if (data.errMessage) {
+        if (data.errMessage) {
           this.toastrService.error(data.errMessage);
+        } else if (data.code === HttpStatusCodes.RESET_CONTENT) {
+          this.toastrService.success('update post success');
         }
       });
     }

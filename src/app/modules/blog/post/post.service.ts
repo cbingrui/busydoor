@@ -1,3 +1,4 @@
+import { ResponseError } from './../../shared/models/httpclient.model';
 import { JwtService } from './../../shared/services/jwt.service';
 import { environment } from './../../../../environments/environment';
 import { Post } from './../../../models/post.model';
@@ -48,7 +49,7 @@ export class PostService {
     );
   }
   public updatePost(post) {
-    return this.http.put<ResponseBody.PostBody>(
+    return this.http.put<ResponseError>(
       `${this.domain}/api/posts/${post._id}`,
       post,
       this.options

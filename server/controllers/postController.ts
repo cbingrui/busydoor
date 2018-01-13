@@ -8,7 +8,7 @@ import {
   ResponseExtend,
   ResponseError
 } from '../utilities/server.helper';
-import HTTP_STATUS_CODES from '../utilities/HttpStatusCodes';
+import HTTP_STATUS_CODES from '../../share/HttpStatusCodes';
 // get
 export function getAllPosts(req, res, next) {
   Post.find((err, posts) => {

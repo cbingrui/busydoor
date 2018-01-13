@@ -1,5 +1,6 @@
-import { Response } from 'express';
-import HTTP_STATUS_CODES from './HttpStatusCodes';
+import { ErrorModel } from './../models/httpmodel';
+import { Response, Request } from 'express';
+import HTTP_STATUS_CODES from '../../share/HttpStatusCodes';
 import config from '../config/database';
 // export function JsonT<T extends ResponseBody.Error>(
 //   res: Response,
