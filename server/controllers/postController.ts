@@ -1,7 +1,14 @@
+import {
+  PostsModel,
+  ErrorModel,
+  PostModel,
+  StatusModel
+} from './../models/httpmodel';
 import { IPost } from './../models/post';
 import Post from '../models/post';
 import { ObjectID } from 'mongodb';
-import { Response } from 'express';
+import { Request, Response } from 'express';
+import * as mongoose from 'mongoose';
 import {
   ConsoleError,
   SendExtend,
@@ -19,7 +26,11 @@ export function getAllPosts(req, res, next) {
   });
 }
 
-export function getPagedPosts(req, res, next) {
+export function getPagedPostsExtend(
+  req: Request,
+  resolve: (v: PostsModel) => any,
+  reject: (e: ErrorModel) => any
+) {
   const topVal = req.params.top,
     skipVal = req.params.skip,
     top = isNaN(topVal) ? 10 : +topVal,
@@ -56,38 +67,46 @@ export function getPagedPosts(req, res, next) {
       .limit(top)
       .exec((errInner, posts) => {
         if (errInner) {
-          ResponseError(res, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, errInner);
-        } else if (posts) {
-          ResponseExtend<ResponseBody.PostsBody>(res, {
-            posts,
-            postCount
+          reject({
+            code: HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR,
+            errMessage: errInner
           });
+        } else if (posts) {
+          resolve({ posts, postCount });
         } else {
-          ResponseError(
-            res,
-            HTTP_STATUS_CODES.NO_CONTENT,
-            `Cannot find any post range from ${skip} to ${top}`
-          );
+          reject({
+            code: HTTP_STATUS_CODES.NO_CONTENT,
+            errMessage: `Cannot find any post range from ${skip} to ${top}`
+          });
         }
       });
   });
 }
-
 // get by ID
-export function getPostById(req, res, next) {
+export function getPostById(
+  req: Request,
+  resolve: (v: PostModel) => any,
+  reject: (e: ErrorModel) => any
+) {
   const id = req.params.id;
   hitPost(id);
   Post.findById(id, (err, post) => {
     if (err) {
-      ResponseError(res, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, err);
+      if (err instanceof mongoose.CastError) {
+        reject({
+          code: HTTP_STATUS_CODES.NO_CONTENT,
+          errMessage: `Cannot find post by id ${id}`
+        });
+      } else {
+        console.error('err:\n', err);
+        reject({
+          code: HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR,
+          errMessage: err
+        });
+      }
     } else if (post) {
-      ResponseExtend<ResponseBody.PostBody>(res, { post });
+      resolve({ post });
     } else {
-      ResponseError(
-        res,
-        HTTP_STATUS_CODES.NO_CONTENT,
-        `Cannot find post by id ${id}`
-      );
     }
   });
 }
@@ -110,32 +129,47 @@ export function createPost(req: { body: ResponseBody.Post }, res, next) {
     SendExtend<ResponseBody.PostBody>(res, err, { post: newpost });
   });
 }
-function preCheckIdExist(ids: [string], res, message): boolean {
+function preCheckIdExist(
+  ids: [string],
+  reject: (e: ErrorModel) => any,
+  message: string
+): boolean {
   if (ids.some(id => id === '' || id === undefined)) {
-    ResponseError(res, HTTP_STATUS_CODES.PRECONDITION_FAILED, message);
+    reject({
+      code: HTTP_STATUS_CODES.PRECONDITION_FAILED,
+      errMessage: message
+    });
     return false;
   }
   return true;
 }
 // update
-export function updatePost(req, res, next) {
+export function updatePost(
+  req: Request,
+  resolve: (v: StatusModel) => any,
+  reject: (e: ErrorModel) => any
+) {
   const id = req.params.id;
-  if (!preCheckIdExist([id], res, 'route parameter [id] must be provided')) {
+  if (!preCheckIdExist([id], reject, 'route parameter [id] must be provided')) {
     return;
   }
   Post.findByIdAndUpdate(id, req.body, (err, post) => {
     if (err) {
-      ResponseError(res, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, err);
+      if (err instanceof mongoose.CastError) {
+        reject({
+          code: HTTP_STATUS_CODES.PRECONDITION_FAILED,
+          errMessage: `Update post failed becuase cannot find post by id:${id}`
+        });
+      } else {
+        reject({
+          code: HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR,
+          errMessage: err
+        });
+      }
     } else if (post) {
-      ResponseExtend<ResponseBody.PostBody>(res, {
+      resolve({
         code: HTTP_STATUS_CODES.RESET_CONTENT
       });
-    } else {
-      ResponseError(
-        res,
-        HTTP_STATUS_CODES.PRECONDITION_FAILED,
-        `Update post failed becuase cannot find post by id:${id}`
-      );
     }
   });
 }
@@ -143,9 +177,9 @@ export function updatePost(req, res, next) {
 // delete
 export function deletePost(req, res: Response, next) {
   const id = req.params.id;
-  if (!preCheckIdExist([id], res, 'route parameter [id] must be provided')) {
-    return;
-  }
+  // if (!preCheckIdExist([id], res, 'route parameter [id] must be provided')) {
+  //   return;
+  // }
 
   Post.findByIdAndRemove(id, (err, post) => {
     if (err) {

@@ -59,3 +59,19 @@ export function ResponseError(
 export function ConsoleError(...args) {
   console.error(args);
 }
+
+export function HttpTypeDecorator<T>(
+  req: Request,
+  res: Response,
+  callaback: (
+    _req: Request,
+    resolve: (_v: T) => any,
+    reject: (e: ErrorModel) => any
+  ) => any
+) {
+  callaback(
+    req,
+    d => res.status(HTTP_STATUS_CODES.OK).json(d),
+    e => res.status(e.code).json(e.errMessage)
+  );
+}
