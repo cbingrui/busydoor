@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "nodemon",
       "runtimeExecutable": "nodemon",
-      "program": "${workspaceFolder}/server/dist/out-tsc/index.js",
+      "program": "${workspaceFolder}/server/dist/out-tsc/server/index.js",
       "restart": true,
       "internalConsoleOptions": "neverOpen"
     },
@@ -17,7 +17,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceFolder}/server/dist/out-tsc/index.js"
+      "program": "${workspaceFolder}/server/dist/out-tsc/server/index.js"
     },
     {
       "type": "chrome",
