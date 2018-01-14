@@ -6,5 +6,3 @@ export interface ResponsePost extends ResponseBody.PostBody {}
 export interface ResponseError extends ResponseBody.Error {}
 // tslint:disable-next-line:no-empty-interface
 export interface ResponseStatus extends ResponseBody.Status {}
-// tslint:disable-next-line:no-empty-interface
-export interface ResponseError extends ResponseBody.Error {}

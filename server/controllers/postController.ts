@@ -17,12 +17,17 @@ import {
 } from '../utilities/server.helper';
 import HTTP_STATUS_CODES from '../../share/HttpStatusCodes';
 // get
-export function getAllPosts(req, res, next) {
+export function getAllPosts(
+  req: Request,
+  resolve: (v: PostsModel) => any,
+  reject: (e: ErrorModel) => any
+) {
   Post.find((err, posts) => {
-    SendExtend<ResponseBody.PostsBody>(res, err, {
-      posts,
-      postCount: posts.length
-    });
+    if (err) {
+      reject(new ErrorModel(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, err));
+    } else {
+      resolve({ posts, postCount: posts.length });
+    }
   });
 }
 
@@ -92,21 +97,18 @@ export function getPostById(
   hitPost(id);
   Post.findById(id, (err, post) => {
     if (err) {
-      if (err instanceof mongoose.CastError) {
-        reject({
-          code: HTTP_STATUS_CODES.NO_CONTENT,
-          errMessage: `Cannot find post by id ${id}`
-        });
-      } else {
-        console.error('err:\n', err);
-        reject({
-          code: HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR,
-          errMessage: err
-        });
-      }
+      console.error('err:\n', err);
+      reject({
+        code: HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR,
+        errMessage: err
+      });
     } else if (post) {
       resolve({ post });
     } else {
+      reject({
+        code: HTTP_STATUS_CODES.NO_CONTENT,
+        errMessage: `Cannot find post by id ${id}`
+      });
     }
   });
 }
@@ -120,15 +122,23 @@ function hitPost(id: string) {
 }
 
 // create
-export function createPost(req: { body: ResponseBody.Post }, res, next) {
+export function createPost(
+  req: { body: ResponseBody.Post },
+  resolve: (v: PostModel) => any,
+  reject: (e: ErrorModel) => any
+) {
   req.body.timestamp = new Date();
 
   const post = new Post(req.body);
 
   post.save((err, newpost) => {
-    SendExtend<ResponseBody.PostBody>(res, err, { post: newpost });
+    if (err) {
+      reject(new ErrorModel(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, err));
+    }
+    resolve({ post: newpost });
   });
 }
+
 function preCheckIdExist(
   ids: [string],
   reject: (e: ErrorModel) => any,
@@ -155,56 +165,63 @@ export function updatePost(
   }
   Post.findByIdAndUpdate(id, req.body, (err, post) => {
     if (err) {
-      if (err instanceof mongoose.CastError) {
-        reject({
-          code: HTTP_STATUS_CODES.PRECONDITION_FAILED,
-          errMessage: `Update post failed becuase cannot find post by id:${id}`
-        });
-      } else {
-        reject({
-          code: HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR,
-          errMessage: err
-        });
-      }
+      reject({
+        code: HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR,
+        errMessage: err
+      });
     } else if (post) {
       resolve({
         code: HTTP_STATUS_CODES.RESET_CONTENT
+      });
+    } else {
+      reject({
+        code: HTTP_STATUS_CODES.PRECONDITION_FAILED,
+        errMessage: `Update post failed becuase cannot find post by id:${id}`
       });
     }
   });
 }
 
 // delete
-export function deletePost(req, res: Response, next) {
+export function deletePost(
+  req: Request,
+  resolve: (v: StatusModel) => any,
+  reject: (e: ErrorModel) => any
+) {
   const id = req.params.id;
-  // if (!preCheckIdExist([id], res, 'route parameter [id] must be provided')) {
-  //   return;
-  // }
+
+  if (!preCheckIdExist([id], reject, 'route parameter [id] must be provided')) {
+    return;
+  }
 
   Post.findByIdAndRemove(id, (err, post) => {
     if (err) {
-      ResponseError(res, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, err);
-    } else if (post) {
-      ResponseExtend<ResponseBody.PostBody>(res, {
-        code: HTTP_STATUS_CODES.NO_CONTENT
+      reject({
+        code: HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR,
+        errMessage: err
       });
+    } else if (post) {
+      resolve({ code: HTTP_STATUS_CODES.NO_CONTENT });
     } else {
-      ResponseError(
-        res,
-        HTTP_STATUS_CODES.PRECONDITION_FAILED,
-        `Delete post failed becuase cannot find post by id:${id}`
-      );
+      reject({
+        code: HTTP_STATUS_CODES.PRECONDITION_FAILED,
+        errMessage: `Delete post failed becuase cannot find post by id:${id}`
+      });
     }
   });
 }
 
-export function deleteComment(req, res) {
+export function deleteComment(
+  req: Request,
+  resolve: (v: StatusModel) => any,
+  reject: (e: ErrorModel) => any
+) {
   const postId = req.params.postId;
   const commentId = req.params.commentId;
   if (
     !preCheckIdExist(
       [postId, commentId],
-      res,
+      reject,
       'route parameter [postId] and [commentId] must be provided'
     )
   ) {
@@ -216,16 +233,17 @@ export function deleteComment(req, res) {
     { $pull: { comments: { _id: commentId } } },
     (err, post) => {
       if (err) {
-        ResponseError(res, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, err);
+        reject(new ErrorModel(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, err));
       } else if (post) {
-        ResponseExtend<ResponseBody.PostBody>(res, {
+        resolve({
           code: HTTP_STATUS_CODES.RESET_CONTENT
         });
       } else {
-        ResponseError(
-          res,
-          HTTP_STATUS_CODES.PRECONDITION_FAILED,
-          `Delete post comment failed because cannot find post by postId:${postId} and commentId:${commentId}`
+        reject(
+          new ErrorModel(
+            HTTP_STATUS_CODES.PRECONDITION_FAILED,
+            `Delete post comment failed because cannot find post by postId:${postId} and commentId:${commentId}`
+          )
         );
       }
     }

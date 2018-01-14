@@ -87,19 +87,19 @@ export class PostComponent implements OnInit {
   }
   deleteArticle() {
     this.postService.delete(this.id).subscribe(data => {
-      if (!data) {
-        this.router.navigateByUrl('/blog');
-      } else if (data.errMessage) {
+      if (data.errMessage) {
         this.toastrService.error(data.errMessage);
+      } else {
+        this.router.navigateByUrl('/blog');
       }
     });
   }
   onDeleteComment(comment: Comment) {
     this.postService.deleteComment(this.id, comment._id).subscribe(res => {
-      if (!res) {
-        this.comments.splice(this.comments.indexOf(comment), 1);
-      } else if (res.errMessage) {
+      if (res.errMessage) {
         this.toastrService.error(res.errMessage);
+      } else {
+        this.comments.splice(this.comments.indexOf(comment), 1);
       }
     });
   }

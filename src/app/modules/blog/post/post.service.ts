@@ -60,13 +60,13 @@ export class PostService {
   }
 
   public delete(postId: string) {
-    return this.http.delete<ResponseBody.PostBody>(
+    return this.http.delete<ResponseError>(
       `${this.domain}/api/posts/${postId}`,
       this.options
     );
   }
   public deleteComment(postId: string, commentId: string) {
-    return this.http.delete<ResponseBody.PostBody>(
+    return this.http.delete<ResponseError>(
       `${this.domain}/api/posts/${postId}/${commentId}`,
       this.options
     );

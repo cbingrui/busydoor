@@ -10,19 +10,31 @@ export default app => {
   app.use('/api', apiRoutes);
   apiRoutes.use('/posts', postRoutes);
 
-  postRoutes.get('/', postCtrl.getAllPosts);
+  postRoutes.get('/', (req, res) =>
+    HttpTypeDecorator<PostsModel>(req, res, postCtrl.getAllPosts)
+  );
+
   postRoutes.get('/page/:skip/:top', (req, res) =>
     HttpTypeDecorator<PostsModel>(req, res, postCtrl.getPagedPostsExtend)
   );
+
   postRoutes.get('/:id', (req, res) =>
     HttpTypeDecorator<PostModel>(req, res, postCtrl.getPostById)
   );
-  postRoutes.post('/post', postCtrl.createPost);
+  postRoutes.post('/post', (req, res) =>
+    HttpTypeDecorator<PostModel>(req, res, postCtrl.createPost)
+  );
+
   postRoutes.put('/:id', (req, res) =>
     HttpTypeDecorator<StatusModel>(req, res, postCtrl.updatePost)
   );
 
   // Should add the router authorization (feature waiting)
-  postRoutes.delete('/:id', postCtrl.deletePost);
-  postRoutes.delete('/:postId/:commentId', postCtrl.deleteComment);
+  postRoutes.delete('/:id', (req, res) =>
+    HttpTypeDecorator<StatusModel>(req, res, postCtrl.deletePost)
+  );
+
+  postRoutes.delete('/:postId/:commentId', (req, res) =>
+    HttpTypeDecorator<StatusModel>(req, res, postCtrl.deleteComment)
+  );
 };
