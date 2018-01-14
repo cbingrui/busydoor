@@ -11,7 +11,8 @@
     "lint": "ng lint",
     "e2e": "protractor ./protractor.conf.js",
     "hmr": "ng serve --hmr -e=hmr",
-    "devserver": "cd server && (tsc -w & nodemon ./dist/out-tsc/index.js)",
+    "devserver":
+      "cd server && (tsc -w & nodemon ./dist/out-tsc/server/index.js)",
     "devclient": "npm run start --hmr -e=hmr",
     "dev": "npm run devserver & npm run devclient",
     "pree2e":
