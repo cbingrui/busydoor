@@ -51,10 +51,14 @@ export class SignInUpComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.route.url.subscribe(data => {
-      this.lastUrlPart = data[data.length - 1].path;
-      this.buildForm(this.lastUrlPart);
-      this.updateTitle(this.lastUrlPart);
+      this.updatePageStatus(data[data.length - 1].path);
     });
+  }
+
+  updatePageStatus(value: string) {
+    this.lastUrlPart = value;
+    this.buildForm(value);
+    this.updateTitle(value);
   }
 
   buildForm(signType: string) {
