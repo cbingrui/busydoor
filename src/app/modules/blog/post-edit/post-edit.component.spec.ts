@@ -1,3 +1,4 @@
+import { RouterTestingModule } from '@angular/router/testing';
 import { BlogModule } from './../blog.module';
 import { SharedModule } from './../../shared/shared.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -12,7 +13,7 @@ describe('PostEditComponent', () => {
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({
-        imports: [SharedModule.forRoot()],
+        imports: [SharedModule.forRoot(), RouterTestingModule],
         declarations: [PostEditComponent],
         providers: [PostService]
       }).compileComponents();
