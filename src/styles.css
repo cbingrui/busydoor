@@ -4,26 +4,24 @@
   background-image: linear-gradient(
       90deg,
       rgb(250, 250, 250) 1px,
-      transparent 1px,
-      transparent 10px,
-      rgb(251, 251, 251) 11px,
-      transparent 11px,
-      transparent 20px,
-      rgb(251, 251, 251) 21px,
-      transparent 21px,
-      transparent 30px
+      rgba(255, 255, 255, 0) 1px,
+      rgba(255, 255, 255, 0) 10px,
+      rgb(250, 250, 250) 11px,
+      rgba(255, 255, 255, 0) 11px,
+      rgba(255, 255, 255, 0) 20px,
+      rgb(250, 250, 250) 21px,
+      rgba(255, 255, 255, 0) 21px
     ),
     linear-gradient(
       0deg,
       rgb(250, 250, 250) 1px,
-      transparent 1px,
-      transparent 10px,
-      rgb(251, 251, 251) 11px,
-      transparent 11px,
-      transparent 20px,
-      rgb(251, 251, 251) 21px,
-      transparent 21px,
-      transparent 30px
+      rgba(255, 255, 255, 0) 1px,
+      rgba(255, 255, 255, 0) 10px,
+      rgb(250, 250, 250) 11px,
+      rgba(255, 255, 255, 0) 11px,
+      rgba(255, 255, 255, 0) 20px,
+      rgb(250, 250, 250) 21px,
+      rgba(255, 255, 255, 0) 21px
     );
   background-size: 30px 30px;
 }
