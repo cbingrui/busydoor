@@ -94,6 +94,7 @@ b {
 ul.cv-others-item {
   padding-left: 0;
   list-style: none;
+  font-size: 0.85em;
 }
 ul.cv-others-item > li {
   width: 320px;
