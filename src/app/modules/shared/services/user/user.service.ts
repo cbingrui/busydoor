@@ -1,3 +1,4 @@
+import { API, ApiGetUser } from './../../../../../../share/RestAPI';
 import { RegisterModel } from './../../models/account';
 import { JwtService } from './../jwt.service';
 import { Injectable } from '@angular/core';
@@ -118,9 +119,11 @@ export class UserService {
     if (this.jwtService.getToken()) {
       this.getUserWithToken().subscribe(
         data => {
+          console.log(data);
           if (data.errMessage) {
             console.error(data.errMessage);
           } else {
+            console.log(data.user);
             this.currentUserSubject.next(data.user);
             this.isAuthenticatedSubject.next(true);
           }
@@ -179,8 +182,8 @@ export class UserService {
   }
 
   getUserWithToken() {
-    return this.http.get<ResponseBody.UserBody>(
-      this.domain + `/api/user`,
+    return this.http.get<ApiGetUser>(
+      `${this.domain}${API.GetUser}`,
       this.options
     );
   }
@@ -199,7 +202,6 @@ export class UserService {
   getUser(user): Observable<any> {
     return this.http.get(this.domain + `/api/user/${user._id}`);
   }
-
   editUser(user): Observable<any> {
     return this.http.put(
       this.domain + `/api/user/${user._id}`,

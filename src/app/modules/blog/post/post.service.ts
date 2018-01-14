@@ -1,3 +1,4 @@
+import { API } from './../../../../../share/RestAPI';
 import { ResponseError } from './../../shared/models/httpclient.model';
 import { JwtService } from './../../shared/services/jwt.service';
 import { environment } from './../../../../environments/environment';
@@ -31,7 +32,7 @@ export class PostService {
 
   public getPostUrl(id: string) {
     return this.http.get<ResponseBody.PostBody>(
-      `${this.domain}/api/posts/${id}`
+      `${this.domain}${API.GetPost}/${id}`
     );
   }
 
@@ -43,7 +44,7 @@ export class PostService {
 
   public newPost(post) {
     return this.http.post<ResponseBody.PostBody>(
-      `${this.domain}/api/posts/post`,
+      `${this.domain}${API.PostPost}`,
       post,
       this.options
     );

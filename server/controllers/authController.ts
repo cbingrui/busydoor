@@ -1,13 +1,17 @@
+import { ApiGetUser } from './../../share/RestAPI';
+import { ErrorModel } from './../models/httpmodel';
 import * as jwt from 'jsonwebtoken';
-import usermodel from './../models/user';
+import usermodel, { IUser } from './../models/user';
 import BaseCtrl from './base';
 import config from '../config/database';
 import * as nodemailer from 'nodemailer';
 import resetEmailTo from '../utilities/resetEmail';
 import * as async from 'async';
 import * as crypto from 'crypto';
+import HttpStatusCodes from '../../share/HttpStatusCodes';
+import { Request } from 'express';
 export default class AuthCtrl extends BaseCtrl {
-  login = (req: { body: RequestBody.LoginBody }, res) => {
+  login(req: { body: RequestBody.LoginBody }, res) {
     usermodel.findOne({ email: req.body.email }, (err, user) => {
       if (!user) {
         return res.send(204);
@@ -16,21 +20,22 @@ export default class AuthCtrl extends BaseCtrl {
         if (!isMatch) {
           return res.sendStatus(403);
         }
-        const token = jwt.sign({ user: user }, config.SECRET_TOKEN, {
+        const token = jwt.sign({ user }, config.SECRET_TOKEN, {
           expiresIn: '24h'
         });
         res.status(200).json({ token, user });
       });
     });
-  };
-  authenticate = function(req, res, next) {
+  }
+
+  authenticate(req, res, next) {
     // check header or url parameters or post parameters for token
     const token =
       req.body.token || req.query.token || req.headers['authorization'];
     res.setHeader('WWW-Authenticate', 'Bearer token_type="JWT"');
 
     if (token) {
-      jwt.verify(token, config.SECRET_TOKEN, function(err, decoded) {
+      jwt.verify(token, config.SECRET_TOKEN, function(err, userDecoded) {
         if (err) {
           return res.status(401).json({
             success: false,
@@ -38,7 +43,7 @@ export default class AuthCtrl extends BaseCtrl {
             errcode: 'exp-token'
           });
         } else {
-          req.decoded = decoded;
+          req.user = userDecoded.user;
           next();
         }
       });
@@ -49,16 +54,23 @@ export default class AuthCtrl extends BaseCtrl {
         errcode: 'no-token'
       });
     }
-  };
+  }
 
-  getWithToken = (
-    req: Express.Request & { decoded: { user: RequestBody.User } },
-    res
-  ) => {
-    this.getById(req, res, req.decoded.user._id);
-  };
+  getWithToken(
+    req: Request & { user: IUser },
+    resolve: (v: ApiGetUser) => any,
+    reject: (e: ErrorModel) => any
+  ) {
+    usermodel.findById(req.user._id, (err, obj) => {
+      if (err) {
+        reject(new ErrorModel(HttpStatusCodes.INTERNAL_SERVER_ERROR, err));
+      } else {
+        resolve({ user: obj });
+      }
+    });
+  }
 
-  emailPasswordReset = (req, res) => {
+  emailPasswordReset(req, res) {
     async.waterfall(
       [
         function(done) {
@@ -113,8 +125,9 @@ export default class AuthCtrl extends BaseCtrl {
         return res.status(422).json({ message: err });
       }
     );
-  };
-  checkResetExpired = (req, res) => {
+  }
+
+  checkResetExpired(req, res) {
     usermodel
       .findOne({
         resetPasswordToken: req.params.token,
@@ -129,8 +142,9 @@ export default class AuthCtrl extends BaseCtrl {
             .send({ error: true, message: 'token invalid or expired!' });
         }
       });
-  };
-  updatePassword = (req, res) => {
+  }
+
+  updatePassword(req, res) {
     usermodel
       .findOne({
         resetPasswordToken: req.body.token,
@@ -156,5 +170,5 @@ export default class AuthCtrl extends BaseCtrl {
           });
         }
       });
-  };
+  }
 }
