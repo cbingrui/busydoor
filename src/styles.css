@@ -29,7 +29,9 @@
 .logo {
   fill: white;
 }
-
+.account-tip {
+  color: #007bff;
+}
 .logo-footer {
   fill: black;
 }

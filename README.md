@@ -4,7 +4,7 @@
 
 ### [Demo](http://busydoor.net)
 
-busydoor.net is a `MEAN` Stack based website which with `MongoDB v3.4.9`, `Express 4.11`, `Angular 5.1.2` and `NodeJs 8.9.3`. `Bootstrap4` included.
+busydoor.net is a `MEAN` Stack based website which with `MongoDB v3.4.9`, `Express 4.11`, `Angular 5.1.2` and `NodeJs 8.9.3`. `Bootstrap4` and `testing`(on going) included.
 
 It's a project for our better understanding about the basic idea and knowledge of MEAN Full Stack Development with Typescript.
 
