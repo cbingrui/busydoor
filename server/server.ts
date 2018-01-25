@@ -7,6 +7,7 @@ import * as helmet from 'helmet';
 import * as cors from 'cors';
 import router from './router/post';
 import authRoute from './router/auth';
+import lab from './router/lab.router';
 import config from './config/database';
 import { Server } from 'mongodb';
 import { ConsoleError } from './utilities/server.helper';
@@ -51,12 +52,17 @@ class ServerApp {
     app.use(helmet());
     app.use(
       cors({
-        origin: `http://${config.WEB_HOST}`
+        origin: [
+          `http://${config.WEB_HOST}`,
+          `http://lab.mylocalhost.test:8080`, // my localhost testing
+          `http://*.${config.WEB_HOST}`
+        ]
       })
     );
   }
 
   private initRouts(app) {
+    lab(app);
     router(app);
     authRoute(app);
   }
